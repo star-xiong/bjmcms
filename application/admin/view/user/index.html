@@ -1,0 +1,110 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">登录名</label>
+						<div class="layui-input-block">
+							<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">邮箱</label>
+						<div class="layui-input-block">
+							<input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-card-body">
+				<div style="padding-bottom: 10px;">
+					<button class="layui-btn layuiadmin-btn-admin" data-type="add">添加新用户</button>
+				</div>
+
+				<table id="LAY-user-back-manage" lay-filter="LAY-user-back-manage"></table>
+
+				<script type="text/html" id="table-useradmin-admin">
+					<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+					{{#  if(d.id == '1'){ }}
+						<a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="layui-icon layui-icon-delete"></i>删除</a>
+					{{#  } else { }}
+						<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+					{{#  } }}
+				</script>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'useradmin', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+
+			//监听搜索
+			form.on('submit(LAY-user-back-search)', function(data) {
+				var field = data.field;
+				//执行重载
+				table.reload('LAY-user-back-manage', {where: field});
+			});
+
+			//事件
+			var active = {
+				add: function() {
+					layer.open({
+						type: 2,
+						title: '添加管理员',
+						content: '{:url("user/create")}',
+						area: ['420px', '420px'],
+						btn: ['确定', '取消'],
+						yes: function(index, layero) {
+							var iframeWindow = window['layui-layer-iframe' + index],
+								submitID = 'LAY-user-back-submit',
+								submit = layero.find('iframe').contents().find('#' + submitID);
+
+							//监听提交
+							iframeWindow.layui.form.on('submit(' + submitID + ')', function(data) {
+								//提交 Ajax 成功后，静态更新表格中的数据								
+								$.ajax({
+									url: '{:url("user/create")}',
+									method: 'post',
+									data: data.field,
+									dataType: 'JSON',
+									success: function(res) {
+										if (res.code == '0') {
+											table.reload('LAY-user-back-manage'); //数据刷新
+											layer.close(index); //关闭弹层
+											layer.alert(res.msg);
+										} else
+											layer.alert(res.msg);
+									},
+									error: function(data) {}
+								});
+								//return false;
+							});
+
+							submit.trigger('click');
+						}
+					});
+				}
+			}
+			$('.layui-btn.layuiadmin-btn-admin').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>
+</html>

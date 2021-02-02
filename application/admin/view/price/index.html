@@ -1,0 +1,82 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div style="padding-bottom: 10px;">
+					<!-- <button class="layui-btn layuiadmin-btn-price" data-type="export">导出历史价格</button> -->
+					<button class="layui-btn layui-btn-normal layuiadmin-btn-price" data-type="import">上传产品价格</button>
+				</div>
+
+				<table id="LAY-price-back" lay-filter="LAY-price-back"></table>
+				<script type="text/html" id="picTpl">
+					{{# if(d.pic){ }}
+					<img src="{{ d.pic }}" style="height:30px">
+					{{#  } }}
+				</script>
+				<script type="text/html" id="table-price-admin">
+					<!-- <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+					<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a> -->
+				</script>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'price', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+
+			//事件
+			var active = {
+				import: function() {
+					layer.open({
+						type: 2,
+						title: '导入价格',
+						content: '{:url("price/import")}',
+						maxmin: true,
+						area: ['560px', '500px'],
+						btn: ['确定', '取消'],
+						yes: function(index, layero) {
+							var iframeWindow = window['layui-layer-iframe' + index],
+								submit = layero.find('iframe').contents().find("#LAY-price-back-submit");
+
+							//监听提交
+							iframeWindow.layui.form.on('submit(LAY-price-back-submit)', function(data) {
+								//提交 Ajax 成功后，静态更新表格中的数据
+								$.ajax({
+									url: '{:url("price/import")}',
+									method: 'post',
+									data: data.field,
+									dataType: 'JSON',
+									success: function(res) {
+										if (res.code == '0') {
+											layer.close(index); //关闭弹层
+											layer.alert(res.msg);
+										} else
+											layer.alert(res.msg);
+									},
+									error: function(data) {}
+								});
+							});
+
+							submit.trigger('click');
+						},
+						success: function(layero, index) {
+
+						}
+					})
+				}
+			}
+			$('.layui-btn.layuiadmin-btn-price').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>

@@ -1,0 +1,473 @@
+<link rel="stylesheet" type="text/css" href="/static/webuploader/css/webuploader.css">
+<script type="text/javascript" src="/static/webuploader/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/webuploader/js/webuploader.min.js"></script>
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-content" id="layuiadmin-form-content">
+		<div class="layui-fluid" id="component-tabs">
+			<div class="layui-row">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-breadcrumb" lay-filter="breadcrumb" lay-separator="->" style="visibility: visible;">
+								<a href="/admin/goods/list.html">商品管理</a><span lay-separator="">/</span>
+								<a href="{$info.id|url='goods/list','cid='.###}">{$info.title}</a><span lay-separator="">/</span>
+								<a><cite>新增商品</cite></a>
+							</span>
+						</div>
+						<div class="layui-card-body">
+							<div class="layui-tab">
+								<ul class="layui-tab-title">
+									<li class="layui-this">基本信息</li>
+									<li>详情</li>
+									<li>商品属性</li>
+									<li>相关商品</li>
+								</ul>
+								<div class="layui-tab-content">
+									<div class="layui-tab-item layui-show">
+										<!--基本信息-->
+										<div class="layui-form-item">
+											<label class="layui-form-label">标题</label>
+											<div class="layui-input-block">
+												<input type="text" name="title" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">副标题</label>
+											<div class="layui-input-block">
+												<input type="text" name="etitle" placeholder="请输入副标题" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+										
+										<div class="layui-form-item">
+											<label class="layui-form-label">品牌</label>
+											<div class="layui-input-inline">
+												<select name="brand_id">
+													<option value="0">请选择品牌</option>
+													{foreach $brands as $value}
+													<option value="{$value.id}">{$value.brand_name}</option>
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										
+										<div class="layui-form-item">
+											<label class="layui-form-label">商品图片</label>
+											<div class="layui-input-inline">
+												<input type="text" name="image" placeholder="请上传图片" autocomplete="off" class="layui-input">
+											</div>
+											<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-image">上传图片</button>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">缩略图片</label>
+											<div class="layui-input-inline">
+												<input type="text" name="pic" placeholder="请上传图片" autocomplete="off" class="layui-input">
+											</div>
+											<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-pic">上传图片</button>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">货号</label>
+											<div class="layui-input-inline">
+												<input type="text" name="goods_sn" placeholder="请输入商品货号" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-label W200 Text-left">留空自动生成唯一货号</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">库存</label>
+											<div class="layui-input-inline">
+												<input type="text" name="goods_number" placeholder="货品存在时,输入无效" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-label W200 Text-left">货品存在时,输入无效</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">商品重量</label>
+											<div class="layui-input-inline">
+												<input type="text" name="goods_weight" placeholder="请输入商品重量" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-label Text-left">千克（kg）</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">市场价</label>
+											<div class="layui-input-inline">
+												<input type="text" name="market_price" placeholder="请输入市场价" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">优惠价</label>
+											<div class="layui-input-inline">
+												<input type="text" name="goods_price" placeholder="请输入优惠价" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">排序</label>
+											<div class="layui-input-inline">
+												<input type="text" name="sort" value="0" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">推荐</label>
+											<div class="layui-input-block">
+												<input type="checkbox" name="istop[]" lay-skin="primary" value="9001" title="推荐" />
+												<input type="checkbox" name="istop[]" lay-skin="primary" value="9002" title="新品" />
+												<input type="checkbox" name="istop[]" lay-skin="primary" value="9003" title="精品" />
+												<input type="checkbox" name="istop[]" lay-skin="primary" value="9004" title="热门" />
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">标签</label>
+											<div class="layui-input-block">
+												<input type="text" name="tag" placeholder="标签1，标签2，标签3(半角逗号间隔)" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">商品简介</label>
+											<div class="layui-input-block">
+												<textarea id="description" name="description" placeholder="请输入商品简介" class="layui-textarea"></textarea>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">SEO标题</label>
+											<div class="layui-input-block">
+												<input type="text" name="seo_title" placeholder="请输入SEO标题" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">SEO关键词</label>
+											<div class="layui-input-block">
+												<textarea name="seo_keywords" placeholder="请输入SEO关键词" class="layui-textarea"></textarea>
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">SEO描述</label>
+											<div class="layui-input-block">
+												<textarea id="seo_description" name="seo_description" placeholder="请输入SEO描述" class="layui-textarea"></textarea>
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">是否上架</label>
+											<div class="layui-input-inline">
+												<input type="checkbox" name="status" lay-skin="switch" lay-filter="switchTest" checked>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="layui-tab-item">
+										<div id="editor"></div>
+										{$fieldhtml.html|raw}
+									</div>
+
+									<div class="layui-tab-item">
+										{if !$info->typelist->isEmpty() }
+										<div class="layui-form-item">
+											<label class="layui-form-label">商品类型</label>
+											<div class="layui-input-block">
+												<select name="type_id" lay-filter="goods-type" id="goods-type">
+													<option value="0">请选择商品类型</option>
+													{foreach $info.typelist as $value}
+													<option value="{$value.id}">{$value.title}</option>
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										{/if}
+
+										<div id="goods-attribute"></div>
+									</div>
+
+									<div class="layui-tab-item">
+										<!-- 相关商品 -->
+										<div class="layui-form-item">
+											<label class="layui-form-label">选择栏目</label>
+											<div class="layui-input-inline" style="width: 400px;">
+												<select lay-filter="relatedSelect">
+													{volist name="catelist" id="cats"}
+													<option value="{$cats.id}" {if $cats.id eq $info.id}selected{/if}>{:generate_nbsp($cats.level)} ├ {$cats.title}</option>
+													{/volist}
+												</select>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<div class="goods-related-transfer" id="related-goods"></div>
+											<input type="hidden" name="related" id="related">
+											<ul id="goods-related-list" style="display: none;"></ul>
+										</div>
+									</div>
+
+									<div class="layui-form-item">
+										<label class="layui-form-label"></label>
+										<div class="layui-input-inline">
+											{:token()}
+											<input type="hidden" name="cid" value="{$info->id}">
+											<button class="layui-btn" lay-submit lay-filter="LAY-content-back-submit" id="LAY-content-back-submit">提交</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="upload-formId"></div>
+	<script src="/static/layui/layui.js"></script>
+	<script src="/static/ckeditor/ckeditor.js"></script>
+
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form', 'upload', 'laydate', 'transfer'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				upload = layui.upload,
+				transfer = layui.transfer,
+				laydate = layui.laydate;
+
+			var active = {
+				addInput: function(othis, attrid, attrval) {
+					var newInput =
+						'<div class="layui-form-item">\n' +
+						'\t<label class="layui-form-label">' +
+						'<a href="javascript:;" class="attr-del" data-attrid="' + attrid + '" data-attrval="' + attrval + '">[-]</a>' +
+						attrval + '</label>\n' +
+						'\t<div class="layui-input-inline">\n' +
+						'\t\t<input type="text" name="goods_attr[' + attrid + '][value][]" class="layui-input">\n' +
+						'\t</div>\n' +
+
+						'\t<label class="layui-form-label">属性价格</label>\n' +
+						'\t<div class="layui-input-inline">\n' +
+						'\t\t<input type="text" name="goods_attr[' + attrid + '][price][]" class="layui-input">\n' +
+						'\t</div>\n' +
+						'</div>';
+					othis.parent().parent().append(newInput);
+				},
+				delInput: function(othis) {
+					othis.parent().parent().remove();
+				}
+			}; 
+			{$fieldhtml.ueditor|raw} 
+			{$fieldhtml.script|raw}
+
+			//加载元素用
+			$('#goods-attribute').on('click', '.attr-add', function() {
+				var othis = $(this),
+					attrid = othis.data('attrid'),
+					attrval = othis.data('attrval');
+				active['addInput'].call(this, othis, attrid, attrval);
+			});
+
+			//删除元素用
+			$('#goods-attribute').on('click', '.attr-del', function() {
+				var othis = $(this);
+				active['delInput'].call(this, othis);
+			});
+
+			function updateContent() {
+				for (instance in CKEDITOR.instances) {
+					CKEDITOR.instances[instance].updateElement();
+				}
+			}
+			upload.render({
+				elem: '#layuiadmin-upload-image',
+				url: '{:url("upload/image")}',
+				accept: 'images',
+				method: 'post',
+				acceptMime: 'image/*',
+				before: function(obj) {
+					layer.msg('上传中', {
+						icon: 16,
+						shade: 0.1,
+						time: 0
+					});
+				},
+				done: function(res) {
+					layer.close(layer.msg());
+					layer.alert(res.msg, {
+						icon: 1,
+						time: 1000
+					});
+					$(this.item).prev("div").children("input").val(res.data.src);
+				}
+			});
+			upload.render({
+				elem: '#layuiadmin-upload-pic',
+				url: '{:url("upload/image")}',
+				accept: 'images',
+				method: 'post',
+				acceptMime: 'image/*',
+				before: function(obj) {
+					layer.msg('上传中', {
+						icon: 16,
+						shade: 0.1,
+						time: 0
+					});
+				},
+				done: function(res) {
+					layer.close(layer.msg());
+					layer.alert(res.msg, {
+						icon: 1,
+						time: 1000
+					});
+					$(this.item).prev("div").children("input").val(res.data.src);
+				}
+			});
+
+			$('[lay-submit]').click(function(event) {
+				updateContent();
+			});
+
+			//选择商品类型，切换商品属性
+			form.on('select(goods-type)', function(data) {
+				//获取商品属性
+				$.ajax({
+					url: '{:url("goods/getAttrList")}?tid=' + $('#goods-type').val(),
+					method: 'get',
+					dataType: 'JSON',
+					success: function(res) {
+						$('#goods-attribute').html(res);
+					},
+					error: function(data) {}
+				});
+				return false;
+
+			});
+
+			//相关商品
+			form.on('select(relatedSelect)', function(data) {
+				var cid = data.value;
+				$.ajax({
+					url: '/admin/goods/getGoodsList/cid/' + cid + '.html',
+					method: 'get',
+					dataType: 'JSON',
+					success: function(result) {
+						var goods_list = [];
+						var goods_id = [];
+						$("#goods-related-list li").each(function(index, text) {
+							var _dataid = parseInt($(this).attr("data-id"));
+							var _datatitle = $(this).attr("data-title");
+							goods_list.push({
+								id: _dataid,
+								name: _datatitle
+							});
+							goods_id.push(_dataid);
+						});
+
+						var new_arr = [];
+						for (var i = 0; i < goods_id.length; i++) {
+							var items = goods_id[i];
+							if ($.inArray(items, new_arr) == -1) {
+								new_arr.push(items);
+							}
+						}
+
+						for (var i = 0; i < result.length; i++) {
+							var _id = result[i]['id'];
+							var _name = result[i]['name'];
+							if ($.inArray(_id, new_arr) == -1) {
+								goods_list.push({
+									id: _id,
+									name: _name
+								});
+							}
+						}
+
+						transfer.render({
+							elem: '#related-goods',
+							id: 'related',
+							width: 300,
+							height: 500,
+							parseData: function(res) {
+								return {
+									"value": res.id,
+									"title": res.name,
+									"disabled": res.disabled,
+									"checked": res.checked
+								}
+							},
+							data: goods_list,
+							value: new_arr,
+							title: ['商品列表', '相关商品'],
+							showSearch: true,
+							onchange: function(data, index) {
+								var getData = transfer.getData('related');
+								var list = [];
+								var arr = [];
+								$.each(getData, function(key, text) {
+									list.push(text.value);
+									arr.push('<li data-id="' + text.value + '" data-title="' + text.title + '"></li>');
+								});
+								list = list.join(',');
+								$("#related").val(list);
+								$("#goods-related-list").html('');
+								$("#goods-related-list").html(arr);
+							}
+						});
+
+					},
+					error: function(data) {}
+				});
+
+
+			});
+
+			transfer.render({
+				elem: '#related-goods',
+				id: 'related',
+				width: 300,
+				height: 500,
+				parseData: function(res) {
+					return {
+						"value": res.id,
+						"title": res.name,
+						"disabled": res.disabled,
+						"checked": res.checked
+					}
+				},
+				data: [{volist name = "$relatedlist" id = "related"} {"id": "{$related.id}","name": "{$related.name}"},{/volist}],
+				title: ['相关内容', '相关内容'],
+				showSearch: true,
+				onchange: function(data, index) {
+					var getData = transfer.getData('related');
+					var list = [];
+					var arr = [];
+					$.each(getData, function(index, text) {
+						list.push(text.value);
+						arr.push('<li data-id="' + text.value + '" data-title="' + text.title + '"></li>');
+					});
+					list = list.join(',');
+					$("#related").val(list);
+					$("#goods-related-list").html('');
+					$("#goods-related-list").html(arr);
+				}
+			});
+
+			//保存内容
+			form.on('submit(LAY-content-back-submit)', function(obj) {
+				//提交表单
+				$.ajax({
+					url: '{:url("goods/create")}',
+					method: 'post',
+					data: obj.field,
+					dataType: 'JSON',
+					success: function(res) {
+						if (res.code == '0') {
+							window.location.href = '/admin/goods/list/cid/{$info.id}.html';
+						} else
+							layer.alert(res.msg);
+					},
+					error: function(data) {}
+				});
+				return false;
+			});
+
+		})
+	</script>
+	<script src="/static/webuploader/js/webuploader.js"></script>
+</body>

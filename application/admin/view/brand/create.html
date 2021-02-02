@@ -1,0 +1,90 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-brand" id="layuiadmin-form-brand" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">品牌名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="brand_name" lay-verify="required" placeholder="请输入品牌名称" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">首字母</label>
+			<div class="layui-input-inline">
+				<input type="text" name="letter" placeholder="请输入品牌名称" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">网站地址</label>
+			<div class="layui-input-block">
+				<input type="text" name="site_url" placeholder="请输入网站地址" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">网站Logo</label>
+			<div class="layui-input-inline">
+				<input type="text" name="brand_logo" placeholder="请上传网站Logo图片" autocomplete="off" class="layui-input">
+			</div>
+			<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-list">上传图片</button>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序</label>
+			<div class="layui-input-inline">
+				<input type="text" name="sort" value="50" lay-verify="required" placeholder="50" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否显示</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="status" lay-skin="switch" lay-text="显示|屏蔽">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">品牌介绍</label>
+			<div class="layui-input-block">
+				<textarea id="description" name="brand_desc" placeholder="请输入品牌介绍" class="layui-textarea"></textarea>
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-hide">
+			<button class="layui-btn" lay-submit lay-filter="LAY-brand-back-submit" id="LAY-brand-back-submit">提交</button>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form', 'upload'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				upload = layui.upload;
+
+			upload.render({
+				elem: '#layuiadmin-upload-list',
+				url: '{:url("upload/image")}',
+				accept: 'images',
+				method: 'post',
+				acceptMime: 'image/*',
+				before: function(obj) {
+					layer.msg('上传中', {
+						icon: 16,
+						shade: 0.1,
+						time: 0
+					});
+				},
+				done: function(res) {
+					layer.close(layer.msg());
+					layer.alert(res.msg, {
+						icon: 1,
+						time: 1000
+					});
+					$(this.item).prev("div").children("input").val(res.data.src);
+				}
+			});
+		})
+	</script>
+</body>

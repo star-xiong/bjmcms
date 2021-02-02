@@ -1,0 +1,68 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div style="padding-bottom: 10px;">
+					<button class="layui-btn layuiadmin-btn-site" data-type="add">添加新站点</button>
+				</div>
+
+				<table id="LAY-site-back" lay-filter="LAY-site-back"></table>
+
+				<script type="text/html" id="titleTpl">
+					{{# if(d.level == 1){}}
+						&nbsp;&nbsp;&nbsp;├
+					{{#  } else if (d.level == 2){ }}
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├
+					{{# } }}
+					{{ d.title }}
+				</script>
+
+				<script type="text/html" id="isDefaultTpl">
+					{{#  if(d.isdefault == 1){ }}
+						<button class="layui-btn layui-btn-xs">是</button>
+					 {{#  } else { }}
+						<button class="layui-btn layui-btn-primary layui-btn-xs">否</button>
+					 {{#  } }}
+				</script>
+
+				<script type="text/html" id="statusTpl">
+					{{#  if(d.status == 1){ }}
+						<button class="layui-btn layui-btn-xs">显示</button>
+					 {{#  } else { }}
+						<button class="layui-btn layui-btn-primary layui-btn-xs">不显示</button>
+					 {{#  } }}
+				</script>
+				<script type="text/html" id="table-site-admin">
+					<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+					<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+					<!-- <a class="layui-btn layui-btn-xs" lay-event="copy"><i class="layui-icon layui-icon-copy"></i>复制</a> -->
+				</script>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'site', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+
+			//事件
+			var active = {
+				add: function() {
+					//parent.layui.index.openTabsPage('{:url("site/create")}', "添加新站点");
+					window.location.href = '{:url("site/create")}';
+				}
+			}
+			$('.layui-btn.layuiadmin-btn-site').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>

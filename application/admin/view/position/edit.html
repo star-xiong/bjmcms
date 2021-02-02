@@ -1,0 +1,90 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-position" id="layuiadmin-form-position" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label" style="width:100px;">模板位置</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title" value="{$position->title}" lay-verify="required" placeholder="请输入模板位置标题"
+				 autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label" style="width:100px;">模板调用变量</label>
+			<div class="layui-input-inline">
+				<input type="text" name="param_name" value="{$position->param_name}" lay-verify="required" placeholder="请输入模板调用变量"
+				 autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label" style="width:100px;">排序</label>
+			<div class="layui-input-inline">
+				<input type="text" name="sort" value="{$position->sort}" lay-verify="required" placeholder="50" autocomplete="off"
+				 class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label" style="width:100px;">调用数据类型</label>
+			<div class="layui-input-block">
+				<input type="radio" name="type" value="1" title="模板" {if $position->type eq 1}checked{/if}>
+				<input type="radio" name="type" value="2" title="栏目/列表" {if $position->type eq 2}checked{/if}>
+				<input type="radio" name="type" value="3" title="单页" {if $position->type eq 3}checked{/if}>
+				<input type="radio" name="type" value="4" title="内容/列表" {if $position->type eq 4}checked{/if}>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label" style="width:100px;">电脑/手机</label>
+			<div class="layui-input-block">
+				<input type="radio" name="class" value="1" title="电脑模板" {if $position->class eq 1}checked{/if}>
+				<input type="radio" name="class" value="2" title="手机模板" {if $position->class eq 2}checked{/if}>
+				<input type="radio" name="class" value="3" title="电脑&手机共用" {if $position->class eq 3}checked{/if}>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label" style="width:100px;">是否启用</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="status" lay-skin="switch" lay-text="启用|停用" {if condition="$position->status eq 1"
+				 }checked{/if}> </div> </div> <div class="layui-form-item layui-hide">
+				<input type="hidden" name="id" value="{$position->id}">
+				<button class="layui-btn" lay-submit lay-filter="LAY-position-back-submit" id="LAY-position-back-submit">提交</button>
+			</div>
+		</div>
+
+		<script src="/static/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '/static/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index' //主入口模块
+			}).use(['index', 'form', 'upload'], function() {
+				var $ = layui.$,
+					form = layui.form,
+					upload = layui.upload;
+
+				upload.render({
+					elem: '#layuiadmin-upload-list',
+					url: '{:url("upload/image")}',
+					accept: 'images',
+					method: 'post',
+					acceptMime: 'image/*',
+					before: function(obj) {
+						layer.msg('上传中', {
+							icon: 16,
+							shade: 0.1,
+							time: 0
+						});
+					},
+					done: function(res) {
+						layer.close(layer.msg());
+						layer.alert(res.msg, {
+							icon: 1,
+							time: 1000
+						});
+						$(this.item).prev("div").children("input").val(res.data.src);
+					}
+				});
+			})
+		</script>
+</body>

@@ -1,0 +1,83 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-rank" id="layuiadmin-form-rank" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">等级名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="rank_name" lay-verify="required" placeholder="请输入会员等级名称"
+				 autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">积分下限</label>
+			<div class="layui-input-block">
+				<input type="text" name="min_points" placeholder="请输入积分下限" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">积分上限</label>
+			<div class="layui-input-inline">
+				<input type="text" name="max_points" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">折扣率(%)</label>
+			<div class="layui-input-inline">
+				<input type="text" name="discount" placeholder="请输入初始折扣率(%)" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">显示价格</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="show_price" checked lay-skin="switch" lay-text="显示|屏蔽">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">特殊会员组</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="special_rank" lay-skin="switch" lay-text="是|不是">
+			</div>
+		</div>
+		<div class="layui-form-item layui-hide">
+			<button class="layui-btn" lay-submit lay-filter="LAY-rank-back-submit" id="LAY-rank-back-submit">提交</button>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form', 'upload'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				upload = layui.upload;
+
+			upload.render({
+				elem: '#layuiadmin-upload-list',
+				url: '{:url("upload/image")}',
+				accept: 'images',
+				method: 'post',
+				acceptMime: 'image/*',
+				before: function(obj) {
+					layer.msg('上传中', {
+						icon: 16,
+						shade: 0.1,
+						time: 0
+					});
+				},
+				done: function(res) {
+					layer.close(layer.msg());
+					layer.alert(res.msg, {
+						icon: 1,
+						time: 1000
+					});
+					$(this.item).prev("div").children("input").val(res.data.src);
+				}
+			});
+		})
+	</script>
+</body>

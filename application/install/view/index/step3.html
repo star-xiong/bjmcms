@@ -1,0 +1,73 @@
+{include file="index/header"/}
+        <div class="jumbotron masthead">
+            <div class="container">
+                <div class="notice">
+					<p class="showtexts">{:lang('step3_begin')}...<i></i></p>
+					<div class="warning"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <div>
+            <a class="btn btn-install btn-large step4" >{:lang('step3_install_now')}</a>
+    </div>
+</footer>
+<script>
+var database = {		
+	type:'{$configs["type"]}',
+	hostname:'{$configs["hostname"]}',
+	database:'{$configs["database"]}',
+	username:'{$configs["username"]}',
+	password:'{$configs["password"]}',
+	hostport:'{$configs["hostport"]}',
+	prefix:'{$configs["prefix"]}',
+};
+
+$.post("{:url('install/index/ReadSqlFileArray')}",database,function(e){
+});
+
+var extSqlFile = function(){
+	var url = "{:url('Install/Index/ReadCache')}";
+	$.ajax({
+		type: "POST",
+		url: url,
+		data:database,
+		success:function(datas){
+			if(!datas){
+			   extSqlFile();
+			}else{
+
+				datas = JSON.parse(datas);
+				if(datas.progress) $(".showtexts").html("{:lang('step3_install_database')}‘"+datas.file+"’，{:lang('step3_progress')}"+parseInt(datas.progress*100)+"%");
+				$(".warning").css("width",""+parseInt(datas.progress*100)+"%");
+				if(datas.progress!=1){
+				   extSqlFile();
+				}else{
+				$.post("{:url('Install/Index/WriteDatabase')}",
+				database,
+				function(data,status){
+					if(data==0){
+						alert("{:lang('step3_err_1')}");
+					}
+					$(".step4").html('{:lang('step4')}');
+					$(".step4").attr("href","{:url('install/index/index', $params)}");
+				});
+				return;
+				}
+			}
+		},
+		error:function(){
+
+		}
+	})	
+}
+extSqlFile();	
+$("#step1").addClass("active");
+$("#step2").addClass("active");
+$("#step3").addClass("active");
+</script>
+</body>
+</html>

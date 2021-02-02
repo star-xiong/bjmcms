@@ -1,0 +1,75 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-permission" id="layuiadmin-form-permission" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">资源</label>
+			<div class="layui-input-block">
+				<select name="pid">
+					<option value="0">--请选择资源--</option>
+					{foreach $permissions as $permission}
+					<option value="{$permission->id}" {if condition="$permission->id eq $_permission->pid" }selected{/if}>{:generate_nbsp($permission->level)}{if condition="$permission->level neq 0"}├{/if} {$permission->name}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">资源名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" value="{$_permission->name}" lay-verify="required" placeholder="请输入资源名称"
+				 autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">资源图标</label>
+			<div class="layui-input-inline">
+				<input type="text" name="icon" value="{$_permission->icon}" placeholder="请输入资源图标名称" autocomplete="off" class="layui-input">
+			</div>
+			<a href="https://fly.layui.com/jie/22788/" target="_blank"><label class="layui-form-label">图标对照表</label></a>
+
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">控制器名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="controller" value="{$_permission->controller}" lay-verify="required" placeholder="请输入控制器名称"
+				 autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">方法名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="action" value="{$_permission->action}" placeholder="请输入方法名称" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序</label>
+			<div class="layui-input-inline">
+				<input type="text" name="sort" value="{$_permission->sort}" placeholder="请输入序号" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否展示</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="is_show" {if condition="$_permission->is_show eq 1" }checked{/if}
+				 lay-skin="switch" lay-text="展示|不展示">
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-hide">
+			<input type="hidden" name="id" value="{$_permission->id}">
+			<button class="layui-btn" lay-submit lay-filter="LAY-user-permission-submit" id="LAY-user-permission-submit">提交</button>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form'], function() {
+			var $ = layui.$,
+				form = layui.form;
+		})
+	</script>
+</body>

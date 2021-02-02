@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>{:config('web.name')}</title>
+		<meta name="description" content="{:config('web.describe')}" />
+		<meta name="keywords" content="{:config('web.keyword')}" />
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<!-- load css -->
+		<link rel="stylesheet" type="text/css" href="__STATIC__style/admin/css/font/iconfont.css?v=1.0.1" media="all">
+		<link rel="stylesheet" type="text/css" href="__STATIC__plug/layui/css/layui.css?v=2.2.2" media="all">
+		<link rel="stylesheet" type="text/css" href="__STATIC__style/admin/css/main.css?v2.0.1-simple" media="all">
+	</head>
+
+	<body>
+		<div class="layui-fluid larry-wrapper">
+			<div class="layui-row layui-col-space30">
+				<div class="layui-col-xs24">
+					<!--头部搜索-->
+					<!-- <section class="panel panel-padding">
+
+                        <div class="layui-form">
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" id="keyword" name="keyword" placeholder="{:lang('keyword')}">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button lay-submit class="layui-btn" lay-filter="search" data-type="keyword">{:lang('find')}</button>
+                            </div>
+                        </div>
+
+                </section> -->
+
+					<!--列表-->
+					<section class="panel panel-padding">
+
+						<div class="layui-form">
+
+							<table class="layui-table" lay-data="{height:'full-85', url:'{:url('database/index/database_list')}',id:'menulist',text:'{:lang('menu_please_add')}'}"
+							 lay-filter="menulist">
+								<thead>
+									<tr>
+										<th lay-data="{field:'filename', width:'45%', sort: true, align:'left'}">{:lang('file_name')}</th>
+										<th lay-data="{field:'filesize',  width:'12%', align:'center'}">{:lang('file_size')} (KB)</th>
+										<th lay-data="{field:'maketime', width:'20%', align:'center'}">{:lang('make_time')}</th>
+										<th lay-data="{fixed: 'right', width:'20%', align:'center', toolbar: '#barDemo'}">{:lang('op')}</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/html" id="barDemo">
+		{{# if(!d.filesize){ }} 
+    <a class="layui-btn layui-btn-xs  layui-bg-green modal" data-params='{content:"{:url('database/index/import')}",data:"filename={{ d.filename }}&type=database",type:"2", title:"{:lang('import_database')}",maxmin:"true",area:"600px,500px"}' lay-event="import" data-edit = "{{ d.filename }}">{:lang('import_database')}</a>
+
+    <a class="layui-btn layui-bg-red layui-btn-xs" lay-event="del">{:lang('del')}</a>
+    {{# } }}
+</script>
+
+	<script type="text/javascript" src="__STATIC__plug/layui/layui.js?v=2.2.2"></script>
+
+	<script type="text/javascript" src="__STATIC__style/admin/js/common.js?v=2.0.1"></script>
+
+	<script>
+		layui.config({
+			base: '__STATIC__style/admin/js/',
+			version: "2.0.1-simple"
+		}).extend({
+			jqelem: 'jqmodules/jqelem',
+			jqmenu: 'jqmodules/jqmenu',
+			tabmenu: 'jqmodules/tabmenu',
+			jqbind: 'jqmodules/jqbind',
+			jqtags: 'jqmodules/jqtags',
+			jqform: 'jqmodules/jqform',
+			jqcitys: "jqmodules/jqcitys"
+		})
+		layui.use(['jquery', 'jqbind', 'jqform', 'table', 'laydate'], function() {
+			var $ = layui.jquery,
+				jqbind = layui.jqbind,
+				form = layui.jqform,
+				laydate = layui.laydate,
+				table = layui.table;
+
+			//监听工具栏
+			table.on('tool(menulist)', function(obj) {
+				var data = obj.data;
+				if (obj.event === 'del') {
+					layer.confirm('{:lang("success_del")}', function(index) {
+						param = {
+							filename: data.filename,
+							type: 'database'
+						};
+						ajax("{:url('database/index/delete')}", param, '{:lang("del")}{:lang("success")}');
+						tableReload();
+					});
+				} else if (obj.event === 'import') { //编辑
+
+					var _this = $("tr").find('[data-edit="' + data.filename + '"]');
+					jqbind.modal(_this);
+				}
+			});
+
+
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+			function ajax(url, param, msg, where, currPage) {
+				$.getJSON(url, param, function(res) {
+					if (res.err === 0) {
+						layer.msg(msg);
+						if (where) tableReload(where, currPage)
+					} else {
+						layer.msg(res.content);
+					}
+				});
+			}
+			//重新加载表格
+			function tableReload(where, currPage) {
+
+				var currPage = currPage ? currPage : $('.layui-laypage-skip.layui-input').val();
+				//执行重载
+
+				table.reload('menulist', {
+					page: {
+						curr: currPage //重新从第 1 页开始
+					},
+					where: where
+				});
+			}
+		})
+	</script>
+
+</html>

@@ -1,0 +1,124 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">程序信息</div>
+					<div class="layui-card-body layui-text">
+						<table class="layui-table">
+							<colgroup>
+								<col width="200">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<td>当前版本</td>
+									<td>
+										2.8
+									</td>
+								</tr>
+								<tr>
+									<td>基于框架</td>
+									<td>
+										ThinkPHP5.1+
+									</td>
+								</tr>
+								<tr>
+									<td>主要特色</td>
+									<td>多站集群 / 多语言 / 清爽 / 极简</td>
+								</tr>
+								<tr>
+									<td>开发团队</td>
+									<td>熊保新</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">服务器信息</div>
+					<div class="layui-card-body layui-text">
+						<table class="layui-table">
+							<colgroup>
+								<col width="200">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<td>服务器操作系统</td>
+									<td>
+										{$sys_info.os}
+									</td>
+								</tr>
+								<tr>
+									<td>服务器域名/IP</td>
+									<td>
+										{$sys_info.domain} [ {$sys_info.ip} ]
+									</td>
+								</tr>
+								<tr>
+									<td>服务器环境</td>
+									<td>{$sys_info.web_server}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">PHP 版本：</td>
+									<td>{$sys_info.phpv}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">Mysql 版本：</td>
+									<td>{$sys_info.mysql_version}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">GD 版本：</td>
+									<td>{$sys_info.gdinfo}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">文件上传限制：</td>
+									<td>{$sys_info.fileupload}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">最大占用内存：</td>
+									<td>{$sys_info.memory_limit}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">POST限制：</td>
+									<td>{$sys_info.postsize|default='unknown'}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">最大执行时间：</td>
+									<td>{$sys_info.max_ex_time}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">Zip支持：</td>
+									<td>{$sys_info.zip}</td>
+								</tr>
+								<tr>
+									<td class="gray_bg">Zlib支持：</td>
+									<td>{$sys_info.zlib}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="/static/layui/layui.js?t=1"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'console'], function() {
+			var $ = layui.$,
+				setter = layui.setter,
+				admin = layui.admin;
+
+		});
+	</script>
+</body>

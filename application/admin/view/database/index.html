@@ -1,0 +1,119 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div style="padding-bottom: 10px;">
+					<a href="{:url('database/index')}" class="layui-btn layuiadmin-btn-database" data-type="">数据库备份</a>
+					<a href="{:url('database/databaseList')}" class="layui-btn layui-btn-primary layuiadmin-btn-database" data-type="">数据库文件列表</a>
+					<a href="{:url('database/tableList')}" class="layui-btn layui-btn-primary layuiadmin-btn-database" data-type="">数据表文件列表</a>
+				</div>
+				<div class="layui-form" lay-filter="layuiadmin-form-database" id="layuiadmin-form-database" style="padding: 20px 30px 0 0;">
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">{:lang('分卷文件')}</label>
+						<div class="layui-input-block">
+							<input name="size" type="text" class="layui-input " value="" placeholder="请输入每个分卷文件大小，默认2048KB" autocomplete="off"
+							 style="width:30%;">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">{:lang('备注')}</label>
+						<div class="layui-input-block">
+							<input type="text" name="remark" value="" required lay-verify="empty" placeholder="备注信息" autocomplete="off"
+							 class="layui-input " style="width:80%;">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">{:lang('数据表')}全选</label>
+						<div class="layui-input-block">
+							<input type="checkbox" lay-skin="primary" id="checkall" lay-filter="c_all" name="All" />
+						</div>
+
+
+					</div>
+					<div class="layui-form-item" id="checklist">
+						<div class="layui-input-block">
+							{foreach $tabList as $val}
+							<input name="tabList[]" lay-skin="primary" type="checkbox" class="oneid" lay-filter="c_one" value="{$val}" title="{$val}">
+							{/foreach}
+						</div>
+					</div>
+
+					<div class="layui-form-item" style="margin-top: 20px;">
+						<button class="layui-btn" lay-submit lay-filter="LAY-database-back-submit" id="LAY-database-back-submit">立即备份</button>
+					</div>
+
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form'], function() {
+			var $ = layui.$,
+				form = layui.form;
+
+			//保存内容
+			form.on('submit(LAY-database-back-submit)', function(obj) {
+				//提交表单
+				$.ajax({
+					url: '{:url('database/backup')}',
+					method: 'post',
+					data: obj.field,
+					dataType: 'JSON',
+					success: function(res) {
+						if (res.code == '0') {
+							//window.location.href = '/admin/content/list/cid/{$info.id}.html';
+						} else
+							layer.alert(res.msg);
+					},
+					error: function(data) {}
+				});
+				return false;
+			});
+
+			form.on('checkbox(c_all)', function(data) {
+				var a = data.elem.checked;
+				if (a == true) {
+					$(".oneid").prop("checked", true);
+					form.render('checkbox');
+				} else {
+					$(".oneid").prop("checked", false);
+					form.render('checkbox');
+				}
+
+			});
+			form.on('checkbox(c_one)', function(data) {
+				var item = $(".oneid");
+				for (var i = 0; i < item.length; i++) {
+					if (item[i].checked == false) {
+						$("#checkall").prop("checked", false);
+						form.render('checkbox');
+						break;
+					}
+				}
+				//如果都勾选了  勾上全选
+				var all = item.length;
+				for (var i = 0; i < item.length; i++) {
+					if (item[i].checked == true) {
+						all--;
+					}
+				}
+				if (all == 0) {
+					$("#checkall").prop("checked", true);
+					form.render('checkbox');
+				}
+			});
+
+		})
+	</script>
+</body>

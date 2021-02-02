@@ -1,0 +1,169 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-templete" id="layuiadmin-form-templete" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">模板标题</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title" value="{$templete->title}" lay-verify="required" placeholder="请输入模板标题" autocomplete="off"
+				 class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">副标题</label>
+			<div class="layui-input-inline">
+				<input type="text" name="subtitle" value="{$templete->subtitle}" placeholder="请输入副标题" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">背景色</label>
+			<div class="layui-input-inline">
+				<input type="text" name="background" value="{$templete->background}" placeholder="请输入背景色" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">模板位置</label>
+			<div class="layui-input-block">
+				<select name="position_id" lay-verify="required">
+					<option value="">--请选择模板位置--</option>
+					{foreach $positions as $position}
+					<option value="{$position.id}" {if $templete->position_id eq $position.id}selected{/if}>{$position.title}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">链接地址</label>
+			<div class="layui-input-block">
+				<input type="text" name="url" value="{$templete->url}" placeholder="请输入链接地址" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">缩略图</label>
+			<div class="layui-input-inline">
+				<input type="text" name="thumpic" value="{$templete->thumpic}" placeholder="请上传缩略图" autocomplete="off" class="layui-input">
+			</div>
+			<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-thumpic">上传图片</button>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">模板图片</label>
+			<div class="layui-input-inline">
+				<input type="text" name="pic" value="{$templete->pic}" placeholder="请上传模板图片" autocomplete="off" class="layui-input">
+			</div>
+			<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-list">上传图片</button>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">栏目</label>
+			<div class="layui-input-block">
+				<select name="cid">
+					<option value="0">--请选择栏目--</option>
+					{foreach $categories as $category}
+					<option value="{$category.id}" {if $templete.cid eq $category.id}selected{/if}> {:generate_nbsp($category.level)}├ {$category.title} </option> {/foreach} </select> </div> </div> <div class="layui-form-item">
+						<label class="layui-form-label">内容筛选</label>
+						<div class="layui-input-block">
+							<input type="radio" name="type" value="0" title="全部" {if $templete.type==0}checked{/if}> <input type="radio"
+							 name="type" value="1" title="推荐" {if $templete.type==1}checked{/if}> <input type="radio" name="type" value="2"
+							 title="新品" {if $templete.type==2}checked{/if}> <input type="radio" name="type" value="3" title="精品" {if
+							 $templete.type==3}checked{/if}> <input type="radio" name="type" value="4" title="热门" {if $templete.type==4}checked{/if}>
+							 </div> </div> <div class="layui-form-item">
+							<label class="layui-form-label">数据条数</label>
+							<div class="layui-input-inline">
+								<input type="text" name="limit" value="{$templete->limit}" placeholder="10" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">排序</label>
+							<div class="layui-input-inline">
+								<input type="text" name="sort" value="{$templete->sort}" lay-verify="required" placeholder="50" autocomplete="off"
+								 class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">显示状态</label>
+							<div class="layui-input-inline">
+								<input type="checkbox" lay-filter="switch" name="status" lay-skin="switch" lay-text="显示|屏蔽" {if condition="$templete->status eq 1"
+								 }checked{/if}> </div> <div class="layui-input-inline">
+								<input type="checkbox" lay-filter="switch" name="target" {if condition="$templete->target eq 1" }checked{/if}
+								 lay-skin="switch" lay-text="新页面|原页面">
+							</div>
+
+							<div class="layui-input-inline">
+								<input type="checkbox" lay-filter="switch" name="iscat" {if condition="$templete->iscat eq 1" }checked{/if}
+								 lay-skin="switch" lay-text="分栏目|不分栏目">
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">备注</label>
+							<div class="layui-input-block">
+								<textarea id="description" name="description" placeholder="请输入备注" class="layui-textarea">{$templete->description}</textarea>
+							</div>
+						</div>
+						<div class="layui-form-item layui-hide">
+							<input type="hidden" name="id" value="{$templete->id}">
+							<button class="layui-btn" lay-submit lay-filter="LAY-templete-back-submit" id="LAY-templete-back-submit">提交</button>
+						</div>
+			</div>
+
+			<script src="/static/layui/layui.js"></script>
+			<script>
+				layui.config({
+					base: '/static/' //静态资源所在路径
+				}).extend({
+					index: 'lib/index' //主入口模块
+				}).use(['index', 'form', 'upload', 'element'], function() {
+					var $ = layui.$,
+						form = layui.form,
+						element = layui.element,
+						upload = layui.upload;
+
+					upload.render({
+						elem: '#layuiadmin-upload-thumpic',
+						url: '{:url("upload/image")}',
+						accept: 'images',
+						method: 'post',
+						acceptMime: 'image/*',
+						before: function(obj) {
+							layer.msg('上传中', {
+								icon: 16,
+								shade: 0.1,
+								time: 0
+							});
+						},
+						done: function(res) {
+							layer.close(layer.msg());
+							layer.alert(res.msg, {
+								icon: 1,
+								time: 1000
+							});
+							$(this.item).prev("div").children("input").val(res.data.src);
+						}
+					});
+
+					upload.render({
+						elem: '#layuiadmin-upload-list',
+						url: '{:url("upload/image")}',
+						accept: 'images',
+						method: 'post',
+						acceptMime: 'image/*',
+						before: function(obj) {
+							layer.msg('上传中', {
+								icon: 16,
+								shade: 0.1,
+								time: 0
+							});
+						},
+						done: function(res) {
+							layer.close(layer.msg());
+							layer.alert(res.msg, {
+								icon: 1,
+								time: 1000
+							});
+							$(this.item).prev("div").children("input").val(res.data.src);
+						}
+					});
+				})
+			</script>
+</body>

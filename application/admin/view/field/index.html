@@ -1,0 +1,89 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div style="padding-bottom: 10px;">
+					<button class="layui-btn layuiadmin-btn-field" data-type="add">添加新字段</button>
+					<a class="layui-btn layuiadmin-btn-model" href="{:url('model/index')}">模型管理</a>
+					<input type="hidden" id="mid" value="{$id}">
+				</div>
+
+				<table id="LAY-field-back" lay-filter="LAY-field-back"></table>
+				<script type="text/html" id="typeTpl">
+					{{#  if(d.type == 1){ }}
+						<button class="layui-btn layui-btn-xs">系统模型</button>
+					{{#  } else { }}
+						<button class="layui-btn layui-btn-primary layui-btn-xs">用户模型</button>
+					{{#  } }}
+        </script>
+				<script type="text/html" id="table-field-admin">
+					<a class="layui-btn layui-btn-{{# if(d.type == 1){ }}primary{{#  } else { }}normal{{# } }} layui-btn-xs" {{# if(d.type != 1){ }}lay-event="edit"{{# } }} ><i class="layui-icon layui-icon-edit"></i>编辑</a>
+			<a class="layui-btn layui-btn-{{# if(d.type == 1){ }}primary{{#  } else { }}danger{{# } }} layui-btn-xs" {{# if(d.type != 1){ }}lay-event="del"{{# } }}><i class="layui-icon layui-icon-delete"></i>删除</a>
+        </script>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'field', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table,
+				mid = {
+					$id
+				};
+
+			//事件
+			var active = {
+				add: function() {
+					layer.open({
+						type: 2,
+						title: '添加新字段',
+						content: '{$url}',
+						maxmin: true,
+						area: ['60%', '90%'],
+						btn: ['确定', '取消'],
+						yes: function(index, layero) {
+							var iframeWindow = window['layui-layer-iframe' + index],
+								submit = layero.find('iframe').contents().find("#LAY-field-back-submit");
+
+							//监听提交
+							iframeWindow.layui.form.on('submit(LAY-field-back-submit)', function(data) {
+								//提交 Ajax 成功后，静态更新表格中的数据
+								$.ajax({
+									url: '{:url("field/create")}',
+									method: 'post',
+									data: data.field,
+									dataType: 'JSON',
+									success: function(res) {
+										if (res.code == '0') {
+											table.reload('LAY-field-back'); //数据刷新
+											layer.close(index); //关闭弹层
+											layer.alert(res.msg);
+										} else
+											layer.alert(res.msg);
+									},
+									error: function(data) {}
+								});
+							});
+
+							submit.trigger('click');
+						}
+					});
+				},
+				model: function() {
+					window.location.href = '{:url("model/index")}';
+				}
+			}
+			$('.layui-btn.layuiadmin-btn-field').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>

@@ -1,0 +1,67 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">邮箱</label>
+			<div class="layui-input-inline">
+				<input type="text" name="email" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-inline">
+				<input type="password" name="password" lay-verify="pass" lay-verType="tips" autocomplete="off" id="LAY_password"
+				 class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">确认密码</label>
+			<div class="layui-input-inline">
+				<input type="password" name="password_confirm" lay-verify="repass" lay-verType="tips" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色分配</label>
+			<div class="layui-input-block">
+				{foreach $roles as $role}
+				<input type="checkbox" name="roles[]" lay-skin="primary" value="{$role->id}" title="{$role->name}">
+				{/foreach}
+			</div>
+		</div>
+		<div class="layui-form-item layui-hide">
+			<input type="button" lay-submit lay-filter="LAY-user-back-submit" id="LAY-user-back-submit" value="确认">
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form'], function() {
+			var $ = layui.$,
+				form = layui.form;
+			//自定义验证
+			form.verify({
+				//我们既支持上述函数式的方式，也支持下述数组的形式
+				//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+				pass: [/^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'],					//确认密码
+				repass: function(value) {
+					if (value !== $('#LAY_password').val()) {
+						return '两次密码输入不一致';
+					}
+				}
+			});
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+{block name="header"}
+<link rel="stylesheet" href="/static/ztree/bootstrapStyle/bootstrapStyle.css" type="text/css">{/block}
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<div class="layui-input-inline">
+				<ul id="tree" class="ztree text-center"></ul>
+			</div>
+		</div>
+		<div class="layui-form-item layui-hide">
+			<input type="hidden" name="role_id" value="{$role_id}">
+			<input type="hidden" id="permissions" name="permissions">
+			<button class="layui-btn" lay-submit lay-filter="LAY-user-give-permissions-submit" id="LAY-user-give-permissions-submit">提交</button>
+		</div>
+	</div>
+</body>
+{block name="js"}
+<script type="text/javascript" src="/static/ztree/jquery.min.js"></script>
+<script type="text/javascript" src="/static/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/static/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/static/ztree/jquery.ztree.exedit.js"></script>
+<script src="/static/layui/layui.js"></script>
+<script>
+	layui.config({
+		base: '/static/' //静态资源所在路径
+	}).extend({
+		index: 'lib/index' //主入口模块
+	}).use(['index', 'form'], function() {
+		var $ = layui.$,
+			form = layui.form;
+
+		let setting = {
+			view: {},
+			check: {
+				enable: true
+			},
+			async: {
+				enable: true,
+				url: '{:url("role/getPermissionsOfRole")}',
+				otherParam: {
+					"role_id": "{$role_id}"
+				},
+				type: "post"
+			},
+			data: {
+				simpleData: {
+					enable: true,
+					pIdKey: "pid",
+				}
+			},
+			callback: {
+				onAsyncSuccess: zTreeOnAsyncSuccess,
+				onCheck: onCheck
+			}
+		};
+		let ids;
+		$(document).ready(function() {
+			$.fn.zTree.init($("#tree"), setting, null);
+		});
+
+		function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+			ids = '';
+			let treeObj = $.fn.zTree.getZTreeObj("tree");
+			nodes = treeObj.getCheckedNodes(true);
+			for (let i = 0; i < nodes.length; i++) {
+				ids += nodes[i].id + ","; //获取选中节点的值
+			}
+			$("#permissions").val(ids);
+			console.log(ids)
+		};
+
+		function onCheck(e, treeId, treeNode) {
+			ids = '';
+			let treeObj = $.fn.zTree.getZTreeObj("tree");
+			nodes = treeObj.getCheckedNodes(true);
+			for (let i = 0; i < nodes.length; i++) {
+				ids += nodes[i].id + ","; //获取选中节点的值
+			}
+			$("#permissions").val(ids);
+			console.log(ids)
+		}
+
+	})
+</script>
+
+{/block}

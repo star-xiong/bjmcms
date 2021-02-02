@@ -1,0 +1,71 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-header">
+				<span class="layui-breadcrumb" lay-filter="breadcrumb" lay-separator="->" style="visibility: visible;">
+					<a href="/admin/content/list.html">内容管理</a><span lay-separator="">/</span>
+					<a><cite>{$info.title}</cite></a>
+				</span>
+			</div>
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-content" data-type="add">发布新内容</button>
+						<a class="layui-btn layui-btn-normal" href="/admin/content/page/cid/{$info.id}.html" target="content_body">编辑栏目</a>
+					</div>
+
+					<div class="layui-inline">
+						<div class="layui-input-block">
+							<input type="hidden" id="cid" name="cid" value="{$info.id}">
+							<input type="text" name="keywords" placeholder="可搜索姓名,电话及内容" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-content-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="layui-card-body">
+				<table id="LAY-content-back" lay-filter="LAY-content-back"></table>
+
+				<script type="text/html" id="table-content-admin">
+					<a class="layui-btn layui-btn-normal layui-btn-xs" href="/admin/content/editDiyform/cid/{$info.id}/id/{{d.id}}.html"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+					<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+				</script>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'diyform', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+
+			//监听搜索
+			form.on('submit(LAY-content-back-search)', function(data) {
+				var field = data.field;
+				//执行重载
+				table.reload('LAY-content-back', {where: field});
+			});
+
+			//事件
+			var active = {
+				add: function() {
+					//
+				}
+			}
+			$('.layui-btn.layuiadmin-btn-content').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>

@@ -1,0 +1,230 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-category" id="layuiadmin-form-category" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">上级栏目</label>
+			{if condition="!$_category"}
+			<div class="layui-input-block">
+				<select name="pid">
+					<option value="0">--请选择上级栏目--</option>
+					{foreach $categories as $category}
+					<option value="{$category.id}">{:generate_nbsp($category.level)} ├ {$category.title}</option>
+					{/foreach}
+				</select>
+			</div>
+			{else/}
+			<div class="layui-input-inline">
+				<span style="line-height:35px">{$_category->title}</span>
+
+				<input type="hidden" name="pid" value="{$_category->id}">
+			</div>
+			{/if}
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">栏目标题</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title" lay-verify="required" placeholder="请输入栏目标题" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">副标题</label>
+			<div class="layui-input-inline">
+				<input type="text" name="subtitle" placeholder="请输入副标题" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">所属模型</label>
+			<div class="layui-input-block">
+				<select name="mid" lay-verify="required">
+					<option value="">--请选择模型--</option>
+					{foreach $models as $model}
+					<option value="{$model->id}" {if $model.id==$_category.mid}selected{/if}>{$model->title} </option> {/foreach} </select>
+					 </div> </div> <div class="layui-form-item">
+						<label class="layui-form-label">分页数量</label>
+						<div class="layui-input-inline">
+							<input type="text" name="limit" value="15" placeholder="15" autocomplete="off" class="layui-input">
+						</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">排序</label>
+				<div class="layui-input-inline">
+					<input type="text" name="sort" value="50" lay-verify="required" placeholder="50" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">栏目图标</label>
+				<div class="layui-input-inline">
+					<input type="text" name="icon" placeholder="请上传图标" autocomplete="off" class="layui-input">
+				</div>
+				<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-icon">上传图片</button>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">栏目缩略图</label>
+				<div class="layui-input-inline">
+					<input type="text" name="thumpic" placeholder="请上传图片" autocomplete="off" class="layui-input">
+				</div>
+				<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-thumpic">上传图片</button>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">栏目横幅图</label>
+				<div class="layui-input-inline">
+					<input type="text" name="adpic" placeholder="请上传图片" autocomplete="off" class="layui-input">
+				</div>
+				<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-adpic">上传图片</button>
+			</div>
+
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">栏目状态</label>
+				<div class="layui-input-block">
+					<input type="checkbox" lay-filter="switch" name="status" checked lay-skin="switch" lay-text="显示|隐藏">
+					<input type="checkbox" lay-filter="switch" name="ishot" lay-skin="switch" lay-text="热门栏目|普通栏目">
+					<input type="checkbox" lay-filter="switch" name="istop" lay-skin="switch" lay-text="允许推荐|不允许推荐">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">导航栏显示</label>
+				<div class="layui-input-block">
+					<input type="checkbox" checked name="nav_pctop" lay-skin="primary" value="1" title="PC顶部导航">
+					<input type="checkbox" checked name="nav_pcfooter" lay-skin="primary" value="1" title="PC底部导航">
+					<input type="checkbox" checked name="nav_mtop" lay-skin="primary" value="1" title="手机顶部导航">
+					<input type="checkbox" checked name="nav_mfooter" lay-skin="primary" value="1" title="手机底部导航">
+				</div>
+			</div>
+			{if count($types)}
+			<div class="layui-form-item">
+				<label class="layui-form-label">关联类型</label>
+				<div class="layui-input-block">
+					{foreach $types as $value}
+					<input type="checkbox" name="types[]" checked lay-skin="primary" value="{$value.id}" title="{$value.title}">
+					<div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+						<span>{$value.title}</span><i class="layui-icon layui-icon-ok"></i>
+					</div>
+					{/foreach}
+				</div>
+			</div>
+			{/if}
+			{if count($attributes)}
+			<div class="layui-form-item">
+				<label class="layui-form-label">关联属性</label>
+				<div class="layui-input-block">
+					{foreach $attributes as $value}
+					<input type="checkbox" name="attributes[]" lay-skin="primary" value="{$value.id}" title="{$value.title}">
+					<div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+						<span>{$value.title}</span><i class="layui-icon layui-icon-ok"></i>
+					</div>
+					{/foreach}
+				</div>
+			</div>
+			{/if}
+			<div class="layui-form-item">
+				<label class="layui-form-label">SEO标题</label>
+				<div class="layui-input-block">
+					<input type="text" name="seo_title" placeholder="请输入SEO标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">SEO关键词</label>
+				<div class="layui-input-block">
+					<textarea name="seo_keywords" placeholder="请输入SEO关键词" class="layui-textarea"></textarea>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">SEO描述</label>
+				<div class="layui-input-block">
+					<textarea id="seo_description" name="seo_description" placeholder="请输入SEO描述" class="layui-textarea"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item layui-hide">
+				<button class="layui-btn" lay-submit lay-filter="LAY-category-back-submit" id="LAY-category-back-submit">提交</button>
+			</div>
+		</div>
+
+		<script src="/static/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '/static/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index' //主入口模块
+			}).use(['index', 'form', 'upload'], function() {
+				var $ = layui.$,
+					form = layui.form,
+					upload = layui.upload;
+
+				upload.render({
+					elem: '#layuiadmin-upload-icon',
+					url: '{:url("upload/image")}',
+					accept: 'images',
+					method: 'post',
+					acceptMime: 'image/*',
+					before: function(obj) {
+						layer.msg('上传中', {
+							icon: 16,
+							shade: 0.1,
+							time: 0
+						});
+					},
+					done: function(res) {
+						layer.close(layer.msg());
+						layer.alert(res.msg, {
+							icon: 1,
+							time: 1000
+						});
+						$(this.item).prev("div").children("input").val(res.data.src);
+					}
+				});
+
+				upload.render({
+					elem: '#layuiadmin-upload-thumpic',
+					url: '{:url("upload/image")}',
+					accept: 'images',
+					method: 'post',
+					acceptMime: 'image/*',
+					before: function(obj) {
+						layer.msg('上传中', {
+							icon: 16,
+							shade: 0.1,
+							time: 0
+						});
+					},
+					done: function(res) {
+						layer.close(layer.msg());
+						layer.alert(res.msg, {
+							icon: 1,
+							time: 1000
+						});
+						$(this.item).prev("div").children("input").val(res.data.src);
+					}
+				});
+
+				upload.render({
+					elem: '#layuiadmin-upload-adpic',
+					url: '{:url("upload/image")}',
+					accept: 'images',
+					method: 'post',
+					acceptMime: 'image/*',
+					before: function(obj) {
+						layer.msg('上传中', {
+							icon: 16,
+							shade: 0.1,
+							time: 0
+						});
+					},
+					done: function(res) {
+						layer.close(layer.msg());
+						layer.alert(res.msg, {
+							icon: 1,
+							time: 1000
+						});
+						$(this.item).prev("div").children("input").val(res.data.src);
+					}
+				});
+			})
+		</script>
+</body>

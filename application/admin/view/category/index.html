@@ -1,0 +1,299 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div style="padding-bottom: 10px;">
+					<button class="layui-btn layuiadmin-btn-category" data-type="add">添加新栏目</button>
+				</div>
+				<table class="layui-table layui-form" id="LAY-category-back"></table>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'table', 'treeTable'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table,
+				treeTable = layui.treeTable;
+
+			var category = treeTable.render({
+				elem: '#LAY-category-back',
+				url: '/admin/category/getlist.html',
+				icon_key: 'title',
+				is_click_icon: true,
+				is_checkbox: false,
+				icon: {
+					open: 'layui-icon layui-icon-subtraction',
+					close: 'layui-icon layui-icon-addition',
+					left: 16
+				},
+				cols: [{
+						key: 'id',
+						width: '20px',
+						align: 'center',
+						title: 'ID'
+					},
+					{
+						key: 'title',
+						title: '栏目名称',
+						width: '220px',
+					},
+					{
+						key: 'icon',
+						width: '36px',
+						align: 'center',
+						title: '图标',
+						template: function(item) {
+							if (item.icon != 'undefined') {
+								return '<img src="' + item.icon + '" style="height: 38px;"/>';
+							}
+						}
+					},
+					{
+						key: 'model_name',
+						width: '38px',
+						title: '模型'
+					},
+					{
+						key: 'status',
+						align: 'center',
+						title: '隐藏',
+						template: function(item) {
+							if (item.status == 1) {
+								return '<a class="layui-btn layui-btn-xs">显示</a>';
+							} else {
+								return '<a class="layui-btn layui-btn-primary layui-btn-xs">不显示</a>';
+							}
+						}
+					},
+					{
+						key: 'ishot',
+						align: 'center',
+						title: '热门',
+						template: function(item) {
+							if (item.ishot == 1) {
+								return '<a class="layui-btn layui-btn-xs">热门</a>';
+							} else {
+								return '<a class="layui-btn layui-btn-primary layui-btn-xs">普通</a>';
+							}
+						}
+					},
+					{
+						key: 'nav_pctop',
+						align: 'center',
+						title: 'PC顶部导航',
+						template: function(item) {
+							if (item.nav_pctop == 1) {
+								return '<a class="layui-btn layui-btn-xs">显示</a>';
+							} else {
+								return '<a class="layui-btn layui-btn-primary layui-btn-xs">不显示</a>';
+							}
+						}
+					},
+					{
+						key: 'nav_pcfooter',
+						align: 'center',
+						title: 'PC底部导航',
+						template: function(item) {
+							if (item.nav_pcfooter == 1) {
+								return '<a class="layui-btn layui-btn-xs">显示</a>';
+							} else {
+								return '<a class="layui-btn layui-btn-primary layui-btn-xs">不显示</a>';
+							}
+						}
+					},
+					{
+						key: 'nav_mtop',
+						align: 'center',
+						title: '手机顶部导航',
+						template: function(item) {
+							if (item.nav_mtop == 1) {
+								return '<a class="layui-btn layui-btn-xs">显示</a>';
+							} else {
+								return '<a class="layui-btn layui-btn-primary layui-btn-xs">不显示</a>';
+							}
+						}
+					},
+					{
+						key: 'nav_mfooter',
+						align: 'center',
+						title: '手机底部导航',
+						template: function(item) {
+							if (item.nav_mfooter == 1) {
+								return '<a class="layui-btn layui-btn-xs">显示</a>';
+							} else {
+								return '<a class="layui-btn layui-btn-primary layui-btn-xs">不显示</a>';
+							}
+						}
+					},
+					{
+						key: 'sort',
+						width: '36px',
+						title: '排序'
+					},
+					{
+						title: '操作',
+						width: '220px',
+						align: 'center',
+						template: function(item) {
+							return '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-filter="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a><a class="layui-btn layui-btn-danger layui-btn-xs" lay-filter="del"><i class="layui-icon layui-icon-delete"></i>删除</a><a class="layui-btn layui-btn-xs" lay-filter="add"><i class="layui-icon layui-icon-addition"></i>添加子栏目</a>';
+						}
+					}
+				]
+			});
+			//添加子栏目
+			treeTable.on('tree(add)', function(data) {
+				layer.open({
+					type: 2,
+					title: '添加子栏目',
+					content: '/admin/category/create/id/' + data.item.id + '.html',
+					area: ['60%', '90%'],
+					btn: ['确定', '取消'],
+					yes: function(index, layero) {
+						var iframeWindow = window['layui-layer-iframe' + index],
+							submit = layero.find('iframe').contents().find("#LAY-category-back-submit");
+
+						//监听提交
+						iframeWindow.layui.form.on('submit(LAY-category-back-submit)', function(fdata) {
+							var field = fdata.field;
+
+							//提交 Ajax 成功后，静态更新表格中的数据
+							$.ajax({
+								url: '/admin/category/create.html',
+								method: 'post',
+								data: field,
+								dataType: 'JSON',
+								success: function(res) {
+									if (res.code == '0') {
+										treeTable.render(category);
+										layer.close(index);
+										layer.alert(res.msg);
+									} else {
+										layer.alert(res.msg);
+									}
+								},
+								error: function(data) {
+
+								}
+							});
+						});
+						submit.trigger('click');
+					}
+				});
+			});
+			//编辑
+			treeTable.on('tree(edit)', function(data) {
+				layer.open({
+					type: 2,
+					title: '编辑栏目',
+					content: '/admin/category/edit/id/' + data.item.id + '.html',
+					area: ['60%', '90%'],
+					btn: ['确定', '取消'],
+					yes: function(index, layero) {
+						var iframeWindow = window['layui-layer-iframe' + index],
+							submit = layero.find('iframe').contents().find("#LAY-category-back-submit");
+
+						//监听提交
+						iframeWindow.layui.form.on('submit(LAY-category-back-submit)', function(fdata) {
+							var field = fdata.field;
+
+							//提交 Ajax 成功后，静态更新表格中的数据
+							$.ajax({
+								url: '/admin/category/edit.html',
+								method: 'post',
+								data: field,
+								dataType: 'JSON',
+								success: function(res) {
+									if (res.code == '0') {
+										treeTable.render(category);
+										layer.close(index);
+										layer.alert(res.msg);
+									} else {
+										layer.alert(res.msg);
+									}
+								},
+								error: function(data) {
+
+								}
+							});
+						});
+						submit.trigger('click');
+					}
+				});
+			});
+			//删除
+			treeTable.on('tree(del)', function(data) {
+				layer.confirm('确定删除此栏目？', function(index) {
+					$.ajax({
+						url: '/admin/category/delete.html',
+						method: 'post',
+						data: {
+							'id': data.item.id
+						},
+						dataType: 'JSON',
+						success: function(res) {
+							if (res.code == '0') {
+								treeTable.render(category);
+								layer.close(index);
+								layer.alert(res.msg);
+							} else {
+								layer.alert(res.msg);
+							}
+						},
+						error: function(data) {}
+					});
+				});
+			});
+
+			//事件
+			var active = {
+				add: function() {
+					layer.open({
+						type: 2,
+						title: '添加新栏目',
+						content: '{:url("category/create")}',
+						maxmin: true,
+						area: ['60%', '90%'],
+						btn: ['确定', '取消'],
+						yes: function(index, layero) {
+							var iframeWindow = window['layui-layer-iframe' + index],
+								submit = layero.find('iframe').contents().find("#LAY-category-back-submit");
+
+							//监听提交
+							iframeWindow.layui.form.on('submit(LAY-category-back-submit)', function(data) {
+								//提交 Ajax 成功后，静态更新表格中的数据
+								$.ajax({
+									url: '{:url("category/create")}',
+									method: 'post',
+									data: data.field,
+									dataType: 'JSON',
+									success: function(res) {
+										if (res.code == '0') {
+											treeTable.render(category); //数据刷新
+											layer.close(index); //关闭弹层
+											layer.alert(res.msg);
+										} else
+											layer.alert(res.msg);
+									},
+									error: function(data) {}
+								});
+							});
+
+							submit.trigger('click');
+						}
+					});
+				}
+			}
+			$('.layui-btn.layuiadmin-btn-category').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>

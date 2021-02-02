@@ -1,0 +1,124 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div style="padding-bottom: 10px;">
+					<a href="{:url('database/index')}" class="layui-btn layui-btn-primary layuiadmin-btn-database" data-type="">数据库备份</a>
+					<a href="{:url('database/databaseList')}" class="layui-btn layuiadmin-btn-database" data-type="">数据库文件列表</a>
+					<a href="{:url('database/tableList')}" class="layui-btn layui-btn-primary layuiadmin-btn-database" data-type="">数据表文件列表</a>
+				</div>
+
+				<table id="LAY-database-back" lay-filter="LAY-database-back"></table>
+				<script type="text/html" id="titleTpl">
+					{{# if(d.filesize){ }}
+						&nbsp;&nbsp;&nbsp;&nbsp;|---{{ d.filename }}
+					{{#  } else{ }}
+						{{ d.filename }}
+					{{# } }}
+				</script>
+				<script type="text/html" id="table-database-admin">
+					{{# if(!d.filesize){ }}
+						<a class="layui-btn layui-btn-xs layui-bg-green" lay-event="import" >{:lang('还原数据库')}</a>
+						<a class="layui-btn layui-bg-red layui-btn-xs" lay-event="del">{:lang('删除')}</a>
+					{{# } }}
+				</script>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+
+			//数据库列表
+			table.render({
+				elem: '#LAY-database-back',
+				url: '{:url("database/databaseList")}',
+				cols: [
+					[{
+						field: 'filename',
+						title: '文件名',
+						templet: '#titleTpl',
+						align: 'left'
+					}, {
+						field: 'filesize',
+						title: '文件大小(KB)'
+					}, {
+						field: 'maketime',
+						title: '备份时间'
+					}, {
+						title: '操作',
+						width: 260,
+						align: 'center',
+						fixed: 'right',
+						toolbar: '#table-database-admin'
+					}]
+				],
+				text: {
+					none: '暂无相关数据'
+				}
+			});
+
+			//监听工具条
+			table.on('tool(LAY-database-back)', function(obj) {
+				var data = obj.data;
+				if (obj.event === 'del') {
+					layer.confirm('删除分组——删除分组中所有文件<br>删除文件——删除所有分卷文件<br>删除后不可找回，确定删除？', function(index) {
+						$.ajax({
+							url: '{:url("database/delete")}',
+							method: 'post',
+							data: {
+								'filename': data['filename'],
+								'type': 'database'
+							},
+							dataType: 'JSON',
+							success: function(res) {
+								if (res.code == '0') {
+									//obj.del();										
+									table.reload('LAY-database-back');
+									layer.close(index);
+									layer.alert(res.msg);
+								} else
+									layer.alert(res.msg);
+							},
+							error: function(data) {}
+						});
+
+					});
+
+				} else if (obj.event === 'import') {
+
+					layer.open({
+						type: 2,
+						title: '还原数据库',
+						content: '{:url("database/import")}?filename=' + data.filename + '&type=database',
+						area: ['60%', '90%'],
+						btn: ['关闭'],
+						yes: function(index, layero) {
+							layer.close(index);
+						},
+						success: function(layero, index) {
+
+						}
+					})
+				}
+			});
+
+			//事件
+			var active = {
+
+			}
+			$('.layui-btn.layuiadmin-btn-database').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>

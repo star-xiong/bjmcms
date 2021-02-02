@@ -1,0 +1,22 @@
+{include file="index/header"/}
+<div class="complete">
+    {:lang('step4')}
+</div>
+<footer class="footer">
+    <div class="container">
+        <div>
+			{if (ismodule("Admin"))}
+            <a class="btn btn-success btn-large" href="{:url('admin/Index/index')}">{:lang('step4_admin')}</a>
+			{/if}
+            <a class="btn btn-primary btn-large" href="{:url('/')}">{:lang('step4_index')}</a>
+        </div>
+    </div>
+</footer>
+<script>
+	$("#step1").addClass("active");
+	$("#step2").addClass("active");
+	$("#step3").addClass("active");
+	$("#step4").addClass("active");	
+</script>
+</body>
+</html>

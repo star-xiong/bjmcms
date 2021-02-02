@@ -1,0 +1,108 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-attribute" id="layuiadmin-form-attribute" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label W130">所属类型</label>
+			<div class="layui-input-block ML160">
+				<select name="type_id" lay-filter="type_id" lay-verify="required">
+					<option value="">选择所属类型</option>
+					{foreach $types as $type}
+					<option value="{$type.id}">{$type.title}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label W130">属性名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title" lay-verify="required" placeholder="请输入属性名称" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label W130">能否进行检索</label>
+			<div class="layui-input-block ML160">
+				<input type="radio" name="attr_index" value="0" title="不需要检索" checked>
+				<input type="radio" name="attr_index" value="1" title="关键字检索">
+				<input type="radio" name="attr_index" value="2" title="范围检索">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label W130">相同属性值是否关联</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="is_linked" lay-skin="switch" lay-text="是|否">
+			</div>
+
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label W130">属性是否可选</label>
+			<div class="layui-input-block ML160">
+				<input type="radio" name="attr_type" value="0" title="唯一属性" checked>
+				<input type="radio" name="attr_type" value="1" title="单选属性">
+				<input type="radio" name="attr_type" value="2" title="复选属性">
+			</div>
+			<span>选择"单选/复选属性"时，可以对商品该属性设置多个值，同时还能对不同属性值指定不同的价格加价，用户购买商品时需要选定具体的属性值。选择"唯一属性"时，商品的该属性值只能设置一个值，用户只能查看该值。</span>
+
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label W130">是否启用属性相册</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="is_image" lay-skin="switch" lay-text="启用|不启用">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label W130">字段类型</label>
+			<div class="layui-input-block ML160">
+				<select name="class" lay-filter="class" lay-verify="required">
+					<option value="">字段类型</option>
+					<option value="text">单行文本</option>
+					<option value="radio">单选按扭</option>
+					<option value="checkbox">复选框</option>
+					<option value="select">下拉列表</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label W130">排序</label>
+			<div class="layui-input-inline">
+				<input type="text" name="sort" value="50" lay-verify="required" placeholder="50" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item default-value" style="display: none;">
+			<label class="layui-form-label W130">
+				<div id="defaultTips">选项列表</div>
+			</label>
+			<div class="layui-input-block ML160">
+				<div id="defaultValue"><textarea name="values" class="layui-textarea"></textarea>
+					<font color="red">每行一个值</font>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-hide">
+			<button class="layui-btn" lay-submit lay-filter="LAY-attribute-back-submit" id="LAY-attribute-back-submit">提交</button>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form'], function() {
+			var $ = layui.$,
+				form = layui.form;
+			form.on('select(class)', function(data) {
+
+				if (data.value != "text") {
+					$(".default-value").show();
+				} else {
+					$(".default-value").hide();
+				}
+
+
+			});
+		})
+	</script>
+</body>

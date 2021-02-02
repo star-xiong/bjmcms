@@ -1,0 +1,302 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-site" id="layuiadmin-form-site" style="padding: 0px 30px 0 0;">
+		<div class="layui-fluid" id="component-tabs">
+			<div class="layui-row">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<a href="{:url("site/index")}" class="layui-btn layui-btn-normal">站点管理</a>
+							<button class="layui-btn">编辑站点</button>
+						</div>
+						<div class="layui-card-body">
+							<div class="layui-tab">
+								<ul class="layui-tab-title">
+									<li class="layui-this">基本信息</li>
+									<li>公司信息</li>
+									<li>图片水印</li>
+									<li>SEO设置</li>
+								</ul>
+								<div class="layui-tab-content">
+									<div class="layui-tab-item layui-show">
+										<div class="layui-form-item">
+											<label class="layui-form-label">站点名称</label>
+											<div class="layui-input-inline">
+												<input type="text" name="name" value="{$site->name}" lay-verify="required" placeholder="请输入站点名称" autocomplete="off" class="layui-input">
+											</div>
+
+											<label class="layui-form-label">站点标识</label>
+											<div class="layui-input-inline">
+												<input type="text" name="mark" value="{$site->mark}" lay-verify="required" placeholder="请输入站点标识[en]为英文" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">默认风格</label>
+											<div class="layui-input-inline">
+												<input type="text" name="default_style" value="{$site->default_style}" lay-verify="required" placeholder="请输入默认风格"	 autocomplete="off" class="layui-input">
+											</div>
+
+											<label class="layui-form-label">绑定域名</label>
+											<div class="layui-input-inline">
+												<input type="text" name="domain" value="{$site->domain}" placeholder="请输入绑定域名" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">站点目录</label>
+											<div class="layui-input-inline">
+												<input type="text" name="dirname" value="{$site->dirname}" lay-verify="required" placeholder="请输入站点目录" autocomplete="off" class="layui-input">
+											</div>
+											<label class="layui-form-label">排序</label>
+											<div class="layui-input-inline">
+												<input type="text" name="sort" value="{$site->sort}" placeholder="50" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">站点Logo</label>
+											<div class="layui-input-inline">
+												<input type="text" name="logo" value="{$site->logo}" placeholder="请上传Logo图片" autocomplete="off" class="layui-input">
+											</div>
+											<button style="float: left;" type="button" class="layui-btn layuiadmin-upload-image">上传图片</button>
+										</div>
+
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">前端默认站</label>
+											<div class="layui-input-inline">
+												<input type="checkbox" lay-filter="switch" name="isdefault" lay-skin="switch" lay-text="开启|关闭" {if condition="$site->isdefault eq 1" }checked{/if}>
+											</div> 
+											<label class="layui-form-label">开启站点</label>
+											<div class="layui-input-inline">
+												<input type="checkbox" lay-filter="switch" name="status" lay-skin="switch" lay-text="开启|关闭" {if condition="$site->status eq 1" }checked{/if}> 
+											</div> 
+										</div> 
+									</div>
+									
+									<div class="layui-tab-item">
+										<div class="layui-form-item">
+											<label class="layui-form-label">服务热线</label>
+											<div class="layui-input-inline">
+												<input type="text" name="telephone" value="{$site->telephone}" placeholder="请输入服务热线" autocomplete="off"
+												 class="layui-input">
+											</div>
+
+											<label class="layui-form-label">联系人</label>
+											<div class="layui-input-inline">
+												<input type="text" name="contact" value="{$site->contact}" placeholder="请输入联系人" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">联系电话</label>
+											<div class="layui-input-inline">
+												<input type="text" name="mobile" value="{$site->mobile}" placeholder="请输入联系电话" autocomplete="off" class="layui-input">
+											</div>
+
+											<label class="layui-form-label">传真</label>
+											<div class="layui-input-inline">
+												<input type="text" name="fax" value="{$site->fax}" placeholder="请输入传真号" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">公司名称</label>
+											<div class="layui-input-inline">
+												<input type="text" name="company" value="{$site->company}" placeholder="请输入联系地址" autocomplete="off"
+												 class="layui-input">
+											</div>
+
+											<label class="layui-form-label">E-mail</label>
+											<div class="layui-input-inline">
+												<input type="text" name="email" value="{$site->email}" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">QQ</label>
+											<div class="layui-input-inline">
+												<input type="text" name="qq" value="{$site->qq}" placeholder="请输入QQ号" autocomplete="off" class="layui-input">
+											</div>
+
+											<label class="layui-form-label">微信</label>
+											<div class="layui-input-inline">
+												<input type="text" name="wechat" value="{$site->wechat}" placeholder="请输入微信号" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">微信二维码</label>
+											<div class="layui-input-inline">
+												<input type="text" name="erweima" value="{$site->erweima}" placeholder="请上传微信二维码" autocomplete="off"
+												 class="layui-input">
+											</div>
+											<button style="float: left;" type="button" class="layui-btn layuiadmin-upload-image">上传图片</button>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">公司地址</label>
+											<div class="layui-input-block">
+												<input type="text" name="address" value="{$site->address}" placeholder="请输入公司地址" autocomplete="off"
+												 class="layui-input">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">地址坐标</label>
+											<div class="layui-input-inline">
+												<input type="text" name="point_x" value="{$site->point_x}" placeholder="请输入经度" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-input-inline">
+												<input type="text" name="point_y" value="{$site->point_y}" placeholder="请输入纬度" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+									</div>
+									
+									<div class="layui-tab-item">
+										<div class="layui-form-item">
+											<label class="layui-form-label">开启水印</label>
+											<div class="layui-input-inline">
+												<input type="checkbox" lay-filter="switch" name="watermark" lay-skin="switch" lay-text="开启|关闭" {if condition="$site->watermark eq 1" }checked{/if}> 
+											</div> 
+										</div> 
+										<div class="layui-form-item">
+											<label class="layui-form-label">水印文字</label>
+											<div class="layui-input-block">
+												<input type="text" name="wk_text" value="{$site->wk_text}" placeholder="请输入水印文字" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">水印图片</label>
+											<div class="layui-input-inline">
+												<input type="text" name="wk_image" value="{$site->wk_image}" placeholder="请上传水印图片" autocomplete="off"
+												 class="layui-input">
+											</div>
+											<button style="float: left;" type="button" class="layui-btn layuiadmin-upload-image">上传图片</button>
+										</div>
+									</div>
+									
+									<div class="layui-tab-item">
+										<div class="layui-form-item">
+											<label class="layui-form-label">统计代码</label>
+											<div class="layui-input-block">
+												<textarea name="code" placeholder="请输入统计代码" class="layui-textarea">{$site->code}</textarea>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">站点公告</label>
+											<div class="layui-input-block">
+												<textarea name="notice" placeholder="请输入站点公告" class="layui-textarea">{$site->notice}</textarea>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">SEO标题</label>
+											<div class="layui-input-block">
+												<input type="text" name="seo_title" value="{$site->seo_title}" placeholder="请输入SEO标题" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">SEO关键词</label>
+											<div class="layui-input-block">
+												<textarea name="seo_keywords" placeholder="请输入SEO关键词" class="layui-textarea">{$site->seo_keywords}</textarea>
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">SEO描述</label>
+											<div class="layui-input-block">
+												<textarea id="seo_description" name="seo_description" placeholder="请输入SEO描述" class="layui-textarea">{$site->seo_description}</textarea>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">代码片段</label>
+											<div class="layui-input-block">
+												<textarea name="footer_code" class="layui-textarea">{$site->footer_code}</textarea>
+											</div>
+										</div>
+									</div>
+
+									<div class="layui-form-item">
+										<input type="hidden" name="id" value="{$site->id}">
+										<button class="layui-btn" lay-submit lay-filter="LAY-site-back-submit" id="LAY-site-back-submit">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form', 'upload'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				upload = layui.upload;
+
+			upload.render({
+				elem: '.layuiadmin-upload-image',
+				url: '{:url("upload/image")}',
+				accept: 'images',
+				method: 'post',
+				acceptMime: 'image/*',
+				before: function(obj) {
+					layer.msg('上传中', {
+						icon: 16,
+						shade: 0.1,
+						time: 0
+					});
+				},
+				done: function(res) {
+					layer.close(layer.msg());
+					layer.alert(res.msg, {
+						icon: 1,
+						time: 1000
+					});
+					$(this.item).prev("div").children("input").val(res.data.src);
+				}
+			});
+
+			// upload.render({
+			//   elem: '#layuiadmin-upload-erweima'
+			//   ,url: '{:url("upload/image")}'
+			//   ,accept: 'images'
+			//   ,method: 'post'
+			//   ,acceptMime: 'image/*'
+			//   ,before: function(obj){
+			//   	layer.msg('上传中', {icon:16, shade: 0.1, time:0});
+			//   },
+			//   done: function(res) {
+			//   	layer.close(layer.msg());
+			//   	layer.alert(res.msg, {icon:1, time:1000});
+			//   	$(this.item).prev("div").children("input").val(res.data.src);
+			//   }
+			// });
+
+			//保存内容
+			form.on('submit(LAY-site-back-submit)', function(obj) {
+				//提交表单
+				$.ajax({
+					url: '{:url("site/edit")}',
+					method: 'post',
+					data: obj.field,
+					dataType: 'JSON',
+					success: function(res) {
+						if (res.code == '0') {
+							window.location.href = '{:url("site/index")}';
+						} else
+							layer.alert(res.msg);
+					},
+					error: function(data) {}
+				});
+				return false;
+			});
+		})
+	</script>
+</body>

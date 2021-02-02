@@ -1,0 +1,74 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-type" id="layuiadmin-form-type" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">类型名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title" lay-verify="required" placeholder="请输入类型名称" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">群组</label>
+			<div class="layui-input-block">
+				<textarea id="seo_description" name="group" placeholder="群组 格式:0101-组名,一组一行" class="layui-textarea"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">图标</label>
+			<div class="layui-input-inline">
+				<input type="text" name="pic" placeholder="请上传图片" autocomplete="off" class="layui-input">
+			</div>
+			<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-pic">上传图片</button>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序</label>
+			<div class="layui-input-inline">
+				<input type="text" name="sort" value="50" lay-verify="required" placeholder="50" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否推荐</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="istop" lay-skin="switch" lay-text="推荐|不推荐">
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-hide">
+			<button class="layui-btn" lay-submit lay-filter="LAY-type-back-submit" id="LAY-type-back-submit">提交</button>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form', 'upload'], function() {
+			var $ = layui.$,
+				upload = layui.upload,
+				form = layui.form;
+			upload.render({
+				elem: '#layuiadmin-upload-pic',
+				url: '{:url("upload/image")}',
+				accept: 'images',
+				method: 'post',
+				acceptMime: 'image/*',
+				before: function(obj) {
+					layer.msg('上传中', {
+						icon: 16,
+						shade: 0.1,
+						time: 0
+					});
+				},
+				done: function(res) {
+					layer.close(layer.msg());
+					layer.alert(res.msg, {
+						icon: 1,
+						time: 1000
+					});
+					$(this.item).prev("div").children("input").val(res.data.src);
+				}
+			});
+		})
+	</script>
+</body>

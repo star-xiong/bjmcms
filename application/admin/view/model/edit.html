@@ -1,0 +1,60 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-model" id="layuiadmin-form-model" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">栏目属性</label>
+			<div class="layui-input-block">
+				{foreach $types as $key=>$type}
+				<input type="radio" name="type" value="{$type.id}" title="{$type.name}" {if $_model->type eq $type.id}checked{/if}>
+				{/foreach}
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">模型名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title" value="{$_model->title}" lay-verify="required" placeholder="请输入模型名称" autocomplete="off"
+				 class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">数据表名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="table_name" value="{$_model->table_name}" lay-verify="required" placeholder="请输入数据表名"
+				 autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-form-mid layui-word-aux">纯字母组合，最大长度20个字符</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">描叙说明</label>
+			<div class="layui-input-block">
+				<input type="text" name="description" value="{$_model->description}" placeholder="请输入描叙说明" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序</label>
+			<div class="layui-input-inline">
+				<input type="text" name="sort" value="{$_model->sort}" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-hide">
+			<input type="hidden" name="id" value="{$_model->id}">
+			<button class="layui-btn" lay-submit lay-filter="LAY-model-back-submit" id="LAY-model-back-submit">提交</button>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form'], function() {
+			var $ = layui.$,
+				form = layui.form;
+
+		})
+	</script>
+</body>

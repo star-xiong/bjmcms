@@ -1,0 +1,175 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-header">
+				<span class="layui-breadcrumb" lay-filter="breadcrumb" lay-separator="->" style="visibility: visible;">
+					<a href="/admin/content/list.html">内容管理</a><span lay-separator="">/</span>
+					<a><cite>{$info.title}</cite></a>
+				</span>
+			</div>
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						{if $info.id neq 0}
+						<button class="layui-btn layuiadmin-btn-content" data-type="add">发布新内容</button>
+						<a class="layui-btn layui-btn-normal" href="/admin/content/page/cid/{$info.id}.html" target="content_body">编辑栏目</a>
+						{else}
+						顶级栏目
+						{/if}
+					</div>
+					<div class="layui-inline">
+						<div class="layui-input-block">
+							<input type="hidden" id="cid" name="cid" value="{$info.id}">
+							<input type="text" name="keywords" placeholder="标题搜索" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-content-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+					{if $info.id neq 0}
+					<div class="layui-inline">
+						<a class="layui-btn layui-btn-normal" href="/admin/content/export/cid/{$info.id}.html" target="content_body">导出数据</a>
+					</div>
+					{/if}
+				</div>
+			</div>
+			<div class="layui-card-body">
+				<table id="LAY-content-back" lay-filter="LAY-content-back"></table>
+				<script type="text/html" id="titleTpl">
+					<a href="/show/{{d.id}}.html" target="_blank" > {{d.title}}</a>
+		</script>
+				<script type="text/html" id="isTopTpl">
+					{{#  if(d.istop == 9001){ }}
+				<button class="layui-btn layui-btn-xs">推荐</button>
+			{{#  } else if(d.istop == 9002){ }}
+				<button class="layui-btn layui-btn-primary layui-btn-xs">新品</button>
+			{{#  } else if(d.istop == 9003){ }}
+				<button class="layui-btn layui-btn-normal layui-btn-xs">精品</button>
+			{{#  } else if(d.istop == 9004){ }}
+				<button class="layui-btn layui-btn-warm layui-btn-xs">热门</button>
+			{{#  } else if(d.istop == 0){ }}
+				-
+			{{#  } else{ }}
+				{{d.istop}}
+			{{#  } }}
+		</script>
+				<script type="text/html" id="table-content-admin">
+					<a class="layui-btn layui-btn-normal layui-btn-xs" href="/admin/content/edit/id/{{d.id}}.html"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+			<a class="layui-btn layui-btn-{{# if(d.type == 1){ }}primary{{#  } else { }}danger{{# } }} layui-btn-xs" {{# if(d.type != 1){ }}lay-event="del"{{# } }}><i class="layui-icon layui-icon-delete"></i>删除</a>
+		</script>
+
+				<div class="layui-card-header" style="display:block;margin-top: 10px;">
+					<div style="float: left;">
+						<!-- <button class="layui-btn layuiadmin-btn-content layui-btn-sm" data-type="recommend">推荐</button> -->
+						<button class="layui-btn layuiadmin-btn-content layui-btn-sm" data-type="delete">删除</button>
+						<button class="layui-btn layuiadmin-btn-content layui-btn-sm" data-type="update">更新</button>
+					</div>
+					{if $info.id}
+					<div class="layui-form" style="float:right">
+						<button class="layui-btn layuiadmin-btn-content layui-btn-sm" data-type="move">移动到</button>
+						<div class="layui-input-inline">
+							<select name="cid" id="move-cid">
+								<option value="">请选择目标栏目</option>
+								{foreach $categories as $category}
+								<option value="{$category.id}" {if $category.id eq $info.id}disabled{/if}>{:generate_nbsp($category.level)}├
+									{$category.title}</option>
+								{/foreach}
+							</select>
+						</div>
+
+					</div>
+					{/if}
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'content', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+
+			//监听搜索
+			form.on('submit(LAY-content-back-search)', function(data) {
+				var field = data.field;
+				//执行重载
+				table.reload('LAY-content-back', {where: field});
+			});
+			//事件
+			var active = {
+				add: function() {
+					window.location.href = '/admin/content/create/cid/{$info.id}.html';
+				},
+				recommend: function() {
+					getRowFexId('recommend', {$info.id});
+				},
+				move: function() {
+					var cid = $('#move-cid option:selected').val();
+					if (cid == '') {
+						layer.alert("请选择目标栏目!");
+					} else {
+						getRowFexId('move', cid);
+					}
+
+				},
+				delete: function() {
+					getRowFexId('delete', {$info.id});
+				},
+				update: function() {
+					getRowFexId('update', {$info.id});
+				}
+			}
+			$('.layui-btn.layuiadmin-btn-content').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+			function getRowFexId(action, cid) {
+				var checkStatus = table.checkStatus('LAY-content-back'),
+					data = checkStatus.data,
+					arr = new Array();
+				if (data == '') {
+					layer.alert('必须选择一个或多个文档！');
+					//return false;
+				} else {
+					layer.confirm('此操作不可逆，请再次确认是否要操作。', function(index) {
+						for (var i = 0; i < data.length; i++) {
+							arr.push(data[i]['id']);
+						}
+						//return arr.join(",");
+						str = arr.join(",");
+						//layer.alert(str);
+						$.ajax({
+							url: '/admin/content/batch/do/' + action + '.html',
+							method: 'post',
+							data: {
+								ids: str,
+								cid: cid
+							},
+							dataType: 'JSON',
+							success: function(res) {
+								if (res.code == 0) {
+									layer.alert(res.msg);
+									table.reload('LAY-content-back');
+								}
+
+							},
+							error: function(data) {}
+						});
+					});
+				}
+			}
+
+		});
+	</script>
+</body>

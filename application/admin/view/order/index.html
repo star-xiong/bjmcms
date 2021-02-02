@@ -1,0 +1,58 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">订单号</label>
+							<div class="layui-input-block">
+								<input type="text" name="order_sn" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-order-back-search">
+								<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<table id="LAY-order-back" lay-filter="LAY-order-back"></table>
+				
+				<script type="text/html" id="table-order-admin">
+					<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail"><i class="layui-icon layui-icon-edit"></i>详情</a>
+					<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+				</script>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'order', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+			
+			//监听搜索
+			form.on('submit(LAY-order-back-search)', function(data) {
+				var field = data.field;
+				//执行重载
+				table.reload('LAY-order-back', {where: field});
+			});
+			
+			//事件
+			var active = {
+				
+			}
+			$('.layui-btn.layuiadmin-btn-order').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>

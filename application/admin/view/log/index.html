@@ -1,0 +1,48 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<div class="layui-input-block">
+							<input type="text" name="name" placeholder="请输入用户名称" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-card-body">
+				<table id="LAY-user-back-log" lay-filter="LAY-user-back-log"></table>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'useradmin', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+
+			//监听搜索
+			form.on('submit(LAY-user-back-search)', function(data) {
+				var field = data.field;
+				//执行重载
+				table.reload('LAY-user-back-log', {
+					where: field
+				});
+			});
+
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-content" id="layuiadmin-form-content">
+		<div class="layui-fluid" id="component-tabs">
+			<div class="layui-row">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-breadcrumb" lay-filter="breadcrumb" lay-separator="->" style="visibility: visible;">
+								<a href="/admin/content/list.html">内容管理</a><span lay-separator="">/</span>
+								<a href="{$info.id|url='content/list','cid='.###}">{$info.title}</a><span lay-separator="">/</span>
+								<a><cite>编辑内容</cite></a>
+							</span>
+						</div>
+						<div class="layui-card-body">
+							<div class="layui-tab">
+
+								<div class="layui-tab-content">
+
+									<div class="layui-tab-item layui-show">
+
+										{$fieldhtml.html|raw}
+
+									</div>
+
+									<div class="layui-form-item">
+										<label class="layui-form-label"></label>
+										<div class="layui-input-inline">
+											{:token()}
+											<input type="hidden" name="cid" value="{$info->id}">
+											<input type="hidden" name="id" value="{$id}">
+											<button class="layui-btn" lay-submit lay-filter="LAY-content-back-submit" id="LAY-content-back-submit">提交</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/static/layui/layui.js"></script>
+	<script src="/static/ckeditor/ckeditor.js"></script>
+
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form', 'upload', 'laydate'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				upload = layui.upload,
+				laydate = layui.laydate;
+
+			{$fieldhtml.ueditor|raw}
+			{$fieldhtml.script|raw}
+
+			function updateContent() {
+				for (instance in CKEDITOR.instances) {
+					CKEDITOR.instances[instance].updateElement();
+				}
+			}
+
+			upload.render({
+				elem: '#layuiadmin-upload-list',
+				url: '{:url("upload/image")}',
+				accept: 'images',
+				method: 'post',
+				acceptMime: 'image/*',
+				before: function(obj) {
+					layer.msg('上传中', {
+						icon: 16,
+						shade: 0.1,
+						time: 0
+					});
+				},
+				done: function(res) {
+					layer.close(layer.msg());
+					layer.alert(res.msg, {
+						icon: 1,
+						time: 1000
+					});
+					$(this.item).prev("div").children("input").val(res.data.src);
+				}
+			});
+
+			$('[lay-submit]').click(function(event) {
+				updateContent();
+			});
+
+			//保存内容
+			form.on('submit(LAY-content-back-submit)', function(obj) {
+				//提交表单
+				$.ajax({
+					url: '{:url("content/editDiyform")}',
+					method: 'post',
+					data: obj.field,
+					dataType: 'JSON',
+					success: function(res) {
+						if (res.code == '0') {
+							window.location.href = '/admin/content/diyform/cid/{$info.id}.html';
+						} else
+							layer.alert(res.msg);
+					},
+					error: function(data) {}
+				});
+				return false;
+			});
+		})
+	</script>
+</body>

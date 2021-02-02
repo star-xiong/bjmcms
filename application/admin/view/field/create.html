@@ -1,0 +1,104 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-field" id="layuiadmin-form-field" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">字段类型</label>
+			<div class="layui-input-inline">
+				<select name="class" lay-filter="class" lay-verify="required">
+					<option value="">选择类型</option>
+					{foreach name="classlist" id='v' }
+					<option value="{$key}">{$v}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">字段名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title" lay-verify="required" placeholder="请输入字段名称" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">字段名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="field" lay-verify="required" placeholder="请输入字段名" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-form-mid layui-word-aux">纯字母组合，最大长度30个字符</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">字段提示</label>
+			<div class="layui-input-inline">
+				<input type="text" name="remark" placeholder="请输入字段提示信息" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">字段长度</label>
+			<div class="layui-input-inline">
+				<input type="text" name="maxlength" lay-verify="required" placeholder="请输入字段字段长度" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否必填</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" lay-filter="switch" name="isrequire" lay-skin="switch" lay-text="必填|非必填">
+			</div>
+		</div>
+
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序</label>
+			<div class="layui-input-inline">
+				<input type="text" name="sort" value="9" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item default-value" style="display:none">
+			<label class="layui-form-label">
+				<div id="defaultTips"></div>
+			</label>
+			<div class="layui-input-inline">
+				<div id="defaultValue"></div>
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-hide">
+			<input type="hidden" name="mid" value="{$id}">
+			<button class="layui-btn" lay-submit lay-filter="LAY-field-back-submit" id="LAY-field-back-submit">提交</button>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form'], function() {
+			var $ = layui.$,
+				form = layui.form;
+
+			form.on('select(class)', function(data) {
+				$.ajax({
+					url: '{:url("field/defaultvalue")}',
+					method: 'post',
+					data: {
+						'formtype': data.value
+					},
+					dataType: 'JSON',
+					success: function(res) {
+						if (res.html) {
+							$(".default-value").show();
+							$("#defaultTips").html(res.typename);
+							$("#defaultValue").html(res.html);
+						} else
+							$(".default-value").hide();
+					},
+					error: function(data) {}
+				});
+			});
+		})
+	</script>
+</body>

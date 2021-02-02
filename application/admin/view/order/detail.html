@@ -1,0 +1,291 @@
+<body>
+	<div class="layui-fluid" id="component-tabs">
+		<div class="layui-row">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">
+						<a href="{:url("order/index")}" class="layui-btn layui-btn-normal">订单列表</a>
+						<button class="layui-btn">订单详情</button>
+					</div>
+					<div class="layui-card-body">
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">订单号:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.order_sn}
+							</div>
+
+							<label class="layui-form-label W200">订单状态:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.order_status_name}
+							</div>
+						</div>
+
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">购货人:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.consignee}
+							</div>
+
+							<label class="layui-form-label W200">下单时间:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.add_time}
+							</div>
+						</div>
+
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">支付方式:</label>
+							<div class="layui-form-label W200 Text-left">
+								{if $order.pay_name}{$order.pay_name}{else}{$order.pay_status_name}{/if}
+							</div>
+							
+							<label class="layui-form-label W200">付款时间</label>
+							<div class="layui-form-label W200 Text-left">
+								{if $order.pay_time}{$order.pay_time|date="Y-m-d H:m:s"}{else}{$order.pay_status_name}{/if}
+							</div>
+						</div>
+
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">配送方式:</label>
+							<div class="layui-form-label W200 Text-left">
+								{if $order.shipping_name}{$order.shipping_name}{else}{$order.shipping_status_name}{/if}
+							</div>
+							
+							<label class="layui-form-label W200">发货时间:</label>
+							<div class="layui-form-label W200 Text-left">
+								{if $order.pay_time}{$order.pay_time|date="Y-m-d H:m:s"}{else}{$order.shipping_status_name}{/if}
+							</div> 
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">客户给商家的留言:</label>
+							<div class="layui-form-label W300 Text-left">
+								{$order.pay_note}
+							</div>
+						</div> 
+						
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">缺货处理:</label>
+							<div class="layui-form-label W300 Text-left">
+								{$order.how_oos}
+							</div>
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">商家给客户的留言:</label>
+							<div class="layui-form-label W300 Text-left">
+								{$order.to_buyer}
+							</div>
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">收货人:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.consignee}
+							</div>
+						
+							<label class="layui-form-label W200">电子邮件:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.email}
+							</div>
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">地址:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.addressFull}
+							</div>
+						
+							<label class="layui-form-label W200">电话:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.tel}
+							</div>
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<label class="layui-form-label W200">手机:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.mobile}
+							</div>
+						
+							<label class="layui-form-label W200">最佳送货时间:</label>
+							<div class="layui-form-label W200 Text-left">
+								{$order.best_time}
+							</div>
+						</div>
+						
+						<div class="layui-form-item">
+							<label class="layui-form-label">商品信息</label>
+						</div>
+						
+						<table id="LAY-goods-back" lay-filter="LAY-order-back"></table>
+						
+						<script type="text/html" id="sumTpl">
+							{{d.goods_price*d.goods_number}}
+						</script>
+						
+						<div class="layui-form-item Border-b">
+							<div class="layui-form-block Text-right Line-h36">合计：{$order.goods_amount}</div>
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<div class="layui-form-block Text-right Line-h36">商品总金额：{$order.goods_amount} - 折扣：{$order.discount} + 发票税额：{$order.tax} + 配送费用：{$order.shipping_fee} + 支付费用：{$order.pay_fee}</div>
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<div class="layui-form-block Text-right Line-h36">= 订单总金额：{$order.order_amount}</div>
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<div class="layui-form-block Text-right Line-h36">- 已付款金额：{$order.money_paid} - 使用余额： {$order.surplus} - 使用红包： {$order.bonus}</div>
+						</div>
+						
+						<div class="layui-form-item Border-b">
+							<div class="layui-form-block Text-right Line-h36">= 应付款金额：{$order.order_amount-$order.money_paid-$order.surplus-$order.bonus}</div>
+						</div>
+						
+						<div class="layui-form" lay-filter="layuiadmin-form-order" id="layuiadmin-form-order" style="padding: 0px 30px 0 0;">	
+							<div class="layui-form-item">
+								<label class="layui-form-label W130">操作备注：</label>
+								<div class="layui-input-block ML160">
+									<textarea id="action_note" name="action_note" placeholder="请输入备注" class="layui-textarea"></textarea>
+								</div>
+							</div>
+							
+								<!-- op_confirm-确认
+							    op_pay-付款
+							    op_unpay-设为未付款
+							    op_prepare-配货
+							    op_split-生成发货单
+							    op_unship-未发货
+							    op_receive-已收货
+							    op_cancel-取消
+							    op_invalid-无效 -->
+								
+							<div class="layui-form-item">
+								<label class="layui-form-label W130">当前可执行操作：</label>
+								<input type="hidden" name="id" value="{$order->id}">
+								{if $order.order_status == 0 || $order.order_status == 3}
+								<div class="layui-input-inline W90">
+									<input name="confirm" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="确认" >
+								</div>
+								{/if}
+								{if $order.order_status == 0 || $order.order_status == 1}
+								<div class="layui-input-inline W90">
+									<input name="cancel" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="取消" >
+								</div>								
+								{/if}
+								{if $order.pay_status == 0}
+								<div class="layui-input-inline W90">
+									<input name="pay" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="付款" >
+								</div>
+								{/if}
+								
+								{if $order.pay_status == 2}
+								<div class="layui-input-inline W90">
+									<input name="unpay" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="未付款" >
+								</div>
+								{/if}
+								
+								{if $order.pay_status == 2 && $order.shipping_status == 0}
+								<div class="layui-input-inline W90">
+									<input name="prepare" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="配货" >
+								</div>
+								{/if}
+								
+								{if $order.pay_status == 2 && $order.shipping_status == 3}
+								<div class="layui-input-inline W90">
+									<input name="delivery" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="去发货" >
+								</div>
+								{/if}
+								
+								{if $order.pay_status == 2 && $order.shipping_status == 1}
+								<div class="layui-input-inline W90">
+									<input name="unship" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="未发货" >
+								</div>
+								{/if}
+								{if $order.shipping_status == 3}
+								<div class="layui-input-inline W90">
+									<input name="receive" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="已收货" >
+								</div>
+								{/if}
+								{if $order.shipping_status == 1 || $order.pay_status == 2}
+								<div class="layui-input-inline W90">
+									<input name="invalid" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="无效" >
+								</div>
+								{/if}
+								<!-- <div class="layui-input-inline W90">
+									<input name="after_service" type="submit" class="layui-btn" lay-submit lay-filter="LAY-order-back-submit" value="售后" >
+								</div> -->
+							</div>
+						</div>
+						
+						<table id="LAY-order-log-back" lay-filter="LAY-order-log-back"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form', 'table'], function() {
+			var $ = layui.$,
+				table = layui.table,
+				form = layui.form;
+
+			//订单商品列表
+			table.render({
+			  elem: '#LAY-goods-back'
+			  ,url: '/admin/order/getGoods/id/{$order.id}.html'
+			  ,cols: [[
+			    {field: 'id', width: 80, title: 'ID', sort: true}
+				,{field: 'goods_name', title: '商品名称'}
+				,{field: 'goods_sn', title: '货号'}
+				,{field: 'goods_attr', title: '商品规格'}
+				,{field: 'goods_price', title: '价格(￥)'}
+				,{field: 'goods_number', title: '数量'}
+				,{field: 'goods_number', title: '小计(￥)', templet: '#sumTpl', align: 'left'}
+			  ]]
+			  ,text:{ none:'暂无相关数据'}
+			});
+			
+			//订单操作记录
+			table.render({
+			  elem: '#LAY-order-log-back'
+			  ,url: '/admin/order/getLog/id/{$order.id}.html'
+			  ,cols: [[
+			    {field: 'id', width: 80, title: 'ID', sort: true}
+				,{field: 'action_user', title: '操作者'}
+				,{field: 'log_time', title: '操作时间'}
+				,{field: 'order_status', title: '订单状态'}
+				,{field: 'pay_status', title: '付款状态'}
+				,{field: 'shipping_status', title: '发货状态'}
+				,{field: 'action_note', title: '备注'}
+			  ]]
+			  ,text:{ none:'暂无相关数据'}
+			});
+			//保存内容
+			form.on('submit(LAY-order-back-submit)', function(obj) {
+				op = $(this).attr("name");
+				//提交表单
+				 $.ajax({
+					url: '/admin/order/action/op/'+op+'.html',
+					method: 'post',
+					data: obj.field,
+					dataType: 'JSON',
+					success: function(res) {
+						if (res.code == '0') {
+							setTimeout('window.location.reload()',1000);
+						} else
+							layer.alert(res.msg);
+					},
+					error: function(data) {}
+				});
+				return false;
+			});
+		})
+	</script>
+</body>

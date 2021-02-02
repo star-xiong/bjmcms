@@ -1,0 +1,73 @@
+<body>
+	<div class="layui-form" lay-filter="layuiadmin-form-price" id="layuiadmin-form-price" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">上传栏目</label>
+			<div class="layui-input-block">
+				<font color="red">{$category.title}</font> （备注: 请严格按照栏目上传数据！如果数据表中没有ID数据，则当作新记录增加到内容中，并保存价格。）
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">报价时间</label>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input datetime" name="created_at" value="<?php echo date('Y-m-d'); ?>" autocomplete="off"
+				 id="laydate-type-noticedate" placeholder="yyyy-MM-dd" lay-key="3">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">文件.csv</label>
+			<div class="layui-input-inline">
+				<input type="text" name="filename" placeholder="请上传价格CSV文件" autocomplete="off" class="layui-input">
+			</div>
+			<button style="float: left;" type="button" class="layui-btn" id="layuiadmin-upload-file">上传文件</button>
+		</div>
+
+		<div class="layui-form-item layui-hide">
+			<button class="layui-btn" lay-submit lay-filter="LAY-price-back-submit" id="LAY-price-back-submit">提交</button>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'form', 'laydate', 'upload'], function() {
+			var $ = layui.$,
+				upload = layui.upload,
+				laydate = layui.laydate,
+				form = layui.form;
+
+			$('.datetime').each(function() {
+				laydate.render({
+					elem: this,
+					trigger: 'click',
+					format: 'yyyy-MM-dd'
+				});
+			});
+
+			upload.render({
+				elem: '#layuiadmin-upload-file',
+				url: '{:url("upload/file")}',
+				accept: 'file',
+				method: 'post',
+				exts: 'csv',
+				before: function(obj) {
+					layer.msg('上传中', {
+						icon: 16,
+						shade: 0.1,
+						time: 0
+					});
+				},
+				done: function(res) {
+					layer.close(layer.msg());
+					layer.alert(res.msg, {
+						icon: 1,
+						time: 1000
+					});
+					$(this.item).prev("div").children("input").val(res.data.src);
+				}
+			});
+		})
+	</script>
+</body>

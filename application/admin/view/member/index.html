@@ -1,0 +1,72 @@
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">登录名</label>
+						<div class="layui-input-block">
+							<input type="text" name="name" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">电话</label>
+						<div class="layui-input-block">
+							<input type="text" name="phone" placeholder="请输入电话" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">邮箱</label>
+						<div class="layui-input-block">
+							<input type="text" name="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-card-body">
+
+				<table id="LAY-user-back-manage" lay-filter="LAY-user-back-manage"></table>
+
+				<script type="text/html" id="table-useradmin-admin">
+					<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        </script>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: '/static/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'member', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				table = layui.table;
+
+			//监听搜索
+			form.on('submit(LAY-user-back-search)', function(data) {
+				var field = data.field;
+				//执行重载
+				table.reload('LAY-user-back-manage', {
+					where: field
+				});
+			});
+
+			//事件
+			var active = {}
+			$('.layui-btn.layuiadmin-btn-admin').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+	</script>
+</body>
+</html>
