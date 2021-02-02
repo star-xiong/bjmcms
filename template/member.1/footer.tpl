@@ -1,0 +1,384 @@
+<div class="site-footer">
+	<div class="footer_service">
+		<div class="container wrapper">
+			<ul>
+				<li class="s1"><b>7天无理由退货</b></li>
+				<li class="s2"><b>质量问题15天换货</b></li>
+				<li class="s3"><b>满88元包邮</b></li>
+				<li class="s4"><b>会员专享低价</b></li>
+			</ul>
+		</div>
+	</div>
+	<div class="footer-container wrapper">
+		<div class="footer-links clearfix">
+			<div class="container">
+				<dl class="col-links col-links-first">
+					<dt>关于我们 </dt>
+					<dd><a rel="nofollow" href="article.php?id=2" target="_blank">隐私保护</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=3" target="_blank">咨询热点</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=4" target="_blank">联系我们</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=5" target="_blank">公司简介</a></dd>
+				</dl>
+				<dl class="col-links ">
+					<dt>新手上路 </dt>
+					<dd><a rel="nofollow" href="article.php?id=9" target="_blank">售后流程</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=10" target="_blank">购物流程</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=11" target="_blank">订购方式</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=71" target="_blank">在线支付</a></dd>
+				</dl>
+				<dl class="col-links ">
+					<dt>购物指南</dt>
+					<dd><a rel="nofollow" href="article.php?id=18" target="_blank">常见问题</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=20" target="_blank">订购流程</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=46" target="_blank">注册新会员</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=68" target="_blank">联系客服</a></dd>
+				</dl>
+				<dl class="col-links ">
+					<dt>配送方式 </dt>
+					<dd><a rel="nofollow" href="article.php?id=15" target="_blank">货到付款区域</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=16" target="_blank">配送支付查询</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=17" target="_blank">支付方式说明</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=69" target="_blank">如何送礼</a></dd>
+				</dl>
+				<dl class="col-links ">
+					<dt>售后服务</dt>
+					<dd><a rel="nofollow" href="article.php?id=21" target="_blank">退换货原则</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=22" target="_blank">售后服务保证</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=42" target="_blank">换货流程</a></dd>
+					<dd><a rel="nofollow" href="article.php?id=73" target="_blank">退款说明</a></dd>
+				</dl>
+				<dl class="col-links">
+					<dt>联系我们</dt>
+					<dd class="service_phone">13553810187</dd>
+					<dd class="wx">
+						<div class="weixin_icon"></div>
+						<div class="weixin_qr">
+							<img src="static/picture/weixin_qr.jpg">
+						</div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="footer-info clearfix">
+			<div class="info-text">
+				<p>
+					&copy; 2018-2025 Bajiaomao.com 版权所有，并保留所有权利。 
+					<a href="http://www.miibeian.gov.cn/" target="_blank"></a>
+				</p>
+
+
+				<p class="nav_bottom">
+					<a href="article.php?id=1" class="noborder">免责条款</a>
+					<a href="article.php?id=2">隐私保护</a>
+					<a href="article.php?id=3">咨询热点</a>
+					<a href="article.php?id=4">联系我们</a>
+					<a href="article.php?id=5">公司简介</a>
+					<a href="wholesale.php">批发方案</a>
+					<a href="myship.php">配送方式</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="display:none;">共执行 213 个查询，用时 0.062500 秒，在线 5 人，Gzip 已禁用，占用内存 6.453 MB
+	<img src="" alt="" style="width:0px;height:0px;" />
+</div>
+
+<link href="/template/member/skin/css/right_bar.css" rel="stylesheet" type="text/css" />
+
+<div class="right-sidebar-con">
+	<div class="right-sidebar-main">
+		<div class="right-sidebar-panel">
+			<div id="quick-links" class="quick-links">
+				<ul>
+					<li class="quick-area quick-login">
+						<a href="javascript:;" class="quick-links-a"><i class="setting"></i></a>
+						<div class="sidebar-user quick-sidebar">
+							<i class="arrow-right"></i>
+							<div class="sidebar-user-info">
+								<div class="user-pic">
+									<div class="user-pic-mask"></div>
+									<img src="/template/member/skin/images/people.gif" />
+								</div>
+								<p>你好！请<a href="user.php" class="quick-login-a main-color">登录</a>|<a href="user.php?act=register" class="main-color">注册</a></p>
+							</div>
+						</div>
+					</li>
+					<li class="sidebar-tabs">
+						<div class="cart-list quick-links-a" id="collectBox">
+							<i class="cart"></i>
+							<div class="span">购物车</div>
+							<span class="ECS_CARTINFO" id="ECS_CARTINFO">
+								<form id="formCart" name="formCart" method="post" action="flow.php">
+									<span class="cart_num">0</span>
+									<div class="sidebar-cart-box">
+										<h3 class="sidebar-panel-header">
+											<a href="javascript:;" class="title"><i class="cart-icon"></i><em class="title">购物车</em></a>
+											<span class="close-panel"></span>
+										</h3>
+										<div class="cart-panel-main">
+											<div class="cart-panel-content" style="height:auto;">
+												<div class="tip-box">
+													<i class="tip-icon"></i>
+													<div class="tip-text">您的购物车里什么都没有哦<br /><a class="main-color" href="./">再去看看吧</a></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<script type="text/javascript">
+										function deleteCartGoods(rec_id) {
+											Ajax.call('delete_cart_goods.php', 'id=' + rec_id, deleteCartGoodsResponse, 'POST', 'JSON');
+										}
+
+										/**
+										 * 接收返回的信息
+										 */
+										function deleteCartGoodsResponse(res) {
+											if (res.error) {
+												alert(res.err_msg);
+											} else {
+												$('.ECS_CARTINFO').html(res.content);
+												$('.cart-panel-content').height($(window).height() - 90);
+												$("#ECS_CARTINFO_TOP").html(res.content_top);
+											}
+										}
+									</script>
+								</form>
+							</span>
+						</div>
+					</li>
+					<li class="sidebar-tabs">
+						<a href="javascript:void(0);" class="mpbtn_history quick-links-a"><i class="history"></i></a>
+						<div class="popup">
+							<font id="mpbtn_histroy">浏览历史</font>
+							<i class="arrow-right"></i>
+						</div>
+					</li>
+					<li id="collectGoods">
+						<a href="user.php?act=collection_list" target="_blank" class="mpbtn_collect quick-links-a"><i class="collect"></i></a>
+						<div class="popup">
+							我的收藏
+							<i class="arrow-right"></i>
+						</div>
+					</li>
+					<li id="collectGoods">
+						<a href="user.php?act=account_log" target="_blank" class="mpbtn_collect quick-links-a"><i class="account"></i></a>
+						<div class="popup">
+							我的资产
+							<i class="arrow-right"></i>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="quick-toggle">
+				<ul>
+					<li class="quick-area">
+						<a class="quick-links-a" href="javascript:;"><i class="customer-service"></i></a>
+						<div class="sidebar-service quick-sidebar">
+							<i class="arrow-right"></i>
+							<div class="customer-service">
+								<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=qq&site=qq&menu=yes" alt="点击这里给我发消息" title="点击这里给我发消息"><span
+									 class="icon-qq"></span>联系QQ客服</a>
+							</div>
+							<div class="customer-service">
+								<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=qq&site=qq&menu=yes" alt="点击这里给我发消息" title="点击这里给我发消息"><span
+									 class="icon-qq"></span>联系QQ客服</a>
+							</div>
+							<div class="customer-service">
+								<a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid=mall&s=2" alt="点击这里给我发消息" title="点击这里给我发消息"><span
+									 class="icon-ww"></span>联系旺旺客服</a>
+							</div>
+						</div>
+					</li>
+					<li class="quick-area">
+						<a class="quick-links-a" href="javascript:;"><i class="qr-code"></i></a>
+						<div class="sidebar-code quick-sidebar">
+							<i class="arrow-right"></i>
+							<img src="static/picture/erweima.jpg" width="130">
+						</div>
+					</li>
+					<li class="returnTop">
+						<a href="javascript:;" class="return_top quick-links-a"><i class="top"></i></a>
+						<div class="popup">
+							返回顶部
+							<i class="arrow-right"></i>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="">
+			<div id="ECS_CARTINFO_content" class="ECS_CARTINFO right-sidebar-panels">
+				<form id="formCart" name="formCart" method="post" action="flow.php">
+					<span class="cart_num">0</span>
+					<div class="sidebar-cart-box">
+						<h3 class="sidebar-panel-header">
+							<a href="javascript:;" class="title"><i class="cart-icon"></i><em class="title">购物车</em></a>
+							<span class="close-panel"></span>
+						</h3>
+						<div class="cart-panel-main">
+							<div class="cart-panel-content" style="height:auto;">
+								<div class="tip-box">
+									<i class="tip-icon"></i>
+									<div class="tip-text">您的购物车里什么都没有哦<br /><a class="main-color" href="./">再去看看吧</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<script type="text/javascript">
+						function deleteCartGoods(rec_id) {
+							Ajax.call('delete_cart_goods.php', 'id=' + rec_id, deleteCartGoodsResponse, 'POST', 'JSON');
+						}
+
+						/**
+						 * 接收返回的信息
+						 */
+						function deleteCartGoodsResponse(res) {
+							if (res.error) {
+								alert(res.err_msg);
+							} else {
+								$('.ECS_CARTINFO').html(res.content);
+								$('.cart-panel-content').height($(window).height() - 90);
+								$("#ECS_CARTINFO_TOP").html(res.content_top);
+							}
+						}
+					</script>
+				</form>
+			</div>
+
+
+			<div class="right-sidebar-panels">
+				<h3 class="sidebar-panel-header">
+					<a href="javascript:;" class="title"><i></i><em class="title">我的足迹</em></a>
+					<span class="close-panel"></span>
+				</h3>
+				<div class="sidebar-panel-main">
+					<div class="sidebar-panel-content">
+						<div class="history-panel">
+							<ul>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(window).scroll(function() {
+		if ($(this).scrollTop() > $(window).height()) {
+			$('.returnTop').show();
+		} else {
+			$('.returnTop').hide();
+		}
+	})
+	
+	$('.cart-panel-content').height($(window).height() - 90);
+	$('.bonus-panel-content').height($(window).height() - 40);
+	$(".returnTop").click(function() {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 800);
+		return false;
+	});
+	$('.quick-area').hover(function() {
+		$(this).find('.quick-sidebar').toggle();
+	})
+	
+	//移动图标出现文字
+	$(".right-sidebar-panel li").mouseenter(function() {
+		$(this).children(".popup").stop().animate({
+			left: -92,
+			queue: true
+		});
+		$(this).children(".popup").css("visibility", "visible");
+		$(this).children(".ibar_login_box").css("display", "block");
+	});
+	
+	$(".right-sidebar-panel li").mouseleave(function() {
+		$(this).children(".popup").css("visibility", "hidden");
+		$(this).children(".popup").stop().animate({
+			left: -121,
+			queue: true
+		});
+		$(this).children(".ibar_login_box").css("display", "none");
+	});
+	
+	//点击购物车、用户信息以及浏览历史事件
+	$('.sidebar-tabs').click(function() {
+		if ($('.right-sidebar-main').hasClass('right-sidebar-main-open') && $(this).hasClass('current')) {
+			$('.right-sidebar-main').removeClass('right-sidebar-main-open');
+			$(this).removeClass('current');
+			$('.right-sidebar-panels').eq($(this).index() - 1).removeClass('animate-in').addClass('animate-out').css('z-index',
+				1);
+			$('.cart-panel-content').height($(window).height() - 90);
+		} else {
+			$(this).addClass('current').siblings('.sidebar-tabs').removeClass('current');
+			$('.right-sidebar-main').addClass('right-sidebar-main-open');
+			$('.right-sidebar-panels').eq($(this).index() - 1).addClass('animate-in').removeClass('animate-out').css('z-index',
+				2).siblings('.right-sidebar-panels').removeClass('animate-in').addClass('animate-out').css('z-index', 1);
+			$('.cart-panel-content').height($(window).height() - 90);
+		}
+	});
+	
+	$(".right-sidebar-panels").on('click', '.close-panel', function() {
+		$('.sidebar-tabs').removeClass('current');
+		$('.right-sidebar-main').removeClass('right-sidebar-main-open');
+		$('.right-sidebar-panels').removeClass('animate-out');
+	});
+	
+	$(document).click(function(e) {
+		var target = $(e.target);
+		if (target.closest('.right-sidebar-con').length == 0) {
+			$('.right-sidebar-main').removeClass('right-sidebar-main-open');
+			$('.sidebar-tabs').removeClass('current');
+			$('.right-sidebar-panels').removeClass('animate-in').addClass('animate-out').css('z-index', 1);
+		}
+	})
+
+	$('.pop-login').css('top', ($(window).height() - $('.pop-login').height()) / 2);
+	$('.pop-close').click(function() {
+		$('.pop-main,.pop-mask').hide();
+		$('form[name="formLogin"]').find('.msg-wrap').css('visibility', 'hidden');
+		$('.pop-login .item,.pop-login .item-detail').removeClass('item-error');
+		$('.pop-login .text').val('');
+	})
+	$('.pop-login .item .text').focus(function() {
+		$(this).addClass('')
+	})
+</script>
+
+<script type="text/javascript">
+	var process_request = "正在处理您的请求...";
+	var username_empty = "用户名不能为空。";
+	var username_shorter = "用户名长度不能少于 3 个字符。";
+	var username_invalid = "用户名只能是由字母数字以及下划线组成。";
+	var password_empty = "登录密码不能为空。";
+	var password_shorter = "登录密码不能少于 6 个字符。";
+	var confirm_password_invalid = "两次输入密码不一致";
+	var email_empty = "Email 为空";
+	var email_invalid = "Email 不是合法的地址";
+	var mobile_empty = "手机号码不能为空";
+	var mobile_invalid = "手机号码不正确";
+	var agreement = "您没有接受协议";
+	var msn_invalid = "msn地址不是一个有效的邮件地址";
+	var qq_invalid = "QQ号码不是一个有效的号码";
+	var home_phone_invalid = "家庭电话不是一个有效号码";
+	var office_phone_invalid = "办公电话不是一个有效号码";
+	var mobile_phone_invalid = "手机号码不是一个有效号码";
+	var msg_un_blank = "用户名不能为空";
+	var msg_un_length = "用户名最长不得超过7个汉字";
+	var msg_un_format = "用户名含有非法字符";
+	var msg_un_registered = "用户名已经存在,请重新输入";
+	var msg_can_rg = "可以注册";
+	var msg_email_blank = "邮件地址不能为空";
+	var msg_email_registered = "邮箱已存在,请重新输入";
+	var msg_email_format = "邮件地址不合法";
+	var msg_blank = "不能为空";
+	var no_select_question = "您没有完成密码提示问题的操作";
+	var passwd_balnk = "- 密码中不能包含空格";
+	var username_exist = "用户名 %s 已经存在";
+</script>
+</body>
+</html>

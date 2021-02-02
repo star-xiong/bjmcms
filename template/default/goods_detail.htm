@@ -1,0 +1,213 @@
+<link href="{$web_css}/goods.css" rel="stylesheet" type="text/css" />
+<link href="{$web_css}/magiczoomplus.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$web_js}/magiczoomplus.js"></script>
+<script type="text/javascript" src="{$web_js}/goods.js"></script>
+<div id="wrapper">
+	<div class="here cle">
+		{include file="library/position" /}
+		<code>&gt;</code> {$info.title}
+	</div>
+	<div class="detail cle">
+
+		<div class="detail_img" id="detail_img">
+			<div class="pic_view" id="li_{$info.id}">
+				<a href="{$info.pic}" class="MagicZoomPlus" id="Zoomer" rel="hint-text: ; selectors-effect: false; selectors-class: current; zoom-distance: 10;zoom-width: 400; zoom-height: 400;">
+					<img id="J_prodImg" alt="{$info.title}" data-original="{$info.pic}" src="{$info.pic}" class="loading pic_img_{$info.id}">
+				</a>
+			</div>
+			<div class="item-thumbs" id="item-thumbs">
+				<a class="prev" href="javascript:void(0);"></a>
+				<a class="next" href="javascript:void(0);"></a>
+				<div class="bd">
+					<ul class="cle">
+					{volist name="$info['gallery_list']" id="gallery_list" key="i"}
+						{volist name="$gallery_list" id="gallerie" key="ii"}
+							<li {if $i == 1 && $ii == 1}class="current"{/if} id="goods_img_{$gallerie.goods_gallery_id}"> 
+								<a href="{$gallerie.img_url}" rel="zoom-id: Zoomer" rev="{$gallerie.img_url}">
+									<img data-original="{$gallerie.img_url}" src="{$gallerie.img_url}" class="loading" alt="{$info.title}">
+								</a>
+							</li>
+						{/volist}
+					{/volist}
+					</ul>
+				</div>
+			</div>
+			{include file="library/baidu_share" /}
+		</div>
+		<form action="javascript:addToCart({$info.id})" method="post" name="FORMBUY" id="FORMBUY">
+
+			<div class="item-info" id="item-info">
+				<dl class="loaded">
+
+					<dt class="product_name">
+						<h1>{$info.title}</h1>
+						<p class="desc"></p>
+					</dt>
+
+					<dd class="property">
+
+						<div class="itemPanel">
+							<input type="hidden" name="goods_id" id="goods_id" value="{$info.id}" >
+							<input type="hidden" name="goods_price" id="goods_price" value="{$info.goods_price}" />
+							<h2>本店价：<font>￥<i id="SELLINGPRICE">{$info.goods_price}</i></font></h2>
+							<div class="market_price">市场价：
+								<em id="MARKPRICE">
+									<font>￥{$info.market_price}</font>
+								</em>
+							</div>
+
+							<div class="itemStore">
+
+								<a href="javascript:;" id="membership" data-type="normal" class="membership">会员购买享有折扣<i class="iconfont">&#xe60b;</i></a>
+								<div class="membership_con">
+									<div class="how-bd" id="user_rank_prices">
+										<h3>会员价格</h3>
+										<table width="100%">
+											<tbody>
+												<tr>
+													<td width="50%">会员等级</td>
+													<td width="50%">会员价格</td>
+												</tr>
+												<tr id="RANKPRICE_1">
+													<td>注册用户</td>
+													<td>
+														<font>￥47.2</font>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+							</div>
+
+							<span class="itemMoreInfo">
+								<a href="javascript:;" rel="nofollow">已售出 0 件</a>|
+								<a href="javascript:;" rel="nofollow"> 0 人评价</a>
+							</span>
+						</div>
+						<ul>
+							<li> <span class="lbl">商品货号</span> {$info.goods_sn} </li>
+							<li><span>可使用<em class="red">0</em>积分</span></li>
+						</ul>
+					</dd>
+					<dd class="tobuy-box cle">
+						<ul class="goods_sku">
+							
+							{include file="goods_detail_sku" /}
+							
+							<li class="skunum_li cle"> 
+								<span class="lbl">数&nbsp;&nbsp;&nbsp;量</span>
+								<div class="skunum" id="skunum"> 
+									<span class="minus" title="减少1个数量"><i>-</i></span>
+									<input id="number" name="number" type="text" min="1" value="1" onchange="countNum(0)">
+									<span class="add" title="增加1个数量"><i>+</i></span> <cite class="storage"> 件 </cite>
+								</div>
+								<div class="skunum">
+									<cite class="storage">(<font id="shows_number">载入中···</font> {$info.more.unit})</cite>
+								</div>
+							</li>
+
+							<li class="add_cart_li"> 
+								<a href="javascript:addToCart_quick({$info.id})" class="btn-buy" id="buy_btn">
+									<font id="nowbuy">立即购买</font>
+								</a> 
+								<a href="javascript:addToCart({$info.id})" class="btn-buy" id="buy_btn">
+									<font id="nowbuy">加入购物车</font>
+								</a> 
+								<a id="fav-btn" class="graybtn" href="javascript:collect({$info.id})">
+									<i class="iconfont">&#xe606;</i>收藏
+								</a>
+								<a href="javascript:;" class="btn_wap" id="phone">去手机购买
+									<div style="display: none;" id="phone_tan"> 
+										<span class="arr"></span>
+										<div class="m-qrcode-wrap"> 
+											<img width="100" height="100" src="static/picture/erweima_png.php"> 
+										</div>
+									</div>
+								</a>
+								<script type="text/javascript">
+									$("#phone").mouseover(function() {
+										$("#phone_tan").show();
+									});
+									$("#phone").mouseleave(function() {
+										$("#phone_tan").hide();
+									});
+								</script>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+		</form>
+	</div>
+	<div class="detail_bgcolor">
+		<div class="z-detail-box cle">
+			<div class="z-detail-left">
+				<div class="itemContent">
+					<ul class="itemContentHead" id="D1">
+						<li data-position="D1" class="itemContentHeadFocus"><a href="javascript:void(0);">规格参数</a></li>
+						<li data-position="D2"><a href="javascript:void(0);">产品介绍</a></li>
+						<li data-position="D3"><a href="javascript:void(0);">评价 <em>(0)</em></a></li>
+					</ul>
+				</div>
+				<div class="product_tabs">
+					<div class="sectionbox z-box itemSpan">
+						<h4 style="padding-top:10px;">规格参数</h4>
+						<div class="spxq_main">
+							<table>
+								<tbody>
+									<tr>
+										<td width="20%" class="th"> 产品名称 :</td>
+										<td width="80%"> {$info.title}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+					<div id="D2" class="z-box sectionbox itemSpan">
+						<h4>产品介绍</h4>
+						<div class="spxq_main">
+							<div class="spxq_dec">{$info.more.content|raw}</div>
+						</div>
+					</div>
+					<div id="D3" class="z-box sectionbox itemSpan">
+						{include file="goods_comment" /}
+					</div>
+				</div>
+			</div>
+
+			<div class="z-detail-right">
+				{include file="goods_detail_right" /}
+			</div>
+
+
+		</div>
+	</div>
+</div>
+<div class="itemBar" style="">
+	<div class="wrapper">
+		<div class="itemBuy">
+			<a href="javascript:addToCart({$info.id})" class="itemAddCart"><i></i>加入购物车</a>
+		</div>
+		<div class="itemMin" title="{$info.title}">
+			<span><img src="{$info.pic}"></span>
+			<p>{$info.title}</p>
+		</div>
+		<ul class="itemContentHead" id="iteamBarHead">
+			<li id="H1" data-position="D1" class="itemContentHeadFocus"><a href="javascript:void(0);">规格参数</a></li>
+			<li id="H2" data-position="D2"><a href="javascript:void(0);">产品介绍</a></li>
+			<li id="H3" data-position="D3"><a href="javascript:void(0);">评价 <em>(0)</em></a></li>
+		</ul>
+	</div>
+</div>
+<!-- <div class="add_ok" id="cart_show">
+	<div class="tip">
+		<i class="iconfont">&#xe60c;</i>商品已成功加入购物车
+	</div>
+	<div class="go">
+		<a href="javascript:easyDialog.close();" class="back">&lt;&lt;继续购物</a>
+		<a href="flow.php" class="btn">去结算</a>
+	</div>
+</div> -->

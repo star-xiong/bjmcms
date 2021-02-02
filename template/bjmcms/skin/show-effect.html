@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>资料库详情-效果来源</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/layer/layer.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+</head>
+
+<body>
+<!--header Start-->
+<div id="header">
+	<div class="header">
+		<div class="container">
+			<div class="logo">
+				<a href="#"><img src="images/logo.png"></a>
+			</div>
+			<div class="nav">
+				<ul>
+					<li><a href="#">营销推广</a></li>
+					<li><a href="#">品牌创意</a></li>
+					<li><a href="#">手机站</a></li>
+				</ul>
+			</div>
+			<div class="head-rt">
+				<div class="hsearch">
+					<form class="j-form" onsubmit="return searchForm(this);">
+						<input class="j-input" type="text" name="" placeholder="请输入关键词">
+						<button type="button" class="btn"></button>
+					</form>
+				</div>
+				<a class="hlogin" href="javascript:;" onclick="login();">登录</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!--header end-->
+
+<div class="breadcrumb">
+	<div class="location container">
+		<a href="#">首页</a>&nbsp;>&nbsp;<a href="#">栏目风格</a>&nbsp;>&nbsp;<a href="#">关于我们</a>&nbsp;>&nbsp;<a href="#">霍盾【传感器】-关于我们页面</a>
+	</div>
+</div>
+
+<div class="show-tabtit">
+	<div class="container">
+		<ul>
+			<li class="active"><a href="#">效果来源</a></li>
+			<li><a href="#">PSD下载</a></li>
+			<li><a href="#">静态页面</a></li>
+			<li><a href="#">全套效果</a></li>
+			<li>
+				<a href="#">应用链接</a>
+				<div class="subnav">
+					<a href="#">应用链接1</a>
+					<a href="#">应用链接1</a>
+					<a href="#">应用链接1</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="show-effect_body">
+	<img src="images/effect-img.jpg">
+</div>
+<script type="text/javascript">
+$(function(){
+	var navTop = $(".show-tabtit").offset().top;
+	$(window).scroll(function(){
+		if($(window).scrollTop()>navTop){
+			$(".show-tabtit").addClass("fixed");
+		}
+		else{
+			$(".show-tabtit").removeClass("fixed");
+		}
+	});
+});
+</script>
+</body>
+</html>

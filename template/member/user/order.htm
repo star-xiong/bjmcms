@@ -1,0 +1,184 @@
+<link href="/template/member/skin/css/user.css" rel="stylesheet" type="text/css" />
+<div class="reg_warp">
+	<div class="reg_header_top clearfix">
+		<div class="reg_header center clearfix">
+			<div class="lh_logo fl">
+				<a class="fl logo_link" href="{:buildurl('/')}"><img src="{$current_site.logo}"></a>
+			</div>
+			<p class="reg_login_link fr f14"><a class="fr t_c login_link" href="{:buildurl('logout')}">退出</a></p>
+		</div>
+	</div>
+</div>
+<div id="wrapper" class="cle">
+	<div class="here cle"><a href="{:buildurl('ucenter.index')}">首页</a> <code>&gt;</code> 用户中心</div>
+
+
+	<div class="my_nala_main">
+
+		{include file="left" /}
+
+		<div class="my_nala_centre ilizi_centre">
+			<div class="ilizi cle">
+				<div class="box">
+					<div class="box_1">
+						<div class="userCenterBox boxCenterList clearfix" style="_height:1%;">
+							<h5><span>我的订单</span></h5>
+							<div class="blank"></div>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="bought-table">
+								<thead>
+									<tr class="col-name">
+										<th width="33%" style="border-left: 1px solid #E6E6E6;">宝贝</th>
+										<th width="10%">属性</th>
+										<th width="9%">单价</th>
+										<th width="5%">数量</th>
+										<th width="13%">售后</th>
+										<th width="8%">总金额</th>
+										<th width="10%">状态</th>
+										<th width="10%" style="border-right: 1px solid #E6E6E6;">操作</th>
+									</tr>
+								</thead>
+								{foreach $orders as $item}
+								<tbody class="close-order">
+									<tr class="order-hd">
+										<td colspan="8">
+											<span class="no">
+												<label> 订单编号：
+													<span class="order-num">
+														<a href="{:buildurl('ucenter.orderdetail', 'id='.$item.id)}" class="f6">{$item.order_sn}</a>
+													</span> 
+												</label>
+											</span> 
+											<span class="deal-time">&nbsp;&nbsp;成交时间：{$item.add_time}</span>
+										</td>
+									</tr>
+									<tr class="order-bd last">
+										<td align="center" class="baobei no-border-right" style="padding:0px;">
+											{volist name="$item.goods" id="goods"}
+											<div class="goods_desc {if $i == count($item.goods)}last{/if}"> 
+												<a class="pic" href="{:buildurl('goods', 'id='.$goods.id)}" title="查看宝贝详情" target="_blank">
+													<img data-original="{$goods.goods_img}" src="{$goods.goods_img}" class="loading" alt="查看宝贝详情" width="50" height="50" style="display: inline;">
+												</a>
+												<div class="goods_name"><a href="{:buildurl('goods', 'id='.$goods.id)}" title="查看宝贝详情" target="_blank">{$goods.goods_name}</a></div>
+											</div>
+											{/volist}
+										</td>
+										<td align="center" class="baobei no-border-right">
+											{volist name="$item.goods" id="goods"}
+											<div class="goods_desc goods_desc_t {if $i == count($item.goods)}last{/if}"> {$goods.goods_attr}</div>
+											{/volist}
+
+										</td>
+										<td align="center" class="baobei no-border-right" style="padding:0px;">
+											{volist name="$item.goods" id="goods"}
+											<div class="goods_desc price {if $i == count($item.goods)}last{/if}" style="padding-left:0px; line-height:50px;">
+												<font>￥{$goods.goods_price}</font>
+											</div>
+											{/volist}
+										</td>
+										<td align="center" class="baobei no-border-right" style="padding:0px;">
+											{volist name="$item.goods" id="goods"}
+											<div class="goods_desc {if $i == count($item.goods)}last{/if}" style="padding-left:0px;line-height:50px;">{$goods.goods_number}</div>
+											{/volist}
+
+										</td>
+										<td align="center" class="after-service baobei no-border-right" valign="middle">
+											{volist name="$item.goods" id="goods"}
+											<div class="goods_desc {if $i == count($item.goods)}last{/if}">
+												<a href="user.php?act=message_list">留言/投诉</a> 
+											</div>
+											{/volist}
+										</td>
+										<td rowspan="1" align="center" class="amount no-border-right">
+											<p class="post-type"><strong><font>￥{$item.order_amount}</font></strong></p>
+										</td>
+										<td rowspan="1" align="center" class="trade-status no-border-right">
+											{$item.order_status_name}<br>
+											{$item.pay_status_name}<br>
+											{$item.shipping_status_name}<br>
+											<a href="{:buildurl('ucenter.orderdetail', 'id='.$item.id)}" class="red2">查看详情</a>
+										</td>
+										<td rowspan="1" align="center" class="other">
+											{if $item.pay_status == 0  && $item.order_status < 3}
+											<a href="{$item.id}" class="on_money">立即付款</a><br>
+											{/if}
+											{if $item.shipping_status == 0 && $item.order_status < 3}
+											<font class="red2"><a href="javascript:cancel_Order({$item.id});" onclick="if (!confirm('您确认要取消该订单吗？取消后此订单将视为无效订单')) return false;">取消订单</a></font><br>
+											{/if}
+										</td>
+									</tr>
+								</tbody>
+								{/foreach}
+							</table>
+							<div class="blank5"></div>
+							<div class="list-page">
+								{$orders->render()|raw}
+							</div>
+
+							<!-- <div class="blank5"></div>
+							<h5><span>合并订单</span></h5>
+							<div class="blank"></div>
+							<script type="text/javascript">
+								var from_order_empty = "请选择要合并的从订单";
+								var to_order_empty = "请选择要合并的主订单";
+								var order_same = "主订单和从订单相同，请重新选择";
+								var confirm_merge = "您确实要合并这两个订单吗？";
+							</script>
+							<form action="user.php" method="post" name="formOrder" onsubmit="return mergeOrder()">
+								<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+									<tbody>
+										<tr>
+											<td width="22%" align="right" bgcolor="#ffffff">主订单:</td>
+											<td width="12%" align="left" bgcolor="#ffffff"><select name="to_order">
+													<option value="0">请选择...</option>
+
+													<option value="2020032831239">2020032831239</option>
+													<option value="2020032829962">2020032829962</option>
+													<option value="2020031570158">2020031570158</option>
+												</select></td>
+											<td width="19%" align="right" bgcolor="#ffffff">从订单:</td>
+											<td width="11%" align="left" bgcolor="#ffffff"><select name="from_order">
+													<option value="0">请选择...</option>
+
+													<option value="2020032831239">2020032831239</option>
+													<option value="2020032829962">2020032829962</option>
+													<option value="2020031570158">2020031570158</option>
+												</select></td>
+											<td width="36%" bgcolor="#ffffff">&nbsp;<input name="act" value="merge_order" type="hidden">
+												<input type="submit" name="Submit" class="btn-primary" style="border:none;" value="合并订单"></td>
+										</tr>
+										<tr>
+											<td bgcolor="#ffffff">&nbsp;</td>
+											<td colspan="4" align="left" bgcolor="#ffffff">订单合并是在发货前将相同状态的订单合并成一新的订单。<br>收货地址，送货方式等以主定单为准。</td>
+										</tr>
+									</tbody>
+								</table>
+							</form> -->
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+	
+<script type="text/javascript">
+	function cancel_Order(order_id){
+		$.ajax({
+			url: '/ucenter/ordercancel/' + order_id + '.html',
+			type:'get',
+			dataType:'JSON',
+			success:function(res){		
+				if(res.code == '0'){
+					window.location.reload();
+				}
+				else{
+					show_error(res.msg);
+				}
+			},
+			error:function (data) {
+			}
+		});
+		return false;
+	}
+</script>

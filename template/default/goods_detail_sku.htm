@@ -1,0 +1,29 @@
+{foreach $info['attributes'] as $key=>$spec_attr}
+{if !empty($info['attr_value_list'][$spec_attr['id']])}
+<div class="attr_list">
+	<span class="lbl2">{$spec_attr.title}</span>
+	{if $spec_attr.attr_type}
+	<input type="hidden" name="spec_attr_type[]" value="{$spec_attr.id}">
+	{/if}
+	<div class="catt" id="spec_attr_{$spec_attr.id}">
+	<!--attr_type 0唯一;1单选;2复选 -->
+	{volist name="$info['attr_value_list'][$spec_attr['id']]" id="attrValueList"}
+	<a {if $i==1 && $spec_attr.attr_type}class="cattsel" {/if} data-attrtype="{$spec_attr.attr_type}" data-galleryid="{$info['gallery_list'][$attrValueList['goods_attr_id']][0]['goods_gallery_id']}" data-image="{$info['gallery_list'][$attrValueList['goods_attr_id']][0]['img_url']}" >
+		{if $spec_attr.is_image == 1}
+			<p class="padd" style="background:url({$info['gallery_list'][$attrValueList['goods_attr_id']][0]['img_url']}) no-repeat transparent;width: 40px;height: 40px;" title="{$attrValueList.attr_value}">
+				<img src="{$info['gallery_list'][$attrValueList['goods_attr_id']][0]['img_url']}" width="40" height="40" alt="{$attrValueList.attr_value}"><i></i>
+			</p>
+		{else}
+			<p style="padding:6px 10px;" title="{$attrValueList.attr_value}">
+				<em>{$attrValueList.attr_value}</em><i></i>
+			</p>
+		{/if}
+		
+		<input id="spec_value_{$attrValueList['goods_attr_id']}" value="{$attrValueList['goods_attr_id']}" {if $i==1}checked="checked"{/if} {if $spec_attr.attr_type == 1} type="radio" name="spec_{$spec_attr.id}"  {/if} {if $spec_attr.attr_type == 2}type="checkbox" name="spec_{$spec_attr.id}[]"{/if}/>					
+	</a>
+	{/volist}
+	
+	</div>
+</div>
+{/if}
+{/foreach}

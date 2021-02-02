@@ -1,0 +1,86 @@
+<div class="user-container">
+	<div class="container clearfix">
+		<div class="user-left">
+			{include file="left" /}
+		</div>
+		<div class="user-right">
+			<div class="bg-box-radius">
+				<div class="user-tabtit">修改密码</div>
+				<div class="edit-data">
+					<div class="edit-user-avatars" id="form-data-cover">
+						<img src="{if $user['avatar']}{$user['avatar']}{else}{$web_images}/usernopic.png{/if}" id="finalImg">
+					</div>
+					<div class="edit-user-name">{$user['name']}</div>
+					<div class="edit-data-form">
+						<form onsubmit="return editForm(this);">
+							<ul>
+								<li>
+									<div class="name">手机号</div>
+									<div class="input">{$user['phone']}</div>
+								</li>
+								<li>
+									<div class="name">用户名</div>
+									<div class="input">{$user['name']}</div>
+								</li>
+								<li>
+									<div class="name">电子邮箱</div>
+									<div class="input">{$user['email']}</div>
+								</li>
+								<li>
+									<div class="name">旧密码</div>
+									<div class="input">
+										<input type="password" class="j-input" name="oldpassword" id="oldpassword" placeholder="6-16位大小写英文字母、数字或符号的组合">
+									</div>
+								</li>
+								<li>
+									<div class="name">设置密码</div>
+									<div class="input">
+										<input type="password" class="j-input" name="password" id="txtUserPassword" placeholder="6-16位大小写英文字母、数字或符号的组合">
+									</div>
+								</li>
+								<li>
+									<div class="name">确认密码</div>
+									<div class="input">
+										<input type="password" class="j-input" name="repassword" id="txtUserPwd" placeholder="请再次输入密码">
+									</div>
+								</li>
+								<li class="submit">
+									<div class="name"></div>
+									<div class="input">
+									<input type="hidden" name="op" value="reset" />
+										<button class="edit-btn edit-submit" type="submit">保存</button>
+										<button class="edit-btn edit-reset" type="reset">重新填写</button>
+									</div>
+								</li>
+							</ul>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+	function editForm(object){
+	
+		var field = $(object).serializeArray();
+		$.ajax({
+			url:'{:url('ucenter.edit')}{$lang}',
+			type:'POST',
+			data: field,
+			dataType:'JSON',
+			success:function(res){		
+				if(res.code == '0'){
+					show_error(res.msg);
+				}
+				else{
+					show_error(res.msg);
+				}
+			},
+			error:function (data) {
+			}
+		});
+		return false;
+	}
+</script>

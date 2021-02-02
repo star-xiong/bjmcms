@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name=renderer content=webkit>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$seo_title}</title>
+		<meta name="keywords" content="{$seo_keywords}">
+		<meta name="description" content="{$seo_content}">
+		<link href="{$web_css}/style.css" rel="stylesheet" type="text/css" />
+		<link href="{$web_css}/cart.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="{$web_js}/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="{$web_js}/jquery-lazyload.js"></script>
+		<script type="text/javascript" src="{$web_js}/jquery.superslide.js"></script>
+		<script type="text/javascript" src="{$web_js}/common.js"></script>
+		<script type="text/javascript" src="{$web_js}/flow.js"></script>
+	</head>
+	<body>
+		<div id="header">
+			<div class="hd_bar" id="userinfo-bar">
+				<div class="bd">
+					<div class="gohome"><a href="{:buildurl('/')}">首页</a></div>
+					<div class="hd_lbar" style="display: block;">
+						{if $member.id}
+						<a href="{:buildurl('ucenter.index')}" class="usernav-link" rel="nofollow"><span>会员中心</span></a>
+						<a href="{:buildurl('logout')}">退 出</a>
+						{else}
+						<a href="{:buildurl('login')}">登 录</a>
+						<a href="{:buildurl('register')}">注册</a>
+						{/if}
+					</div>
+					<ul class="hd-step">
+						<li><em>1</em>我的购物车<i></i></li>
+						<li class="jt">&nbsp;</li>
+						<li><em>2</em>确认订单信息<i></i></li>
+						<li class="jt">&nbsp;</li>
+						<li class="first on"><em>3</em>成功提交订单<i></i></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="cart_main">
+			<div class="sub_main">
+				<div class="top_intro">
+					<div class="txt">
+						<h4><span class="green">订单提交成功，订单号：{$order.order_sn}</span></h4>
+						<h5>
+							配送方式：<font class="cc0001">{$order.shipping_name}</font>&nbsp;&nbsp;&nbsp;&nbsp;
+							支付方式：<font class="cc0001">{$order.pay_name}</font>
+						</h5>
+						<div class="price">
+							应付总额：<i></i>
+							<span><font>￥{$order.order_amount}</font></span>
+						</div>
+					</div>
+				</div>
+
+				<div class="payment">
+					<div class="ordersucces">感谢您在本店购物！我们将尽快为您发货，请保持电话畅通，方便配送人员与您联系。</div>
+				</div>
+				<div class="wcwxts">
+					<p class="wxts1">温馨提示</p>
+					<div class="wxtsny">
+						<p><b style="color:#cc0001">如果遇到问题？</b>请拨打：{$current_site.mobile}，由客服协助您完成订单。</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<script></script>
+		{include file="library/footer" /}

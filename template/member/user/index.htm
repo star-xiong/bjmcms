@@ -1,0 +1,84 @@
+<link href="/template/member/skin/css/user.css" rel="stylesheet" type="text/css" />
+<div class="reg_warp">
+	<div class="reg_header_top clearfix">
+		<div class="reg_header center clearfix">
+			<div class="lh_logo fl">
+				<a class="fl logo_link" href="{:buildurl('/')}"><img src="{$current_site.logo}"></a>
+			</div>
+			<p class="reg_login_link fr f14"><a class="fr t_c login_link" href="{:buildurl('logout')}">退出</a></p>
+		</div>
+	</div>
+</div>
+<div id="wrapper" class="cle">
+	<div class="here cle"><a href="{:buildurl('ucenter.index')}">首页</a> <code>&gt;</code> 用户中心</div>
+
+
+	<div class="my_nala_main">
+
+		{include file="left" /}
+
+		<div class="my_nala_centre ilizi_centre">
+			<div class="ilizi cle">
+				<div class="box">
+					<div class="box_1">
+						<div class="userCenterBox boxCenterList clearfix" style="_height:1%; font-size:14px;">
+
+
+							<div class="portal-main clearfix">
+								<div class="user-card">
+									<h2 class="username">{$user.name}</h2>
+									<p class="tip">欢迎您回到 {$current_site.name} ~</p>
+									<a class="link" href="{:buildurl('ucenter.edit')}">修改资料></a>
+									<img class="avatar" src="{if $user['avatar']}{$user['avatar']}{else}/template/member/skin/images/usernopic.png{/if}" />
+								</div>
+								<div class="user-actions">
+									<ul class="action-list">
+										<li> 您的上一次登录时间：{$user.login_at|date="Y-m-d H:i:s"}</li>
+										<li class="rank">您的等级是 注册用户 </li>
+										<li class="validat">邮箱验证：已验证<span></span></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="portal-sub">
+								<ul class="info-list clearfix">
+									<li>
+										<h3>余额：<span class="num">
+												<font>￥{$user.user_money}</font>元
+											</span></h3>
+										<a href="user.php?act=account_log">查看您的账户余额</a>
+										<img src="/template/member/skin/images/portal-icon-1.png" />
+									</li>
+									<li>
+										<h3>红包：<span class="num">共计 0 个,价值 <font>￥0.00</font></span></h3>
+										<a href="user.php?act=bonus">查看您的账户红包</a>
+										<img src="/template/member/skin/images/portal-icon-2.png" />
+									</li>
+									<li>
+										<h3>积分：<span class="num">{$user.pay_points}积分</span></h3>
+										<img src="/template/member/skin/images/portal-icon-3.png" />
+									</li>
+									<li>
+										<h3>
+											用户提醒：
+											<span class="num">
+												您最近30天内提交了{$user.order_num}个订单<br />
+											</span>
+										</h3>
+										<img src="/template/member/skin/images/portal-icon-4.png" />
+									</li>
+								</ul>
+							</div>
+
+							<div class="blank5"></div>
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

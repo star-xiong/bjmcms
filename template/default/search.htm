@@ -1,0 +1,135 @@
+<link href="{$web_css}/category.css" rel="stylesheet" type="text/css" />
+<div id="wrapper">
+	<div class="here cle">
+		{include file="library/position" /}
+	</div>
+	<div class="main cle">
+		<div class="maincon">
+			<div class="search-options" id="search-options">
+				<div class="bd">
+					<dl>
+						<dt>分类：</dt>
+						<dd>
+							<div class="items cle">
+							
+							</div>
+						</dd>
+					</dl>
+
+					<dl>
+						<dt>品牌：</dt>
+						<dd>
+							<div class="items cle">
+							{foreach $brands as $brand}
+								<div class="link"> 
+								<a href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'bid', $brand.id)}" class="item">{$brand.brand_name}</a>
+								</div>
+							{/foreach}
+
+							</div>
+						</dd>
+					</dl>
+
+				</div>
+			</div>
+
+			<script type="text/javascript">
+				function makeUri() {
+					// 开始价格 pricemin
+					var v1 = document.getElementById("pricemin").value;
+					// 截止价格 pricemax
+					var v2 = document.getElementById("pricemax").value;
+					if (v1 == '' || v2 == '' || !$.isNumeric(v1) || !$.isNumeric(v2) || parseInt(v1) > parseInt(v2)) {
+						alert('请输入正确的价格区间');
+						return false;
+					}
+				}
+			</script>
+			<div class="sort">
+				<div class="bd">
+					<form method="GET" name="listform">
+						{if $params['sort'] == "update_at-desc"}
+						<a class="curr" title="上架时间倒序" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'update_at-asc')}" rel="nofollow"><span class="search_DESC">上架时间</span></a>
+						{elseif $params['sort'] == "update_at-asc"}
+						<a class="curr" title="上架时间正序" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'update_at-desc')}" rel="nofollow"><span class="search_ASC">上架时间</span></a>
+						{else}
+						<a title="上架时间倒序" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'update_at-desc')}" rel="nofollow"><span>上架时间</span></a>
+						{/if}
+						
+						{if $params['sort'] == "goods_price-desc"}
+						<a class="curr" title="价格从低到高" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'goods_price-asc')}" rel="nofollow"><span class="search_DESC">价格</span></a>
+						{elseif $params['sort'] == "goods_price-asc"}
+						<a class="curr" title="价格从高到低" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'goods_price-desc')}" rel="nofollow"><span class="search_ASC">价格</span></a>
+						{else}
+						<a title="价格从高到低" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'goods_price-desc')}" rel="nofollow"><span>价格</span></a>
+						{/if}
+						
+						{if $params['sort'] == "clicks-desc"}
+						<a class="curr" title="人气从低到高" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'clicks-asc')}" rel="nofollow"><span class="search_DESC">人气</span></a>
+						{elseif $params['sort'] == "clicks-asc"}
+						<a class="curr" title="人气从高到低" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'clicks-desc')}" rel="nofollow"><span class="search_ASC">人气</span></a>
+						{else}
+						<a title="人气从高到低" href="{:buildurl('category', 'id='.$category.id)}?{:params_to_query_string($params,'sort', 'clicks-desc')}" rel="nofollow"><span class="">人气</span></a>
+						{/if}
+					</form>
+				</div>
+			</div>
+			<div class="productlist">
+				<ul class="cle">
+					<form name="compareForm" action="compare.php" method="post" onSubmit="return compareGoods(this);">
+						{volist name="$data" id="goods"}
+						<li id="li_{$goods.id}">
+							<a href="{:buildurl('goods', 'id='.$goods.id)}" target="_blank" class="productitem">
+								<span class="productimg">
+									<img width="150" height="150" title="{$goods.title}" alt="{$goods.title}" data-original="{$goods.pic}" src="{$goods.pic}"
+									 class="loading pic_img_{$goods.id}" style="display: block;">
+								</span>
+								<span class="nalaprice xszk">
+									<font>￥{$goods.goods_price}</font>
+									<font class="xiaoliang">已售出<span class="sales">0</span></font>
+								</span>
+								<span class="productname">{$goods.title}</span>
+							</a>
+							<div class="glmask">
+								<div class="addCart" onclick="addToCart({$goods.id});">加入购物车</div>
+							</div>
+						</li>
+						{/volist}
+					</form>
+				</ul>
+				<br clear="all">
+			</div>
+
+			<div class="list-page">
+				{if $data->render()}
+				{$data->render()|raw}
+				<form class="form search-form" action="{:buildurl('category', 'id='.$category.id)}" method="GET">
+					<div class="go_page">
+						<span>到第<input type="text" class="jump_page" name="page" value="1">页</span>
+						{foreach $params as $key=>$value}
+						{if $key == 'min_price' || $key == 'max_price'}
+						{else}
+						<input type="hidden" name="{$key}" value="{$value}" />
+						{/if}
+						{/foreach}
+						<button type="submit" class="confirm_jump_page">确定</button>
+
+					</div>
+				</form>
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <div class="add_ok" id="cart_show">
+	<div class="tip">
+		<i class="iconfont">&#xe60c;</i>商品已成功加入购物车
+	</div>
+	<div class="go">
+		<a href="javascript:easyDialog.close();" class="back">&lt;&lt;继续购物</a>
+		<a href="flow.php" class="btn">去结算</a>
+	</div>
+</div>
+
+
+ -->

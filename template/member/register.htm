@@ -1,0 +1,186 @@
+<link href="/template/member/skin/css/login.css" rel="stylesheet" type="text/css" />
+<div class="reg_warp">
+	<div class="reg_header_top clearfix">
+		<div class="reg_header center clearfix">
+			<div class="lh_logo fl">
+				<a class="fl logo_link" href="{:buildurl('/')}"><img src="{$current_site.logo}"></a>
+			</div>
+			<p class="reg_login_link fr f14"><a class="fr t_c login_link" href="{:buildurl('login')}">登录</a>如已注册， 点此</p>
+		</div>
+	</div>
+	<div class="reg_main center">
+		<ul class="reg_nav f18 t_c clearfix">
+			<li class="user_reg on">新用户注册</li>
+		</ul>
+		<div class="reg_cont reg_cont1">
+			<form onsubmit="return registerSubmit(this);">
+				<div class="register_infor">
+					<ul>
+						<li class="input_box">
+							<input type="text" name="name" id="username" placeholder="用户名">
+						</li>
+						<li class="error_box" id="username_notice"> <em></em> </li>
+						
+						<li class="input_box">
+							<input type="password" name="password" id="password" placeholder="密码">
+						</li>
+						<li class="error_box" id="password_notice"> <em></em> </li>
+						<li class="input_box">
+							<input name="repassword" type="password" id="conform_password" placeholder="确认密码">
+						</li>
+						<li class="error_box" id="conform_password_notice"> <em></em> </li>
+
+						<li class="security_code input_box">
+							<input type="text" class="code_input" name="captcha" id="captcha" maxlength="4" value="" placeholder="图形验证码">
+							<img src="{:captcha_src()}" id="imgcaptcha" onclick="javascript:$(this).attr('src', '{:captcha_src()}'+'?'+Math.random());" alt="captcha" style="vertical-align: middle;cursor: pointer;">
+						</li>
+						<li class="error_box" id="captcha_notice"> <em></em> </li>
+						
+						<li class="input_box">
+							<input name="phone" id="phone" type="text" placeholder="手机"/>
+						</li>
+						<li class="error_box" id="phone_notice"><em></em></li>
+
+						<li class="security_code input_box">
+							<input type="text" class="j-input" name="phoneCode" id="txtUserphoneCode" placeholder="手机验证码">
+							<button type="button" class="icode" id="phone-code" onclick="sendCode();">发送</button>
+						</li>
+						<li class="error_box" id="phoneCode_notice"><em></em></li>
+
+						<li class="lizi_law">
+							<label>
+								<input name="agreement" type="checkbox" value="1" checked="checked" tabindex="5" class="remember-me" />
+								我已看过并接受《<a href="article.php?cat_id=-1" style="color:blue" target="_blank">用户协议</a>》</label>
+						</li>
+						
+						<li class="error_box"> <em></em> </li>
+						
+						<li class="go2register">
+							<input name="Submit" type="submit" value="同意协议并注册" class="btn submit_btn">
+						</li>
+					</ul>
+					<div class="other-form">
+						<div class="other-login-tit">使用第三方帐号登录</div>
+						<div class="other-login">
+							<a class="qq" href="user.php?act=oath&type=qq"></a> 
+							<a class="sina" href="user.php?act=oath&type=weibo"></a> 
+							<a class="alipay" href="user.php?act=oath&type=alipay"></a> 
+							<a class="weixin" href="user.php?act=oath&type=weixin"></a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function registerSubmit(object) {
+		var username = $.trim($('#username').val());
+		var phone = $.trim($('#phone').val());
+		var password = $.trim($('#password').val());
+		var pwd = $.trim($('#conform_password').val());
+		var phoneCode = $.trim($('#txtUserphoneCode').val());
+		if (username == '') {
+			show_error('用户名不能为空!');
+			return false;
+		}
+		if (phone == '') {
+			show_error('手机号码不能为空!');
+			return false;
+		}
+		if (isPhoneNo(phone) == false) {
+			show_error('请输入正确的手机号码!');
+			return false;
+		}
+		if (password.length < 6 || password.length > 16) {
+			show_error('密码有效长度为6-16位,并且不得有空格!');
+			return false;
+		}
+		if (pwd == '') {
+			show_error('请再次输入密码!');
+			return false;
+		}
+		if (password != pwd) {
+			show_error('两次密码输入不一致，请重新输入!');
+			return false;
+		}
+		if (phoneCode == '') {
+			show_error('短信验证码不能为空!');
+			return false;
+		}
+
+		var field = $(object).serializeArray();
+		$.ajax({
+			type: 'post',
+			url: '{:buildurl("register")}',
+			data: field,
+			dataType: 'json',
+			success: function(res) {
+				if (res['code']) {
+					show_error(res['msg']);
+				} else {
+					show_error(res['msg']);
+					window.location.href = res['url'];
+				}
+
+			}
+		});
+		return false;
+	}
+
+
+	function sendCode() {
+		var phone = $.trim($('#phone').val());
+		var captcha = $.trim($('#captcha').val());
+		if (phone == '') {
+			show_error('手机号码不能为空!');
+			return false;
+		}
+		if (isPhoneNo(phone) == false) {
+			show_error('请输入正确的手机号码!');
+			return false;
+		}
+		if (captcha == '') {
+			show_error('图形验证码不能为空!');
+			return false;
+		}
+		$.ajax({
+			url: '{:buildurl("sendsms")}',
+			type: 'POST',
+			data: {
+				'captcha': captcha,
+				'phone': phone
+			},
+			dataType: 'json',
+			beforeSend: function() {
+				$("#phone-code").attr('disabled', "true");
+			},
+			success: function(res) {
+				if (res['code']) {
+					show_error(res['msg']);
+					$("#phone-code").removeAttr("disabled");
+					$('#imgcaptcha').attr('src', '{:captcha_src()}'+'?'+Math.random());
+				} else {
+					intAs = 60; // 手机短信超时时间
+					jsInnerTimeout('phone-code', intAs);
+					show_error(res['msg']);
+				}
+			}
+		});
+
+	}
+
+	//倒计时函数
+	function jsInnerTimeout(id, intAs) {
+		var codeObj = $("#" + id);
+		intAs--;
+		if (intAs <= -1) {
+			codeObj.removeAttr("disabled");
+			codeObj.html("发送");
+			return true;
+		}
+		codeObj.text(intAs + '秒');
+		setTimeout("jsInnerTimeout('" + id + "'," + intAs + ")", 1000);
+	}
+</script>

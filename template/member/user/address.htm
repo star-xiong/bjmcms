@@ -1,0 +1,311 @@
+<link href="/template/member/skin/css/user.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/static/common/js/region.js"></script>
+<div class="reg_warp">
+	<div class="reg_header_top clearfix">
+		<div class="reg_header center clearfix">
+			<div class="lh_logo fl">
+				<a class="fl logo_link" href="{:buildurl('/')}"><img src="{$current_site.logo}"></a>
+			</div>
+			<p class="reg_login_link fr f14"><a class="fr t_c login_link" href="{:buildurl('logout')}">退出</a></p>
+		</div>
+	</div>
+</div>
+
+<div id="wrapper" class="cle">
+	<div class="here cle"><a href="{:buildurl('ucenter.index')}">首页</a> <code>&gt;</code> 用户中心</div>
+	<div class="my_nala_main">
+		{include file="left" /}
+		<div class="my_nala_centre ilizi_centre">
+			<div class="ilizi cle">
+				<div class="box">
+					<div class="box_1">
+						<div class="userCenterBox boxCenterList clearfix" style="_height:1%;">
+							<h5><span>收货人信息</span></h5>
+							<div class="blank"></div>
+							{volist name="$address" id="add"}
+							<form method="post" name="theForm_{$add.id}" id="theForm_{$add.id}" onsubmit="return submitAddress('theForm_{$add.id}')">
+								<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+									<tbody>
+										<tr>
+											<td align="right" bgcolor="#ffffff">配送区域：</td>
+											<td colspan="3" align="left" bgcolor="#ffffff">
+												<select name="country" id="selCountries_{$add.id}" onchange="region.changed(this, 1, 'selProvinces_{$add.id}')">
+													<option value="0">请选择国家</option>
+													<option value="1" selected="">中国</option>
+												</select>
+												
+												<select name="province" id="selProvinces_{$add.id}" onchange="region.changed(this, 2, 'selCities_{$add.id}');" style="width:155px;height:30px;border:1px solid #ccc;">
+													<option value="0">请选择</option>
+													{foreach $province as $item}
+													<option value="{$item.region_id}" {if $item.region_id==$add.province}selected{/if}>{$item.region_name} </option>
+													{/foreach} 
+												</select> 
+												<select name="city" id="selCities_{$add.id}" onchange="region.changed(this, 3, 'selDistricts_{$add.id}');" style="width:155px;height:30px;border:1px solid #ccc;">
+													<option value="0">请选择</option>
+													{foreach $add.city_list as $item}
+													<option value="{$item.region_id}" {if $item.region_id==$add.city}selected{/if}>{$item.region_name} </option>
+													 {/foreach}
+												</select>
+												<select name="district" id="selDistricts_{$add.id}" style="width:155px;height:30px;border:1px solid #ccc;">
+													<option value="0">请选择</option>
+													{foreach $add.district_list as $item}
+													<option value="{$item.region_id}" {if $item.region_id==$add.district}selected{/if}>{$item.region_name} </option>
+													 {/foreach}
+												</select> 
+												(必填) 
+											</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">收货人姓名：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="consignee" type="text" class="inputBg" id="consignee_{$add.id}" value="{$add.consignee}">(必填) 
+											</td>
+											<td align="right" bgcolor="#ffffff">电子邮件地址：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="email" type="text" class="inputBg" id="email_{$add.id}" value="{$add.email}">(必填)
+											</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">详细地址：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="address" type="text" class="inputBg" id="address_{$add.id}" value="{$add.address}">(必填)
+											</td>
+											<td align="right" bgcolor="#ffffff">邮政编码：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="zipcode" type="text" class="inputBg" id="zipcode_{$add.id}" value="{$add.zipcode}">
+											</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">备用电话：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="tel" type="text" class="inputBg" id="tel_{$add.id}" value="{$add.tel}">
+											</td>
+											<td align="right" bgcolor="#ffffff">手机：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="mobile" type="text" class="inputBg" id="mobile_{$add.id}" value="{$add.mobile}">(必填)
+											</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">标志建筑：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="sign_building" type="text" class="inputBg" id="sign_building_{$add.id}" value="{$add.sign_building}">
+											</td>
+											<td align="right" bgcolor="#ffffff">最佳送货时间：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="best_time" type="text" class="inputBg" id="best_time_{$add.id}" value="{$add.best_time}">
+											</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">&nbsp;</td>
+											<td colspan="3" align="center" bgcolor="#ffffff">
+												<input type="submit" name="submit" class="btn-primary" value="确认修改">
+												<a class="btn-primary" style="color:#fff;" href="javascript:del_Address({$add.id});" onclick="return confirm('您确认要删除吗？');">删除</a>
+												<input name="address_id" type="hidden" value="{$add.id}">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
+							{/volist}
+							
+							<form method="post" name="theForm" onsubmit="return submitAddress('theForm')">
+								<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+									<tbody>
+										<tr>
+											<td align="right" bgcolor="#ffffff">配送区域：</td>
+											<td colspan="3" align="left" bgcolor="#ffffff"><select name="country" id="selCountries" onchange="region.changed(this, 1, 'selProvinces')">
+													<option value="0">请选择国家</option>
+													<option value="1" selected="">中国</option>
+												</select>
+												<select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')">
+													<option value="0">请选择省</option>
+													{foreach $province as $item}
+													<option value="{$item.region_id}">{$item.region_name} </option>
+													{/foreach}
+												</select>
+												<select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')">
+													<option value="0">请选择市</option>
+												</select>
+												<select name="district" id="selDistricts" style="display:none">
+													<option value="0">请选择区</option>
+												</select>
+												(必填) 
+											</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">收货人姓名：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="consignee" type="text" class="inputBg" id="consignee" value="">(必填) 
+											</td>
+											<td align="right" bgcolor="#ffffff">电子邮件地址：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="email" type="text" class="inputBg" id="email" value="{$user.email}">(必填)
+											</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">详细地址：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="address" type="text" class="inputBg" id="address" value="">(必填)
+											</td>
+											<td align="right" bgcolor="#ffffff">邮政编码：</td>
+											<td align="left" bgcolor="#ffffff"><input name="zipcode" type="text" class="inputBg" id="zipcode" value=""></td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">备用电话：</td>
+											<td align="left" bgcolor="#ffffff"><input name="tel" type="text" class="inputBg" id="tel" value=""></td>
+											<td align="right" bgcolor="#ffffff">手机：</td>
+											<td align="left" bgcolor="#ffffff"><input name="mobile" type="text" class="inputBg" id="mobile" value="{$user.phone}">(必填)</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">标志建筑：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="sign_building" type="text" class="inputBg" id="sign_building" value="">
+											</td>
+											<td align="right" bgcolor="#ffffff">最佳送货时间：</td>
+											<td align="left" bgcolor="#ffffff">
+												<input name="best_time" type="text" class="inputBg" id="best_time" value="">
+											</td>
+										</tr>
+										<tr>
+											<td align="right" bgcolor="#ffffff">&nbsp;</td>
+											<td colspan="3" align="center" bgcolor="#ffffff">
+												<input type="submit" name="submit" class="btn-primary" value="新增收货地址">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var consignee_not_null = "收货人姓名不能为空！";
+	var country_not_null = "请您选择收货人所在国家！";
+	var province_not_null = "请您选择收货人所在省份！";
+	var city_not_null = "请您选择收货人所在城市！";
+	var district_not_null = "请您选择收货人所在区域！";
+	var invalid_email = "您输入的邮件地址不是一个合法的邮件地址。";
+	var address_not_null = "收货人的详细地址不能为空！";
+	var tele_not_null = "电话不能为空！";
+	var mobile_not_null = "手机不能为空！";
+	var shipping_not_null = "请您选择配送方式！";
+	var payment_not_null = "请您选择支付方式！";
+	var goodsattr_style = "1";
+	var tele_invaild = "电话号码不有效的号码";
+	var zip_not_num = "邮政编码只能填写数字";
+	var zip_not_null = "邮政编码不能为空！";
+	var mobile_invaild = "手机号码不是合法号码";
+</script>
+
+<script>
+	/**
+	 * 提交地址信息
+	 */
+	function submitAddress(obj) {
+		var frm = document.forms[obj];
+		check_Address(frm);
+		var field = $(frm).serializeArray();
+		$.ajax({
+			url: '/address_add.html',
+			type: 'post',
+			data: field,
+			async: true,
+			dataType: 'json',
+			success(result) {						
+				Response(result); // 执行传递过来的匿名函数
+			},
+			error(err) {
+				console.log(err.msg);
+			}
+		});
+		return false;
+	}
+	
+	function del_Address(address_id) {
+		$.ajax({
+			url: '/address_del/' + address_id + '.html',
+			type: 'post',
+			async: true,
+			dataType: 'json',
+			success(result) {
+				Response(result); // 执行传递过来的匿名函数
+			},
+			error(err) {
+				console.log(err.msg);
+			}
+		});
+	}
+	
+	function Response(result) {
+		layer.msg(result.msg);
+	
+		if (result.code == 0) {
+			window.location.reload();
+		}
+	}
+	
+	function check_Address(frm){
+		var cmt = new Object;
+		cmt.consignee = frm.elements['consignee'].value;
+		cmt.email = frm.elements['email'].value;
+		cmt.mobile = frm.elements['mobile'].value;
+		cmt.address = frm.elements['address'].value;
+		cmt.country = frm.elements['country'].value;
+		cmt.province = frm.elements['province'].value;
+		cmt.city = frm.elements['city'].value;
+		cmt.district = frm.elements['district'].value;
+		cmt.optionlength = frm.elements['district'].length;
+			
+		if (cmt.consignee.length == 0) {
+			layer.msg(consignee_not_null);
+			return false;
+		}
+		if (cmt.optionlength > 1) {
+			if (cmt.province == '0' || cmt.city == '0' || cmt.district == '0') {
+				layer.msg('所在地区不完整！', {icon: 1,time: 1000});
+				return false;
+			}
+		} else {
+			if (cmt.province == '0' || cmt.city == '0') {
+				layer.msg('所在地区不完整！', {icon: 1,time: 1000});
+				return false;
+			}
+			
+		}
+		/* 邮箱不是必填项
+		if (cmt.email.length == 0)
+		{
+				alert('邮箱地址不能为空');
+				return false;
+		}
+		*/
+		if (cmt.email.length > 0) {
+			var reg1 = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)/;
+			if(!reg1.test(cmt.email )){
+				layer.msg(invalid_email);
+				return false;
+			}			
+		}
+		
+		if (cmt.address.length == 0) {
+			layer.msg(address_not_null);
+			return false;
+		}
+		if (cmt.mobile.length == 0) {
+			layer.msg(mobile_not_null);
+			return false;
+		}
+		if (cmt.mobile.length > 0) {
+			var reg = /^1[34578][0-9]\d{8}$/;
+			if (!reg.test(cmt.mobile)) {
+				layer.msg(mobile_invaild);
+				return false;
+			}
+		}
+	}
+</script>

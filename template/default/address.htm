@@ -1,0 +1,62 @@
+<table cellpadding="4" cellspacing="4" width="100%" style="clear:both;margin-top:20px;">
+	<tbody>
+		<tr>
+			<td style="text-align:right;width:10%">
+				<font color="#ff3300">*</font>收件人
+			</td>
+			<td><input type="text" name="consignee" value="{$address.consignee}" class="input_addr2"></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">
+				<font color="#ff3300">*</font>所在地区
+			</td>
+			<td>
+				<input type="hidden" name="country" value="1">
+				<select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities');" style="width:155px;height:30px;border:1px solid #ccc;">
+					<option value="0">请选择</option>
+					{foreach $province as $item}
+					<option value="{$item.region_id}" {if $item.region_id==$address.province}selected{/if}>{$item.region_name} </option>
+					{/foreach} 
+				</select> 
+				<select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts');" style="width:155px;height:30px;border:1px solid #ccc;">
+					<option value="0">请选择</option>
+					{foreach $city as $item}
+					<option value="{$item.region_id}" {if $item.region_id==$address.city}selected{/if}>{$item.region_name} </option>
+					 {/foreach}
+				</select>
+				<select name="district" id="selDistricts" style="width:155px;height:30px;border:1px solid #ccc;">
+					<option value="0">请选择</option>
+					{foreach $district as $item}
+					<option value="{$item.region_id}" {if $item.region_id==$address.district}selected{/if}>{$item.region_name} </option>
+					 {/foreach}
+				</select> 
+			</td> 
+		</tr>
+		<tr>
+			<td style="text-align:right;">
+				<font color="#ff3300">*</font>街道地址
+			</td>
+			<td><input type="text" name="address" value="{$address.address}" class="input_addr1"></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">
+				<!-- <font color=#ff3300>*</font> -->电子邮箱</td>
+			<td><input type="text" name="email" value="{$address.email}" class="input_addr1"></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">
+				<font color="#ff3300">*</font>手机号码
+			</td>
+			<td><input type="text" name="mobile" value="{$address.mobile}" class="input_addr2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td style="padding-top:10px;">
+				<input type="hidden" name="address_id" value="{$address.id}">
+				<input type="hidden" name="closediv" value="0">
+				<input type="button" class="BonusButton" value=" 确定 " onclick="submitAddress()">&nbsp;&nbsp;
+				<input type="button" class="Button_reset" value=" 取消 " onclick="closePopDiv()">
+			</td>
+		</tr>
+	</tbody>
+</table>

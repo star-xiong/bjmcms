@@ -1,0 +1,44 @@
+@charset "utf-8";
+/*公共样式*/
+*{margin: 0; padding: 0;}
+body{font-size: 14px; background: #fff; font-family: "Microsoft Yahei",Verdana,Arial,sans-serif; line-height: 1.5; color: #333; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;}
+ol,ul,li{list-style: none;}
+a{text-decoration: none; color: #333; -webkit-tap-highlight-color: rgba(255,0,0,0); cursor: pointer;}
+a:focus{outline:none;}
+em,i{font-style: normal;}
+h1,h2,h3,h4,h5,h6,th{font-weight: normal;}
+img{border: 0; max-width: 100%; height: auto; vertical-align: middle;}
+table{border-collapse: collapse; border-spacing: 0;}
+input,textarea,select,button{border: 0; background: none; outline: 0; font-family: "Microsoft Yahei"; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-appearance: none; border-radius: 0;}
+input[type="button"],input[type="text"],input[type="submit"],select,button{appearance: none; -moz-appearance: none; -webkit-appearance: none;}
+input,input:focus,input:active{user-select: text;}
+textarea{resize: none;}
+.clearfix{zoom: 1;}
+.clearfix:after{content: "."; *zoom: 1; display: block; visibility: hidden; height: 0; clear: both;}
+input[type=checkbox]{width: 18px; height: 18px; position: relative;}
+input[type=checkbox]:after{display: block; content: " "; width: 16px; height: 16px; line-height: 16px; border: 1px solid #999; font-size: 12px; color: #fff; text-align: center; position: absolute; left: 0; top: 0; border-radius: 2px;}
+input[type=checkbox]:checked:after{content: "✓"; background-color: #fac400; border-color: #fac400;}
+.mb14{margin-bottom: 14px;} 
+.mb20{margin-bottom: 20px;}
+.u-login{width: 305px; margin-top: 30px; padding: 0 79px;}
+.u-login .u-reg{text-align: right; margin-bottom: 13px;}
+.u-login .u-reg a{font-size: 12px; color: #fac400; text-decoration: underline;}
+.u-login .u-error{height: 26px; line-height: 26px; border: 1px solid #ffbdbe; background-color: #ffebeb; color: #da3a4c; margin-bottom: 10px; padding-left: 30px; font-size: 12px; display: none;}
+.u-login .u-input{height: 38px; line-height: 38px; border: 1px solid #ccc; position: relative; padding-left: 48px;}
+.u-login .u-input .u-label{width: 38px; height: 38px; border-right: 1px solid #eee; background: url(../images/u-login.png) no-repeat 0 0; position: absolute; left: 0; top: 0;}
+.u-login .u-input .u-name{background-position: 0 0;}
+.u-login .u-input .u-pwd{background-position: -38px 0;}
+.u-login .u-input .j-input{display: block; width: 100%; line-height: 38px; height: 38px; *line-height: 36px; font-size: 14px;}
+.u-login .ltxt{float: left; font-size: 0;}
+.u-login .ltxt > *{display: inline-block; *display: inline; *zoom: 1; vertical-align: middle;}
+.u-login .ltxt label{font-size: 12px; color: #666; padding-left: 8px;}
+.u-login .u-forget{overflow: hidden; height: 18px; line-height: 18px; margin-top: 15px;}
+.u-login .u-forget a{float: right; color: #666;}
+.u-login .u-authcode{border: none; height: 40px; padding-left: 0;}
+.u-login .u-authcode .u-vcode{float: left; width: 130px; height: 38px; border: 1px solid #ccc;}
+.u-login .u-authcode .j-input{text-indent: 15px;}
+.u-login .u-authcode .u-vcode-img{width: 162px; height: 40px; float: right; overflow: hidden;}
+.u-login .u-authcode .u-vcode-img img{height: 100%; cursor: pointer;}
+.u-login .u-btn{margin-top: 20px;}
+.u-login .u-btn .btn{display: block; width: 100%; height: 40px; line-height: 40px; *line-height: 36px; color: #333; background: #fac400; font-size: 18px; text-align: center; cursor: pointer;}
+.u-login .u-btn .btn:hover{filter: alpha(opacity: 80); opacity: .8;}

@@ -1,0 +1,29 @@
+<div class="user-container">
+	<div class="container clearfix">
+		<div class="user-left">
+			{include file="left" /}
+		</div>
+		<div class="user-right">
+			<div class="bg-box-radius">
+				<div class="user-tabtit">我的收藏</div>
+			</div>
+			<div class="My-collection">
+				<ul class="clearfix">
+				{volist name="favorites" id="myfavorite"}
+					<li>
+						<a class="abox" href="{$myfavorite.content_id|url='show','id='.###}" title="{$myfavorite.content.type.title}" target="_blank">
+							<div class="pic"><img src="{$web_uploads}{$myfavorite.content.pic}" alt="{$myfavorite.content.title}"></div>
+							<h3 class="title">{$myfavorite.content.type.title}</h3>
+							<div class="desc">{$myfavorite.content.description}</div>
+							<div class="price">¥{$myfavorite.content.goods_price}</div>
+						</a>
+						<a class="kefu" href="#" target="_blank"><i></i><span>联系客服</span></a>
+						<a class="add-cart1 active" href="javascript:;" onclick="favorite({$myfavorite.content_id},this);" title="取消收藏">取消收藏</a>
+					</li>
+				{/volist}					
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

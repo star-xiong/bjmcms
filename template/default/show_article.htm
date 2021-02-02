@@ -1,0 +1,125 @@
+<link href="{$web_css}/article.css" rel="stylesheet" type="text/css" />
+<div id="wrapper">
+	<div class="here cle">
+		{include file="library/position" /}<code>&gt;</code>{$info.title}
+	</div>
+	<div class="cle">
+		<div class="con yh overf">
+			<div class="conl lf overf">
+				<div class="wz overf">
+					<h1>{$info.title}</h1>
+					<div class="sjy overf">时间: {$info.update_at|date="Y-m-d"} <font>来源：www.bajiaomao.com</font></div>
+					<div class="contentat">
+						{$info.more.content|raw}
+					</div>
+					<div class="tagright">
+						<div class="bdsharebuttonbox bdshare-button-style0-32" data-bd-bind="1491396451648">
+							<a href="#" class="bds_more" data-cmd="more"></a>
+							<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+							<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+							<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+							<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+							<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+						</div>
+						<script>
+							window._bd_share_config = {
+								"common": {
+									"bdSnsKey": {},
+									"bdText": "",
+									"bdMini": "2",
+									"bdMiniList": false,
+									"bdPic": "",
+									"bdStyle": "0",
+									"bdSize": "32"
+								},
+								"share": {},
+								"image": {
+									"viewList": ["qzone", "tsina", "tqq", "renren", "weixin"],
+									"viewText": "分享到：",
+									"viewSize": "32"
+								}
+							};
+							with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src =
+								'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+						</script>
+						<font>分享到：</font>
+					</div>
+				</div>
+				<div class="bqk overf">
+					<div class="bql lf overf">
+						<div class="wxlb overf">
+							<p>上一篇:<a href="article.php?id=20" title="订购流程">订购流程</a></p>
+							<p>下一篇: 没有了</p>
+						</div>
+					</div>
+				</div>
+				<div class="cxh jpzs overf">
+					<h3>热销商品</h3>
+					<?php $hotgoods=get_data (2, 4, 4); ?>
+					<div style="width:110%; height:auto; overflow:hidden;">
+						{volist name="$hotgoods.data" id="hot_goods"}
+						<a class="mka lf overf" href="{:buildurl('goods', 'id='.$hot_goods.id)}" target="_blank" title="{$hot_goods.title}">
+							<img data-original="{$hot_goods.pic}" src="{$web_images}/spacer.gif" class="loading" alt="{$hot_goods.title}">
+							<h4 class="jg overf">
+								<span>
+									<font>￥{$hot_goods.goods_price}</font>
+								</span>
+								<em>
+									<font>￥{$hot_goods.market_price}</font>
+								</em></h4>
+							<p>{$hot_goods.title}</p>
+						</a>
+						{/volist}
+					</div>
+				</div>
+				<div class="cxh jpzs overf">
+					<h3>特价促销</h3>
+					<?php $topgoods=get_data (2, 1, 4); ?>
+					<div style="width:110%; height:auto; overflow:hidden;">
+						{volist name="$topgoods.data" id="top_goods"}
+						<a class="mka lf overf" href="{:buildurl('goods', 'id='.$top_goods.id)}" target="_blank" title="{$top_goods.title}">
+							<img data-original="{$top_goods.pic}" src="{$web_images}/spacer.gif" class="loading" alt="{$top_goods.title}">
+							<h4 class="jg overf">
+								<span>
+									<font>￥{$top_goods.goods_price}</font>
+								</span>
+								<em>
+									<font>￥{$top_goods.market_price}</font>
+								</em></h4>
+							<p>{$top_goods.title}</p>
+						</a>
+						{/volist}						
+					</div>
+				</div>
+			</div>
+			<div class="conr rt overf">
+				<div class="right_one">
+					<h2>{$catetree.title}</h2>
+					<ul>
+						{volist name="$catetree[$catetree.id]" id="catedata"}
+						<li {if $catedata.id==$cateInfo.id}class="on" {/if}>
+							<a href="{:buildurl('list', 'id='.$catedata.id)}" title="{$catedata.title}">{$catedata.title}</a>
+						</li>
+						{/volist}
+					</ul>
+				</div>
+				<div class="zjpd overf">
+					<div class="zjpd yd overf">
+						<h1>最新资讯</h1>
+						<?php $topnews=get_data (156, 1, 10); ?>
+						<div class="ula overf">
+							{volist name="$topnews.data" id="top_news"}
+							<a class="overf" href="{:buildurl('show', 'id='.$top_news.id)}" target="_blank" title="{$top_news.title}">
+								<span class="qs lf">{$i}</span>
+								<div class="wz overf">
+									<em>{$top_news.title}</em>
+								</div>
+							</a>
+							{/volist}							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,305 @@
+<link href="{$web_css}/index.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$web_js}/slide.js"></script>
+
+{if $banners}
+<div class="index-banner">
+	<div class="index-slide" id="index-slide">
+		<ul class="slidepic">
+			{foreach $banners['list'] as $key=>$banner }
+			<li style="background-image: url({$banner.pic});"> 
+				<a target="_blank" href="{$banner.url}"></a>
+			</li>
+			{/foreach}
+		</ul>
+		<div class="num">
+			<ul>
+				{foreach $banners['list'] as $key=>$banner }
+				<li></li>
+				{/foreach}
+			</ul>
+		</div>
+	</div>
+</div>
+{/if}
+
+
+
+{if $secakill}
+<div class="flashsalebox">
+	<div class="salebox">
+		<div class="saletitle">
+			<h2>{$secakill.temp.title}</h2>
+			<h3>{$secakill.temp.subtitle}</h3>
+		</div>
+		<div class="salegoods">
+			{volist name="$secakill.list.data" id="skGoods"}
+			<div class="salegoods-item {if $i%4 == 0}remove_margin{/if}">
+				<div class="img">
+					<a href="{:buildurl('goods', 'id='.$skGoods.id)}" target="_blank">
+						<img class="loading pic_img_{$skGoods.id}" alt="{$skGoods.title}" data-original="{$skGoods.pic}" src="{$web_images}/spacer.gif">
+					</a>
+				</div>
+				<div class="title"><a href="{:buildurl('goods', 'id='.$skGoods.id)}" title="{$skGoods.title}">{$skGoods.title}</a></div>
+				<div class="price">
+					<span class="s_price">
+						<font>￥{$skGoods.goods_price}</font>
+					</span>
+					<span class="m_price">
+						<font>￥{$skGoods.market_price}</font>
+					</span>
+					<a href="{:buildurl('goods', 'id='.$skGoods.id)}" target="_blank">立即抢购</a>
+				</div>
+
+			</div>
+			{/volist}
+
+		</div>
+	</div>
+</div>
+{/if}
+{if $newgoods || $bestgoods || $hotgoods}
+<div class="recommend">
+	<div class="recommendmainInfo">
+		<script>
+			/*第一种形式 第二种形式 更换显示样式*/
+			function setTabCatrecommend(index) {
+				var titlehtml = [
+					{if $newgoods}'<h2>{$newgoods.temp.title}</h2><h3>{$newgoods.temp.subtitle}</h3>',{/if} 
+					{if $bestgoods}'<h2>{$bestgoods.temp.title}</h2><h3>{$bestgoods.temp.subtitle}</h3>',{/if}
+					{if $hotgoods}'<h2>{$hotgoods.temp.title}</h2><h3>{$hotgoods.temp.subtitle}</h3>',{/if}
+				];
+				var brand_cat_list = document.getElementById("probar");
+				var branddiv = brand_cat_list.getElementsByTagName('li');
+
+				for (i = 1; i <= branddiv.length; i++) {
+					var con = document.getElementById("porcom_" + i);
+					con.style.display = index == i ? "block" : "none";
+
+					var a_brand = document.getElementById("pcur_" + i);
+					a_brand.className = index == i ? " pcur" : " ";
+				}
+				document.getElementById("probartitle").innerHTML = titlehtml[index - 1];
+			}
+		</script>
+		<div class="pro">
+			<div class="probar">
+				<span id="probartitle">
+				{if $hotgoods}
+					<h2>{$hotgoods.temp.title}</h2>
+					<h3>{$hotgoods.temp.subtitle}</h3>
+				{elseif $bestgoods}
+					<h2>{$bestgoods.temp.title}</h2>
+					<h3>{$bestgoods.temp.subtitle}</h3>
+				{elseif $newgoods}
+					<h2>{$newgoods.temp.title}</h2>
+					<h3>{$newgoods.temp.subtitle}</h3>
+				{/if}
+				</span>
+				<ul id="probar">
+					{if $newgoods}<li id="pcur_1" class="pcur1" onMouseOver="setTabCatrecommend(1)"><a><i></i>{$newgoods.temp.title}</a></li>{/if}
+					{if $bestgoods}<li id="pcur_2" class="pcur2" onMouseOver="setTabCatrecommend(2)"><a><i></i>{$bestgoods.temp.title}</a></li>{/if}
+					{if $hotgoods}<li id="pcur_3" class="pcur3 pcur" onMouseOver="setTabCatrecommend(3)"><a><i></i>{$hotgoods.temp.title}</a></li>{/if}
+				</ul>
+			</div>
+		</div>
+		
+		<!--新品上市-->
+		{if $newgoods}
+		<div style="display: none;" id="porcom_1" class="pro_con">
+			<div class="madden-pro">
+				<ul class="clearfix">
+					{volist name="$newgoods.list.data" id="newGoods"}
+					<li>
+						<a href="{:buildurl('goods', 'id='.$newGoods.id)}" title="{$newGoods.title}" class="imgChange" target="_blank">
+							<img class="pic_img_{$newGoods.id}" src="{$newGoods.pic}" title="{$newGoods.title}"
+							 alt="{$newGoods.title}">
+						</a>
+						<div class="tit"><a href="{:buildurl('goods', 'id='.$newGoods.id)}">{$newGoods.title}</a></div>
+						<div class="btns">
+							<div class="pri j_comPrice">
+								<b class="j_sellPrice">
+									<font>￥{$newGoods.goods_price}</font>
+								</b>
+							</div>
+							<a class="addtocart j_addToCartAysn" href="javascript:addToCart({$newGoods.id})">加入购物车</a>
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		{/if}
+		
+		<!--精品推荐-->
+		{if $bestgoods}
+		<div style="display: none;" id="porcom_2" class="pro_con">
+			<div class="madden-pro">
+				<ul class="clearfix">
+					{volist name="$bestgoods.list.data" id="bestGoods"}
+					<li>
+						<a href="{:buildurl('goods', 'id='.$bestGoods.id)}" title="{$bestGoods.title}" class="imgChange" target="_blank">
+							<img class="pic_img_{$bestGoods.id}" src="{$bestGoods.pic}" title="{$bestGoods.title}"
+							 alt="{$bestGoods.title}">
+						</a>
+						<div class="tit"><a href="{:buildurl('goods', 'id='.$bestGoods.id)}">{$bestGoods.title}</a></div>
+						<div class="btns">
+							<div class="pri j_comPrice">
+								<b class="j_sellPrice">
+									<font>￥{$bestGoods.goods_price}</font>
+								</b>
+							</div>
+							<a class="addtocart j_addToCartAysn" href="javascript:addToCart({$bestGoods.id})">加入购物车</a>
+						</div>
+					</li>
+					{/volist}
+					
+				</ul>
+			</div>
+		</div>
+		{/if}
+		
+		<!--热销排行-->
+		{if $hotgoods}
+		<div style="display: block;" id="porcom_3" class="pro_con">
+			<div class="madden-pro">
+				<ul class="clearfix">
+					{volist name="$hotgoods.list.data" id="hotGoods"}
+					<li>
+						<a href="{:buildurl('goods', 'id='.$hotGoods.id)}" title="{$hotGoods.title}" class="imgChange" target="_blank">
+							<img class="pic_img_{$hotGoods.id}" src="{$hotGoods.pic}" title="{$hotGoods.title}"
+							 alt="{$hotGoods.title}">
+						</a>
+						<div class="tit"><a href="{:buildurl('goods', 'id='.$hotGoods.id)}">{$hotGoods.title}</a></div>
+						<div class="btns">
+							<div class="pri j_comPrice">
+								<b class="j_sellPrice">
+									<font>￥{$hotGoods.goods_price}</font>
+								</b>
+							</div>
+							<a class="addtocart j_addToCartAysn" href="javascript:addToCart({$hotGoods.id})">加入购物车</a>
+						</div>
+					</li>
+					{/volist}
+					
+				</ul>
+			</div>
+		</div>
+		{/if}
+		
+	</div>
+</div>
+{/if}
+
+{if $goods_cats}
+<div class="series_list">
+	{volist name="$goods_cats" id="gc_1" key="i"}
+	{volist name="$gc_1[$gc_1.id]" id="gc_2" key="ii"}
+	<div class="cn-laytit">
+		<a class="title cat_title" target="_blank" href="{:buildurl('category', 'id='.$gc_2.id)}">{$gc_2.title}</a>
+
+		<div class="link link1">
+		{volist name="$gc_2[$gc_2.id]" id="gc_3" key="iii"}
+			<a href="{:buildurl('category', 'id='.$gc_3.id)}" title="{$gc_3.title}" target="_blank">{$gc_3.title}</a>
+		{/volist}
+		</div>
+	</div>
+	<?php $homegoods = get_goods ($gc_2, '', 8); ?>
+	<div class="cn-fruit">
+
+		<div class="goods">
+			<ul>
+				{volist name="$homegoods.data" id="homeGoods"}
+				<li id="li_{$homeGoods.id}">
+					<div class="item">
+						<div class="img">
+							<a href="{:buildurl('goods', 'id='.$homeGoods.id)}">
+								<img data-original="{$homeGoods.pic}" src="{$web_images}/spacer.gif" class="loading pic_img_{$homeGoods.id}">
+							</a>
+						</div>
+						<div class="tit"><a href="{:buildurl('goods', 'id='.$homeGoods.id)}">{$homeGoods.title}</a></div>
+						<div class="btns">
+							<div class="pri j_comPrice">
+								<b class="j_sellPrice">
+									<font>￥{$homeGoods.goods_price}</font>
+								</b>
+							</div>
+							<a class="addtocart j_addToCartAysn" href="javascript:addToCart({$homeGoods.id})">加入购物车</a>
+						</div>
+					</div>
+				</li>
+				{/volist}
+				
+			</ul>
+		</div>
+	</div>
+	{/volist}
+	{/volist}
+</div>
+{/if}
+
+<div class="w-main panel-wrapper">
+</div>
+
+<script>
+	$(function() {
+		var cat_title = '',
+			fTop = [];
+
+		//获取楼层标题
+		$(".cat_title").each(function() {
+			if ($(this).html() != '') {
+				cat_title += '<p>' + $(this).html() + '</p>';
+			}
+		});
+
+		//获取每一楼层到顶部距离
+		$(".cn-laytit").each(function(index, item) {
+			fTop[index] = $(this).offset().top;
+		});
+
+		//将楼层标题写入导航条
+		if (cat_title != '') {
+			cat_title += '<a></a>';
+			$('.floatCtro').html(cat_title);
+		}
+
+		//点击导航滚动到对应高度
+		$('div.floatCtro p').click(function() {
+			var ind = $('div.floatCtro p').index(this);
+			$('body,html').animate({
+				scrollTop: fTop[ind]
+			}, 1000)
+		})
+
+		//返回顶部
+		$('div.floatCtro a').click(function() {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 1000)
+		})
+
+		$(window).scroll(scrolls);
+		scrolls();
+
+		function scrolls() {
+			if (cat_title == '') {
+				return;
+			}
+			var bck;
+			var fixRight = $('div.floatCtro p');
+			var floatCtro = $('div.floatCtro')
+			var sTop = $(window).scrollTop();
+			if (fTop[0] != '' && sTop <= fTop[0] - 100) {
+				floatCtro.fadeOut(300).css('display', 'none');
+			} else {
+				floatCtro.fadeIn(300).css('display', 'block');
+			}
+			for (var i = 0; i < fTop.length; i++) {
+				if (sTop >= fTop[i]) {
+					fixRight.eq(i).addClass('cur').siblings().removeClass('cur');
+				}
+			}
+
+		}
+	})
+</script>

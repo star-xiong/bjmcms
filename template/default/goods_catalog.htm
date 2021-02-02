@@ -1,0 +1,30 @@
+<div id="wrapper">
+	<div class="here cle">
+		{include file="library/position" /}
+		<code>&gt;</code> 所有分类
+	</div>
+	<div class="box common_main" style="margin-top:10px;">
+		<div style="padding:20px;">
+			<div class="boxCenterList RelaArticle clearfix catalog_cat_list">
+				{volist name="goods_cats" id="gc_1" key="i"}
+					{volist name="$gc_1[$gc_1.id]" id="gc_2" key="ii"}
+						<div style="clear:both;">
+							<a href="{:buildurl('category', 'id='.$gc_2.id)}{$lang}" class="cat_level_0">{$gc_2.title}(0)</a>
+						</div>
+						{volist name="$gc_2[$gc_2.id]" id="gc_3" key="iii"}
+							<div style="clear:both;">
+								<a href="{:buildurl('category', 'id='.$gc_3.id)}{$lang}" class="cat_level_1">{$gc_3.title}(0)</a>
+							</div>
+							{volist name="$gc_3[$gc_3.id]" id="gc_4" key="iiii"}
+								<div style="float:left;">
+									<a href="{:buildurl('category', 'id='.$gc_4.id)}{$lang}" class="cat_level_2">{$gc_4.title}({:count($gc_4->goods)})</a>
+								</div>
+							{/volist}
+						{/volist}
+					{/volist}
+				{/volist}
+			</div>
+		</div>
+	</div>
+	<div class="blank5"></div>
+</div>

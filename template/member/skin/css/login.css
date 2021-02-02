@@ -1,0 +1,379 @@
+html {
+	overflow-y: scroll;
+}
+
+*html,
+*html body {
+	_background-attachment: fixed;
+}
+
+body,div,dl,dt,dd,ul,li,h1,h2,h3,h4,h5,h6,p,pre,form,fieldset,legend,input,textarea,blockquote,img,button {padding: 0;margin: 0;}
+
+body {background: #fff;font: 12px/1.4 "Microsoft YaHei";}
+
+dl,
+ul {
+	list-style: none;
+}
+
+{
+	vertical-align: top;
+}
+
+h1,h2,h3,h4,h5,h6 {font-weight: normal;}
+
+em,
+i {
+	font-style: normal;
+}
+
+q:before,
+q:after {
+	content: ""
+}
+
+input,
+textarea,
+img,
+button {
+	border: none;
+}
+
+input::-moz-focus-inner {
+	border: none;
+	padding: 0;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+button {
+	outline-style: none;
+	-webkit-appearance: none;
+}
+
+a,
+area {
+	blr: expression(this.onFocus=this.blur());
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a:focus {
+	outline: none;
+}
+
+input:focus {
+	outline: none;
+}
+
+.relative {
+	position: relative;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.iconfont {
+	font-size: 25px;
+}
+
+/* body */
+html body {
+	min-height: 600px;
+}
+
+/* content */
+.reg_main {
+	width: 1200px;
+	border-radius: 5px;
+	background: #fff;
+	box-shadow: 1px 1px 5px rgba(98, 105, 109, 0.5);
+	margin: 50px auto;
+}
+
+.reg_nav {
+	width: 1200px;
+}
+
+.reg_nav li {
+	float: left;
+	height: 56px;
+	line-height: 56px;
+	border-bottom: 1px solid #ddd;
+	color: #8a8a8a;
+}
+
+.reg_nav li.on {
+	border-bottom: 1px solid #ff666b;
+	color: #ff666b;
+}
+
+.user_reg {
+	width: 100%;
+}
+
+.login_user {
+	border-right: 1px dashed #ddd;
+	width: 599px;
+	cursor: pointer;
+}
+
+.other-login-tit {
+	height: 50px;
+	line-height: 50px;
+	font-size: 14px;
+}
+
+.other-login {
+	font-size: 0
+}
+
+.other-login a {
+	margin-top: 0;
+	vertical-align: top;
+	margin-right: 20px;
+	background: url(../images/other-login-bg.png) center no-repeat;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	overflow: hidden
+}
+
+.other-login a.sina {
+	background-position: 0 0
+}
+
+.other-login a.qq {
+	background-position: -40px 0
+}
+
+.other-login a.alipay {
+	background-position: -80px 0
+}
+
+.other-login a.taobao {
+	background-position: -120px 0
+}
+
+.other-login a.baidu {
+	background-position: -160px 0
+}
+
+.other-login a.weixin {
+	background-position: -200px 0
+}
+
+.other-login a:hover {
+	text-decoration: none;
+	opacity: .8;
+	filter: Alpha(opacity=80)
+}
+
+.reg_success {
+	width: 600px;
+	cursor: pointer;
+}
+
+.reg_cont {
+	padding: 40px 0;
+}
+
+.reg_cont .usertoputong,
+.reg_cont .usertocard {
+	position: absolute;
+	width: 120px;
+	height: 40px;
+	line-height: 40px;
+	right: 150px;
+	top: 40px;
+	font-size: 14px;
+	font-family: "宋体", Tahoma, Verdana, sans-serif, simsun;
+}
+
+.register_no {
+	width: 600px;
+	height: 200px;
+	line-height: 200px;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 24px;
+}
+
+.register_infor {
+	width: 600px;
+	margin: 0 auto;
+}
+
+.register_infor ul li.texts {
+	border: none;
+	line-height: 40px;
+	margin-bottom: 10px;
+	position: relative;
+	zoom: 1;
+	font-size: 14px;
+}
+
+.register_infor ul li.input_box {
+	border: 1px solid #ccc;
+	height: 40px;
+	line-height: 40px;
+	padding: 0px 6px;
+	position: relative;
+	cursor: text;
+	zoom: 1
+}
+
+.register_infor ul li.input_box .t_text {
+	position: absolute;
+	color: #ccc;
+	left: 14px;
+	top: 0px;
+	font-size: 14px;
+}
+
+.register_infor ul li.input_box .user_card,
+.register_infor ul li.input_box .pass_card {
+	display: none;
+}
+
+.register_infor ul li.input_box input {
+	border: 0;
+	border: 0;
+	padding: 0px 6px;
+	width: 350px;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	color: #333;
+	margin-left: 2px;
+	cursor: text;
+	font-size: 14px;
+	background: none;
+}
+
+.register_infor ul li.security_code {
+	width: 100px
+}
+
+.register_infor ul li.security_code input {
+	width: 80px
+}
+
+.register_infor ul li.security_code img {
+	position: absolute;
+	top: 0;
+	right: -130px;
+	width: 110px;
+	height: 40px
+}
+
+.register_infor ul li.security_code button {
+	position: absolute;
+	top: 0;
+	right: -130px;
+	width: 110px;
+	height: 40px
+}
+
+.register_infor ul li.security_code a {
+	position: absolute;
+	color: #82C92F;
+	top: 10px;
+	right: -190px;
+	text-decoration: underline
+}
+
+.register_infor ul li.error_box,
+.register_infor ul li.error_box em {
+	display: block;
+	height: 24px;
+	line-height: 24px;
+	_height: 20px;
+	_line-height: 20px;
+	color: #fe564b;
+	overflow: hidden;
+}
+
+.register_infor ul li.lizi_law {
+	display: block;
+	height: 24px;
+	line-height: 24px;
+	overflow: hidden;
+	font-size: 14px;
+}
+
+.register_infor ul li .forget_psd {
+	float: right;
+}
+
+.register_infor ul li.input_box .error_icon {
+	background: url(../images/error_icon.png) 0 -50px no-repeat;
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	right: 10px;
+	top: 14px;
+}
+
+.register_infor ul li.params_error {
+	border-color: #fe655c
+}
+
+.register_infor ul li.params_error .error_icon {
+	background-position: 0 0
+}
+
+.register_infor ul li.params_success .error_icon {
+	background-position: 0 -18px
+}
+
+.register_infor ul li.security_code a#send_security_code {
+	color: #666;
+	text-decoration: none;
+	padding: 11px 20px;
+	top: 0;
+	font-size: 14px;
+	right: -206px;
+	display: none
+}
+
+.register_infor ul li.security_code a.disabled {
+	background: #ccc
+}
+
+.register_infor ul li.lizi_law a {
+	color: #ff666b
+}
+
+.register_infor ul li.go2register a {
+	width: 100%;
+	padding: 15px 0;
+	text-align: center;
+	font-size: 18px
+}
+
+.register_infor ul li.go2register {
+	margin-bottom: 20px;
+}
+
+.register_infor ul li.go2register input {
+	width: 100%;
+	padding: 15px 0;
+	height: 48px;
+	text-align: center;
+	font-size: 18px;
+	cursor: pointer
+}
+
+.register_infor li.input_box input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 1000px white inset
+}
+
+.register_infor .remember-me {
+	margin-right: 3px;
+	vertical-align: -2px
+}

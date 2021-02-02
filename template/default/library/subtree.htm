@@ -1,0 +1,7 @@
+<a href="{:buildurl('/')}">首页</a>
+{if $positions}
+	{foreach $positions as $key=>$cate}
+		<code>&gt;</code>
+		<a href="{:buildurl('category', 'id='.$cate.id)}">{$cate.title}</a>
+	{/foreach}
+{/if}

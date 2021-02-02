@@ -1,0 +1,37 @@
+<div class="tabs_bar_right">
+	<div class="tabs_bar2">相关商品</div>
+</div>
+<div class="hot_box">
+	<ul>
+		{foreach $info['related_list'] as $related}
+		<li>
+			<a href="{:buildurl('goods', 'id='.$related.id)}" target="_self">
+				<img width="180" height="180" data-original="{$related.pic}" src="{$related.pic}" class="loading" />
+				<p>{$related.title}</p>
+				<p class="hot_price">
+					<font>￥{$related.goods_price}</font>
+				</p>
+			</a>
+		</li>
+		{/foreach}
+		
+	</ul>
+</div>
+<div class="h15"></div>
+
+<div class="tabs_bar_right">
+	<div class="tabs_bar2">资讯信息</div>
+	<?php $topnews=get_data (156, 1, 10); ?>
+</div>
+<div class="hot_box">
+	<ul>
+		{volist name="$topnews.data" id="top_news"}
+		<li>
+			<a href="{:buildurl('show', 'id='.$top_news.id)}" title="{$top_news.title}" target="_blank">
+				<p>{$top_news.title}</p>
+			</a>
+		</li>		
+		{/volist}
+	</ul>
+</div>
+<div class="h15"></div>

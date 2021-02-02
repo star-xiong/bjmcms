@@ -1,0 +1,75 @@
+<link href="{$web_css}/article.css" rel="stylesheet" type="text/css" />
+<div id="wrapper">
+	<div class="here cle">{include file="library/position" /}</div>
+	<div class="cle">
+		<div class="bdy wrap2 listxg liwrap">
+			<div class="cg_left">
+				<div class="article_container">
+					<ul>
+						{volist name="data" id="info"}
+						<li>
+							<div class="right fr" style="width:785px; padding-left:15px; padding-right:15px;">
+								<div class="tit"><a class="titf" href="{:buildurl('show', 'id='.$info.id)}" target="_blank" title="{$info.title}">{$info.title}</a></div>
+								<a class="info" href="{:buildurl('show', 'id='.$info.id)}" target="blank" title="{$info.title}">{$info.description}</a>
+								<div class="time">{$info.update_at|date="Y-m-d"}</div>
+							</div>
+						</li>
+						{/volist}
+					</ul>
+				</div>
+				<div class="pagelist mt15">
+					<form name="selectPageForm" action="/article_cat.php" method="get">
+						<div class="pagenav" id="pagenav">
+							<ul>
+								<li></li>
+							</ul>
+							<div class="clear"></div>
+						</div>
+					</form>
+					<script type="Text/Javascript" language="JavaScript">
+						<!--
+									function selectPage(sel)
+									{
+									  sel.form.submit();
+									}
+								//-->
+							</script>
+				</div>
+			</div>
+			<div class="cg_right">
+				<div class="right_one">
+					<h2>{$catetree.title}</h2>
+					<ul>
+						{volist name="$catetree[$catetree.id]" id="catedata"}
+						<li {if $catedata.id==$cateInfo.id}class="on" {/if}>
+							<a href="{:buildurl('list', 'id='.$catedata.id)}">{$catedata.title}</a>
+						</li>
+						{/volist}
+					</ul>
+				</div>
+				<div class="right_two cztj">
+					<h2>超值推荐</h2>
+					<?php $bestgoods=get_data (2, 3, 3); ?>
+					{volist name="$bestgoods.data" id="best_goods"}
+					<div class="qgou">
+						<div class="gw_cp">
+							<a href="{:buildurl('goods', 'id='.$best_goods.id)}" target="_blank" title="{$best_goods.title}" class="cp_img">
+								<img alt="{$best_goods.title}" data-original="{$best_goods.pic}" src="{$web_images}/spacer.gif" class="loading">
+							</a>
+							<p class="jge">
+								<span>
+									<font>￥{$best_goods.goods_price}</font>
+								</span>
+								<font class="yjia">
+									<font>￥{$best_goods.market_price}</font>
+								</font>
+							</p>
+							<a href="{:buildurl('goods', 'id='.$best_goods.id)}" target="_blank" title="{$best_goods.title}" class="cp_title">{$best_goods.title}</a>
+						</div>
+					</div>
+					{/volist}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

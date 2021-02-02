@@ -1,0 +1,732 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name=renderer content=webkit>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$seo_title}</title>
+		<meta name="keywords" content="{$seo_keywords}">
+		<meta name="description" content="{$seo_content}">
+		<link href="{$web_css}/style.css" rel="stylesheet" type="text/css" />
+		<link href="{$web_css}/cart.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="{$web_js}/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="{$web_js}/jquery-lazyload.js"></script>
+		<script type="text/javascript" src="{$web_js}/jquery.superslide.js"></script>
+		<script type="text/javascript" src="{$web_js}/common.js"></script>
+		<script type="text/javascript" src="{$web_js}/flow.js"></script>
+		<script type="text/javascript">
+			var flow_no_payment = "您必须选定一个支付方式。";
+			var flow_no_shipping = "您必须选定一个配送方式。";
+		</script>
+	</head>
+	<body>
+		<div id="header">
+			<div class="hd_bar" id="userinfo-bar">
+				<div class="bd">
+					<div class="gohome"><a href="{:buildurl('/')}">首页</a></div>
+					<div class="hd_lbar" style="display: block;">
+						{if $member.id}
+						<a href="{:buildurl('ucenter.index')}" class="usernav-link" rel="nofollow"><span>会员中心</span></a>
+						<a href="/logout.html">退 出</a>
+						{else}
+						<a href="{:buildurl('login')}">登 录</a>
+						<a href="{:buildurl('register')}">注册</a>
+						{/if}
+					</div>
+					<ul class="hd-step">
+						<li><em>1</em>我的购物车<i></i></li>
+						<li class="jt">&nbsp;</li>
+						<li class="first on"><em>2</em>确认订单信息<i></i></li>
+						<li class="jt">&nbsp;</li>
+						<li><em>3</em>成功提交订单<i></i></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="cle cart_main">
+			<div class="flowBox_cart">
+				<div class="flowBox_in">
+					<form name="theForm" id="theForm" onsubmit="return checkOrderForm(this)">
+						<div class="checkBox_jm clearfix">
+							<script type="text/javascript" src="/static/common/js/region.js"></script>
+							<h6><span>收货人信息</span>
+								<div style="clear:both"></div>
+							</h6>
+							<div class="address_jm" id="AddressList">
+								{if count($data.userinfo->address)}
+								<ul>
+									{volist name="$data.userinfo->address" id="address"}
+									<li {if $address.id==$data.userinfo.address_id}class="curr" {/if} onmouseover="showAddressEdit(this);" onmouseout="showAddressEdit(this);">
+										<div style="width:100%;height:100%;" onclick="selAddress(this, {$address.id});">
+											<table cellpadding="0" cellspacing="0" width="100%">
+												<tbody>
+													<tr>
+														<td>
+															{$address.consignee}<br>
+															{$address.provinceinfo.region_name}-
+															{$address.cityinfo.region_name}-
+															{$address.districtinfo.region_name}
+															{$address.address}<br>
+															{$address.mobile}
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div class="edit_addr" id="address_edit_{$address.id}">
+											<a href="javascript:AddressEdit({$address.id});">修改</a>
+											<a href="javascript:del_Address({$address.id});" onclick="return confirm('您确认要删除吗？');">删除</a>
+										</div>
+									</li>
+									{/volist}
+								</ul>
+								<div style="clear:both"></div>
+								<div class="address_jm_add" onclick="AddressEdit(0);">使用新地址</div>
+								{else}
+								<script type="text/javascript">
+									region.loadProvinces(1, 'selProvinces');
+								</script>
+								<table cellpadding=4 cellspacing=4 width="100%" style="clear:both;margin-top:20px;">
+									<tr>
+										<td style="text-align:right;width:10%">
+											<font color=#ff3300>*</font>收件人
+										</td>
+										<td><input type="text" name="consignee" value="" class="input_addr2"></td>
+									</tr>
+									<tr>
+										<td style="text-align:right;">
+											<font color=#ff3300>*</font>所在地区
+										</td>
+										<td>
+											<input type="hidden" name="country" value="1">
+											<select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities');" style="width:155px;height:30px;border:1px solid #ccc;">
+												<option value="0">请选择省</option>
+											</select>
+											<select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts');" style="width:155px;height:30px;border:1px solid #ccc;">
+												<option value="0">请选择市</option>
+											</select>
+											<select name="district" id="selDistricts" style="display:none;width:155px;height:30px;border:1px solid #ccc;">
+												<option value="0">请选择区</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align:right;">
+											<font color=#ff3300>*</font>街道地址
+										</td>
+										<td><input type="text" name="address" value="" class="input_addr1"></td>
+									</tr>
+									<tr>
+										<td style="text-align:right;">
+											<!-- <font color=#ff3300>*</font> -->电子邮箱</td>
+										<td><input type="text" name="email" value="" class="input_addr1" value=""></td>
+									</tr>
+									<tr>
+										<td style="text-align:right;">
+											<font color=#ff3300>*</font>手机号码
+										</td>
+										<td><input type="text" name="mobile" value="" class="input_addr2"></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td style="padding-top:10px;">
+											<input type="hidden" name="address_id" value="">
+											<input type="hidden" name="closediv" value="0">
+											<input type="button" class="BonusButton" value=" 确定 " onclick="submitAddress()">&nbsp;&nbsp;
+											<input type="button" class="Button_reset" value=" 取消 " onclick="closePopDiv()">
+										</td>
+									</tr>
+								</table>
+
+								{/if}
+
+							</div>
+							<div id="popDiv" class="mydiv" style="display:none;">
+								<div class="mydiv-r" onclick="javascript:closePopDiv()"></div>
+								<div id="PopAddressCon"></div>
+							</div>
+						</div>
+
+
+						<div class="blank"></div>
+						<div class="cartlist">
+							<h6><span>商品列表</span><a href="flow.html" class="f16">返回修改购物车</a></h6>
+							<table class="table" cellspacing="0" cellpadding="0">
+								<tr>
+									<th class="title first">商品名称</th>
+									<th width="150">属性</th>
+									<th width="150">本店价</th>
+									<th width="150">购买数量</th>
+									<th class="last" width="150">小计</th>
+								</tr>
+								{foreach $data.items as $key=>$goods_list}
+								<tr>
+									<td class="title first" style="text-align: left;">
+										<div class="pro">
+											<div class="img fl">
+												<a href="{:buildurl('goods', 'id='.$goods_list.goods_id)}" target="_blank" class="f6" title="{$goods_list.goods_name}"><img data-original="{$goods_list.goods_img}" src="{$web_images}/spacer.gif" class="loading" width="70" height="70" border=0></a>
+											</div>
+											<p class="tit"><a href="{:buildurl('goods', 'id='.$goods_list.goods_id)}" target="_blank" title="{$goods_list.goods_name}">{$goods_list.goods_name}</a></p>
+										</div>
+									</td>
+									<td>
+										{$goods_list.goods_attr|raw}
+									</td>
+									<td><span class="price priceA_gray">
+											<font>￥{$goods_list.goods_price}</font>
+										</span>
+									</td>
+									<td width="100"><span class="oprate">{$goods_list.goods_number}</span></td>
+									<td><span class="price priceA_gray" id="total_items_142">
+											<font>￥{$goods_list.money}</font>
+										</span>
+									</td>
+								</tr>
+								<input type="hidden" name="sel_cartgoods[]" value="{$goods_list.id}">
+								{/foreach}
+								
+								<tr>
+									<th colspan="10">
+										<div class="sliceOrder tl">购物金额小计 <font>￥{$data.amount|number_format=###,2}</font></div>
+									</th>
+								</tr>
+							</table>
+						</div>
+						<div class="blank"></div>
+						<input name="shipping" type="radio" value="-1" checked="checked" style="display:none" />
+						<div class="flowBox">
+							<h6><span>配送方式</span><div style="clear:both"></div></h6>
+							<div class="section-body " style="background:#FFF;">
+								<ul class="item-list clearfix payment-list" id="shipping-list">
+									<li>
+										<label class="checkout-item" for="shipping_1">上门取货</label>
+										<input type="radio" name="shipping" class="hide" id="shipping_1" value="1" supportcod="1" insure="0" onclick="selectShipping(this)">
+										<div class="text" style="display: none;">
+											配送费用：<font>￥0.00</font><br>
+											免费额度：<font>￥0.00</font><br>
+											保价费用：不支持保价                        
+										</div>
+									</li>
+									<li>
+										<label class="checkout-item" for="shipping_2">运费到付</label>
+										<input checked="checked" type="radio" name="shipping" class="hide" id="shipping_2" value="2" supportcod="1" insure="0" onclick="selectShipping(this)">
+										<div class="text" style="display: none;">
+											配送费用：<font>￥0.00</font><br>
+											免费额度：<font>￥0.00</font><br>
+											保价费用：不支持保价                        
+										</div>
+									</li>
+									
+									<li>
+										<label class="checkout-item" for="shipping_3">顺丰速运(免费)</label>
+										<input type="radio" name="shipping" class="hide" id="shipping_3" value="3" supportcod="1" insure="1" onclick="selectShipping(this)">
+										<div class="text">
+											配送费用：<font>￥0.00</font><br>
+											免费额度：<font>￥0.00</font><br>
+											保价费用：支持保价                        
+										</div>
+									</li>
+									<li class="need_insure">
+										<label for="BJM_NEEDINSURE">
+											<input name="need_insure" id="BJM_NEEDINSURE" type="checkbox" onclick="selectInsure(this.checked)" value="1" disabled="true">
+								  配送是否需要保价 
+										</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="flowBox">
+							<h6><span>支付方式</span>
+								<div style="clear:both"></div>
+							</h6>
+							<div class="section-body " style="background:#FFF;">
+								<ul class="item-list clearfix payment-list" id="payment-list">
+									<li id="act_1">
+										<label class="checkout-item" for="payment_1">余额支付</label>
+										<input type="radio" name="payment" class="hide" id="payment_1" value="1" isCod="0" onclick="selectPayment(this)" />
+										<div class="text">
+											手续费：<font>￥0.00</font>
+										</div>
+									</li>
+
+									<li id="act_2"  class="active">
+										<label class="checkout-item" for="payment_2">货到付款</label>
+										<input checked="checked" type="radio" name="payment" class="hide" id="payment_2" value="2" isCod="1" onclick="selectPayment(this)" />
+										<div class="text">
+											手续费：<span id="ECS_CODFEE">
+												<font>￥0.00</font>
+											</span> </div>
+									</li>
+									<li id="act_3">
+										<label class="checkout-item" for="payment_3">支付宝</label>
+										<input type="radio" name="payment" class="hide" id="payment_3" value="3" isCod="0" onclick="selectPayment(this)" />
+										<div class="text">
+											手续费：<font>￥0.00</font>
+										</div>
+									</li>
+									<li id="act_4">
+										<label class="checkout-item" for="payment_4">微信扫码支付</label>
+										<input type="radio" name="payment" class="hide" id="payment_4" value="4" isCod="0" onclick="selectPayment(this)" />
+										<div class="text">
+											手续费：<font>￥0.00</font>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="blank"></div>
+						<!-- <div class="cartlist cartlist_cpt">
+							<h6><span>商品包装</span>
+								<div style="clear:both"></div>
+							</h6>
+							<table class="table table_r_b" cellspacing="0" cellpadding="0" id="packTable">
+								<tr>
+									<th width="5%" scope="col">&nbsp;</th>
+									<th width="35%" scope="col">名称</th>
+									<th width="22%" scope="col">价格</th>
+									<th width="22%" scope="col">免费额度</th>
+									<th scope="col">图片</th>
+								</tr>
+								<tr>
+									<td><input type="radio" name="pack" value="0" checked="true" onclick="selectPack(this)" /></td>
+									<td style="text-align: left;"><strong>不要包装</strong></td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td><input type="radio" name="pack" value="1" onclick="selectPack(this)" /></td>
+									<td style="text-align: left;"><strong>精美包装</strong></td>
+									<td>
+										<font>￥0.00</font>
+									</td>
+									<td>
+										<font>￥0.00</font>
+									</td>
+									<td>
+										无
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="blank"></div> -->
+
+
+
+						<div class="cartlist cartlist_cpt">
+							<h6><span>其它信息</span>
+								<div style="clear:both"></div>
+							</h6>
+							<table class="table table_r_b" cellspacing="0" cellpadding="0">
+<!-- 							
+								<tr>
+									<td><strong>使用红包:</strong></td>
+									<td style="text-align: left;"> 选择已有红包 
+										<select name="bonus" onchange="changeBonus(this.value)" id="ECS_BONUS" class="inputBg">
+											<option value="0" selected>请选择</option>
+											<option value="27">新用户5元红包[<font>￥5.00</font>]</option>
+										</select>
+										或者输入红包序列号 
+										<input name="bonus_sn" type="text" class="inputBg" size="15" value="" />
+										<input name="validate_bonus" type="button" class="BonusButton" value="验证红包" onclick="validateBonus(document.forms['theForm'].elements['bonus_sn'].value)" />
+									</td>
+								</tr>
+ -->
+								<tr>
+									<td><strong>订单附言:</strong></td>
+									<td style="text-align: left;"><textarea name="postscript" cols="80" rows="3" id="postscript" style="border:1px solid #ccc;"></textarea></td>
+								</tr>
+								<tr>
+									<td><strong>缺货处理:</strong></td>
+									<td style="text-align: left;">
+										<label style="padding-right:20px;">
+											<input name="how_oos" type="radio" value="0" checked onclick="changeOOS(this)" />
+											等待所有商品备齐后再发
+										</label>
+										<label style="padding-right:20px;">
+											<input name="how_oos" type="radio" value="1" onclick="changeOOS(this)" />
+											取消订单 
+										</label>
+										<label style="padding-right:20px;">
+											<input name="how_oos" type="radio" value="2" onclick="changeOOS(this)" />
+											与店主协商 
+										</label>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="blank"></div>
+						<div class="cartlist cartlist_cpt">
+							<h6><span>费用总计</span>
+								<div style="clear:both"></div>
+							</h6>
+							<div class="booklist_sub mb40">
+								<div id="ECS_ORDERTOTAL">
+									<table class="table" cellspacing="0" cellpadding="0">
+										<!-- <tr>
+											<td style="text-align:right">
+												该订单完成后，您将获得
+												<font class="f4_b">113</font> 积分 ，以及价值 <font class="f4_b">
+													<font>￥0.00</font>
+												</font>的红包。
+											</td>
+										</tr> -->
+										<tr>
+											<td style="text-align:right">
+												商品总价: <font class="f4_b">￥{$data.amount|number_format=###,2}</font>
+												
+												<!-- + 配送费用: <font class="f4_b">￥{$data.amount|number_format=###,2}</font> -->
+												
+											</td>
+										</tr>
+										<tr>
+											<td style="text-align:right"> 
+											应付款金额: <font class="f4_b">￥{$data.amount|number_format=###,2}</font>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div style="margin:20px auto; text-align:center">
+									<input type="submit" class="btn_booklist_sub" value="提交订单" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 
+		<div class="add_ok" id="cart_show">
+			<div class="tip">
+				商品已成功加入购物车
+			</div>
+			<div class="go">
+				<a href="javascript:easyDialog.close();" class="back">&lt;&lt;继续购物</a>
+				<a href="/flow.html" class="btn">去结算</a>
+			</div>
+		</div> -->
+
+		<script type="text/javascript">
+			$(function(){
+				$(".item-list li").hover(function(){
+					$(this).find(".text").show();	
+				},function(){
+					$(this).find(".text").hide();	
+				});
+				//支付方式点击点选按钮，样式切换
+				$("#payment-list li label").click(function(){
+					if($(this).siblings("input[name=payment]:checked")){
+						$(this).parent("li").addClass("active").siblings().removeClass("active");
+					}
+				});
+				//加载默认选中
+				$("#payment-list input[name=payment]:checked").each(function(index, element) {
+						$(this).parent("li").addClass("active");
+			    });
+				
+				//配送方式点击点选按钮，样式切换
+				$("#shipping-list li .checkout-item").click(function(){
+					if($(this).siblings("input[name=shipping]:checked")){
+						$(this).parent("li").addClass("active").siblings().removeClass("active");
+					}
+				});
+				//加载默认选中
+				$("#shipping-list input[name=shipping]:checked").each(function(index, element) {
+						$(this).parent("li").addClass("active");
+				});
+				
+			});
+			
+			function selectPayment(obj)
+			{
+			  //
+			
+			}
+			function changeOOS(obj)
+			{
+				//
+			}
+			/* *
+			 * 改变配送方式
+			 */
+			function selectShipping(obj)
+			{
+				var supportCod = obj.attributes['supportCod'].value + 0;
+				var theForm = obj.form;
+			
+			  for (i = 0; i < theForm.elements.length; i ++ )
+			  {
+			    if (theForm.elements[i].name == 'payment' && theForm.elements[i].attributes['isCod'].value == '1')
+			    {
+			      if (supportCod == 0)
+			      {
+			        theForm.elements[i].checked = false;
+			        theForm.elements[i].disabled = true;
+					$("#"+theForm.elements[i].id).parent("li").hide();
+			      }
+			      else
+			      {
+			        theForm.elements[i].disabled = false;
+					$("#"+theForm.elements[i].id).parent("li").show();
+			      }
+			    }
+			  }
+			
+			  if (obj.attributes['insure'].value + 0 == 0)
+			  {
+			    document.getElementById('BJM_NEEDINSURE').checked = false;
+			    document.getElementById('BJM_NEEDINSURE').disabled = true;
+			  }
+			  else
+			  {
+			    document.getElementById('BJM_NEEDINSURE').checked = false;
+			    document.getElementById('BJM_NEEDINSURE').disabled = false;
+			  }
+			
+			  var now = new Date();
+			  
+			}
+			
+			function AddressEdit(aid) {
+				$.ajax({
+					url: '/address/' + aid + '.html',
+					type: 'get',
+					async: true,
+					dataType: 'json',
+					success(result) {
+						AddressEdit_Response(result); // 执行传递过来的匿名函数
+						
+					},
+					error(err) {
+						console.log(err.msg);
+					}
+				});
+			}
+
+			function AddressEdit_Response(result) {
+				if(result.code == 0){
+					var PopAddressCon = document.getElementById('PopAddressCon');
+					PopAddressCon.innerHTML = result.content;
+					showPopDiv();
+				}
+				else{
+					alert("请登录");
+				}
+				
+			}
+
+			function showPopDiv() {
+				document.getElementById('popDiv').style.display = 'block';
+			}
+
+			function closePopDiv() {
+				document.getElementById('popDiv').style.display = 'none';
+			}
+
+			function showAddressEdit(obj) {
+				if (obj.className != 'curr') {
+					obj.className = obj.className == 'xxxxxx' ? '' : 'xxxxxx';
+				}
+			}
+
+			function selAddress(obj, address_id) {
+				var addrParent = obj.parentNode;
+				var addrYeye = addrParent.parentNode;
+				var addrList = addrYeye.getElementsByTagName('li');
+				for (i = 0; i < addrList.length; i++) {
+					addrList[i].className = '';
+				}
+				addrParent.className = 'curr';
+				$.ajax({
+					url: '/address_set/' + address_id + '.html',
+					type: 'post',
+					async: true,
+					dataType: 'json',
+					success(result) {
+						selAddress_response(result); // 执行传递过来的匿名函数
+					},
+					error(err) {
+						console.log(err.msg);
+					}
+				});	
+			}
+
+			function selAddress_response(result) {
+				window.location.reload();
+			}
+
+			function del_Address(address_id) {
+				$.ajax({
+					url: '/address_del/' + address_id + '.html',
+					type: 'post',
+					async: true,
+					dataType: 'json',
+					success(result) {
+						delAddressResponse(result); // 执行传递过来的匿名函数
+					},
+					error(err) {
+						console.log(err.msg);
+					}
+				});
+			}
+
+			function delAddressResponse(result) {
+				if (result.code) {
+					alert(result.msg);
+				}
+
+				if (result.code == 0) {
+					//top.location.href = top.location.href;
+					window.location.reload();
+				}
+			}
+
+			/**
+			 * 提交地址信息--实体商品
+			 */
+			function submitAddress() {
+				var frm = document.forms['theForm'];
+				var cmt = new Object;
+				cmt.address_id = frm.elements['address_id'].value;
+				cmt.consignee = frm.elements['consignee'].value;
+				cmt.email = frm.elements['email'].value;
+				cmt.mobile = frm.elements['mobile'].value;
+				cmt.address = frm.elements['address'].value;
+				cmt.country = frm.elements['country'].value;
+				cmt.province = frm.elements['province'].value;
+				cmt.city = frm.elements['city'].value;
+				cmt.district = frm.elements['district'].value;
+				cmt.optionlength = frm.elements['district'].length;
+				cmt.closediv = frm.elements['closediv'].value;
+
+				if (cmt.consignee.length == 0) {
+					alert('收件人不能为空！');
+					return false;
+				}
+				if (cmt.optionlength > 1) {
+					if (cmt.province == '0' || cmt.city == '0' || cmt.district == '0') {
+						layer.msg('所在地区不完整！', {icon: 1,time: 1000});
+						return false;
+					}
+				} else {
+					if (cmt.province == '0' || cmt.city == '0') {
+						layer.msg('所在地区不完整！', {icon: 1,time: 1000});
+						return false;
+					}
+
+				}
+				/* 邮箱不是必填项
+				if (cmt.email.length == 0)
+				{
+						alert('邮箱地址不能为空');
+						return false;
+				}
+				*/
+				/* if (cmt.email.length > 0 && (!Utils.isEmail(cmt.email))) {
+					alert('邮箱地址不正确');
+					return false;
+				} */
+				if (cmt.address.length == 0) {
+					alert('街道地址不能为空！');
+					return false;
+				}
+				if (cmt.mobile.length == 0) {
+					alert('手机号码不能为空！');
+					return false;
+				}
+				if (cmt.mobile.length > 0) {
+					var reg = /^1[34578][0-9]\d{8}$/;
+					if (!reg.test(cmt.mobile)) {
+						alert('手机号码格式不正确！');
+						return false;
+					}
+				}
+				var field = $('#theForm').serializeArray();
+				$.ajax({
+					url: '/address_add.html',
+					type: 'post',
+					data: field,
+					async: true,
+					dataType: 'json',
+					success(result) {						
+						addressResponse(result); // 执行传递过来的匿名函数
+					},
+					error(err) {
+						console.log(err.msg);
+					}
+				});
+				return false;
+			}
+
+			/* 处理提交地址的反馈信息  */
+			function addressResponse(result) {
+				if (result.code) {
+					alert(result.msg);
+				} else {
+					//top.location.href = top.location.href;
+					window.location.reload();
+				}
+			}
+			
+			/* *
+			 * 检查提交的订单表单
+			 */
+			function checkOrderForm(frm)
+			{
+			  var paymentSelected = false;
+			  var shippingSelected = false;
+			
+			  // 检查是否选择了支付配送方式
+			  for (i = 0; i < frm.elements.length; i ++ )
+			  {
+			    if (frm.elements[i].name == 'shipping' && frm.elements[i].checked)
+			    {
+			      shippingSelected = true;
+			    }
+			
+			    if (frm.elements[i].name == 'payment' && frm.elements[i].checked)
+			    {
+			      paymentSelected = true;
+			    }
+			  }
+			
+			  if ( ! shippingSelected)
+			  {
+			    alert(flow_no_shipping);
+			    return false;
+			  }
+			
+			  if ( ! paymentSelected)
+			  {
+			    alert(flow_no_payment);
+			    return false;
+			  }
+			
+			  var field = $('#theForm').serializeArray();
+			  $.ajax({
+			  	url: '/addorder.html',
+			  	type: 'post',
+			  	data: field,
+			  	dataType: 'json',
+			  	success(result) {						
+			  		if(result.code){
+						alert(result.msg);
+					}
+					else{
+						top.location.href = '/flow/payinfo/'+result.data+'.html';
+					}
+			  	},
+			  	error(err) {
+			  		console.log(err.msg);
+			  	}
+			  });
+			  return false;
+			}
+		</script>
+
+
+		{include file="library/footer" /}
